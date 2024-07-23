@@ -1,0 +1,12 @@
+/node_modules
+node_modules
+/src/token.ts
+/src/envConfig.ts
+
+.DS_Store
+.env
+.vscode/settings.json
+manifest.json
+/build
+build/main.js
+build/ui.js

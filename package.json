@@ -1,0 +1,57 @@
+{
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.472.0",
+    "@create-figma-plugin/ui": "^3.0.2",
+    "@create-figma-plugin/utilities": "^3.0.2",
+    "@tabler/icons-react": "^2.42.0",
+    "aws-sdk": "^2.1517.0",
+    "axios": "^1.6.2",
+    "buffer": "^6.0.3",
+    "jotai": "^2.6.4",
+    "markdown-it": "^14.0.0",
+    "obj-str": "^1.1.0",
+    "preact": ">=10",
+    "preact-feather": "^4.2.1",
+    "prismjs": "^1.28.0",
+    "sortablejs": "^1.15.1"
+  },
+  "devDependencies": {
+    "@create-figma-plugin/build": "^3.0.2",
+    "@create-figma-plugin/tsconfig": "^3.0.2",
+    "@figma/eslint-plugin-figma-plugins": "^0.14.0",
+    "@figma/plugin-typings": "^1.93.0",
+    "@types/node": "^20.11.5",
+    "@types/prismjs": "^1.26.0",
+    "@types/react": ">=18",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "eslint": "^8.57.0",
+    "knip": "^4.1.0",
+    "react": ">=18",
+    "tidy-ds": "^1.0.2",
+    "typescript": "^5.3.3"
+  },
+  "scripts": {
+    "build": "build-figma-plugin --typecheck --minify",
+    "watch": "build-figma-plugin --typecheck --watch",
+    "knip": "knip"
+  },
+  "figma-plugin": {
+    "editorType": [
+      "figma"
+    ],
+    "permissions": [
+      "currentuser"
+    ],
+    "networkAccess": {
+      "allowedDomains": [
+        "*"
+      ],
+      "reasoning": "We need to access the internet to fetch the latest version of the Tidy Guide Builder."
+    },
+    "id": "1346498731777233765",
+    "name": "Tidy Guide Builder 1.0",
+    "main": "src/main.ts",
+    "ui": "src/ui.tsx"
+  }
+}

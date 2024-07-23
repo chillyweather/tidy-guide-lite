@@ -1,0 +1,30 @@
+{
+  "title": "some list",
+  "index": 0,
+  "text": "",
+  "datatype": "list",
+  "content": {
+    "subtitle1": "",
+    "subtitle2": "",
+    "text1": "",
+    "text2": "",
+    "inputs": [
+      "item"
+    ],
+    "remoteImageLink": "",
+    "sources": [
+      {
+        "source": "",
+        "link": ""
+      }
+    ],
+    "releaseNotesMessage": "",
+    "releaseNotesDate": "",
+    "currentAuthor": "Product.Design",
+    "currentDocument": "☢️ tidy - Dima's testing site",
+    "currentPage": "Tidy Doc v2 POC",
+    "videoDataElements": []
+  },
+  "publish": true,
+  "docId": "mpi402zfh"
+}
