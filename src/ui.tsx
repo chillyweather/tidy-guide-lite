@@ -24,9 +24,9 @@ import Footer from "./ui_components/Footer";
 import Header from "./ui_components/Header";
 import IndexPage from "./ui_components/IndexPage";
 import LoaderPage from "./ui_components/LoadingPage";
-import LoggedIn from "./ui_components/LoggedInPage";
-import Login from "./ui_components/LoginPage";
-import SignIn from "./ui_components/SigninPage";
+// import LoggedIn from "./ui_components/LoggedInPage";
+// import Login from "./ui_components/LoginPage";
+// import SignIn from "./ui_components/SigninPage";
 import Settings from "./ui_components/SettingsPage";
 import MainContent from "./ui_components/MainContent";
 import {
@@ -44,12 +44,12 @@ import {
   appSettingsAtom,
   collectionDocsTriggerAtom,
   collectionsAtom,
-  currentCompanyAtom,
+  // currentCompanyAtom,
   currentDocumentationsAtom,
-  currentFigmaUserAtom,
+  // currentFigmaUserAtom,
   currentUserCollectionsAtom,
   currentUserIdAtom,
-  currentUserNameAtom,
+  // currentUserNameAtom,
   currentUserRoleAtom,
   dataForUpdateAtom,
   isCollectionSwitchingAtom,
@@ -76,17 +76,16 @@ import {
   showDeleteSectionPopupAtom,
   showFeedbackPopupAtom,
   showIndexPageAtom,
-  showLoginPageAtom,
   showMainContentAtom,
   showNonEmptyCollectionPopupAtom,
   showPasswordResetPopupAtom,
   showSettingsPageAtom,
-  showSignupPageAtom,
+  // showSignupPageAtom,
   tokenAtom,
   toastMessageAtom,
   toastTypeAtom,
   usersAtom,
-  userRankAtom,
+  // userRankAtom,
   isPdSectionOpenAtom,
   documentationTitleAtom,
   isScrollAtom,
@@ -95,10 +94,10 @@ import {
   isCurrentNameValidAtom,
   isWipAtom,
   documentationDataAtom,
-  loggedInUserAtom,
+  // loggedInUserAtom,
   selectedCardAtom,
-  currentFigmaFileAtom,
-  currentFigmaPageAtom,
+  // currentFigmaFileAtom,
+  // currentFigmaPageAtom,
   isFirstTimeAtom,
 } from "./state/atoms";
 
@@ -113,8 +112,8 @@ function Plugin() {
     selectedComponentPicAtom
   );
   const [isViewModeOpen, setIsViewModeOpen] = useAtom(isViewModeOpenAtom);
-  const [, setCurrentCompany] = useAtom(currentCompanyAtom);
-  const [, setCurrentUserName] = useAtom(currentUserNameAtom);
+  // const [, setCurrentCompany] = useAtom(currentCompanyAtom);
+  // const [, setCurrentUserName] = useAtom(currentUserNameAtom);
   const [currentUserId, setCurrentUserId] = useAtom(currentUserIdAtom);
   const [collections, setCollections] = useAtom(collectionsAtom);
   const [selectedCollection, setSelectedCollection]: any = useAtom(
@@ -136,15 +135,13 @@ function Plugin() {
   const [, setUsers] = useAtom(usersAtom);
   const [appSettings, setAppSettings] = useAtom(appSettingsAtom);
 
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useAtom(tokenAtom);
-  const [loggedInUser, setLoggedInUser] = useAtom(loggedInUserAtom);
-  const [, setFigmaCurrentUser] = useAtom(currentFigmaUserAtom);
-  const [, setCurrentDocument] = useAtom(currentFigmaFileAtom);
-  const [, setCurrentPage] = useAtom(currentFigmaPageAtom);
+  // const [, setFigmaCurrentUser] = useAtom(currentFigmaUserAtom);
+  // const [, setCurrentDocument] = useAtom(currentFigmaFileAtom);
+  // const [, setCurrentPage] = useAtom(currentFigmaPageAtom);
 
-  const [showLoginPage, setShowLoginPage] = useAtom(showLoginPageAtom);
-  const [showSigninPage] = useAtom(showSignupPageAtom);
+  // const [showSigninPage] = useAtom(showSignupPageAtom);
   const [showIndexPage, setShowIndexPage] = useAtom(showIndexPageAtom);
   const [showMainContent, setShowMainContent] = useAtom(showMainContentAtom);
   const [showContentFromServer, setShowContentFromServer] = useAtom(
@@ -218,7 +215,6 @@ function Plugin() {
   //is pd section open
   const [, setIsPdSectionOpen] = useAtom(isPdSectionOpenAtom);
   //user rank
-  const [, setUserRank] = useAtom(userRankAtom);
 
   //current image array
   const [currentImageArray, setCurrentImageArray] = useState<Uint8Array | null>(
@@ -227,38 +223,23 @@ function Plugin() {
 
   const [, setIsCurrentNameValid] = useAtom(isCurrentNameValidAtom);
 
-  on("AUTH_CHANGE", async (token, email, rank, userName, companyName, id) => {
-    if (token) {
-      setToken(token);
-      setLoggedInUser(email);
-      setUserRank(rank);
-      setCurrentCompany(companyName);
-      setCurrentUserName(userName);
-      setCurrentUserId(id);
-    } else {
-      setShowLoginPage(true);
-      setIsLoading(false);
-    }
-  });
-
   on("SETTINGS", (settings: any) => {
     if (settings) {
       setAppSettings(settings);
     }
   });
-
   useEffect(() => {
     console.log("showIndexPage", showIndexPage);
   }, [showIndexPage]);
 
   useEffect(() => {
-    if (showLoginPage || showSigninPage || showSettingsPage || showIndexPage) {
+    if (showSettingsPage || showIndexPage) {
       setIsDetailsPageOpen(false);
     }
   }, [
     setIsDetailsPageOpen,
-    showLoginPage,
-    showSigninPage,
+    // showLoginPage,
+    // showSigninPage,
     showIndexPage,
     showSettingsPage,
   ]);
@@ -279,18 +260,18 @@ function Plugin() {
       setSelectedCollection(userCollections[0]);
     }
   }, [collections, selectedCollection, setSelectedCollection, token]);
-
-  async function collectionDocsHandler(token: string, collectionId: string) {
-    const data = await getCollectionDocs(token, collectionId);
-    if (data && data.length) {
-      setDataForUpdate(data);
-      setCurrentDocumentations(data);
-    } else {
-      setDataForUpdate([]);
-    }
-    setIsCollectionSwitching(false);
-    setIsLoading(false);
-  }
+  //
+  //   async function collectionDocsHandler(token: string, collectionId: string) {
+  //     const data = await getCollectionDocs(token, collectionId);
+  //     if (data && data.length) {
+  //       setDataForUpdate(data);
+  //       setCurrentDocumentations(data);
+  //     } else {
+  //       setDataForUpdate([]);
+  //     }
+  //     setIsCollectionSwitching(false);
+  //     setIsLoading(false);
+  //   }
 
   useEffect(() => {
     if (collections && currentUserId) {
@@ -386,11 +367,11 @@ function Plugin() {
     });
   }, [selectedSections]);
 
-  on("SESSION", ({ user, document, page }) => {
-    setFigmaCurrentUser(user);
-    setCurrentDocument(document);
-    setCurrentPage(page);
-  });
+  // on("SESSION", ({ user, document, page }) => {
+  //   setFigmaCurrentUser(user);
+  //   setCurrentDocument(document);
+  //   setCurrentPage(page);
+  // });
 
   on("FOUND_ELEMENT", (foundElement, foundElementName, key) => {
     setIsNewElementFound(true);
@@ -596,53 +577,53 @@ function Plugin() {
   }, [documentationTitle]);
 
   //MARK: Add/update documentation
-  async function handleAddDocumentation(token: string, data: any) {
-    setIsLoading(true);
-    try {
-      const result = await getCollectionDocs(token, selectedCollection._id);
-      const isDocumented = result.some((doc: any) => doc._id === data._id);
-
-      if (isDocumented) {
-        const response = await updateDocumentation(token, data._id, data);
-        if (isBuildingOnCanvas) emit("BUILD", response, appSettings);
-        await fetchAndUpdateData(
-          token,
-          setDataForUpdate,
-          selectedCollection._id
-        );
-      } else {
-        console.log("data", data);
-        const response = await createDocumentation(token, data);
-        setSelectedMasterId(response._id);
-        if (isBuildingOnCanvas) emit("BUILD", response, appSettings);
-        await fetchAndUpdateData(
-          token,
-          setDataForUpdate,
-          selectedCollection._id
-        );
-        setDocumentationData((prevDocumentation: any) => {
-          return {
-            ...prevDocumentation,
-            ["_id"]: response._id,
-          };
-        });
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
-    setIsLoading(false);
-    setIsBuilding(false);
-    setIsBuildingOnCanvas(false);
-    if (isPublishAndView) {
-      setIsPublishAndView(false);
-      setTimeout(() => {
-        setShowMainContent(false);
-        setShowContentFromServer(true);
-        setIsFromSavedData(true);
-        setIsViewModeOpen(true);
-      }, 600);
-    }
-  }
+  //   async function handleAddDocumentation(token: string, data: any) {
+  //     setIsLoading(true);
+  //     try {
+  //       const result = await getCollectionDocs(token, selectedCollection._id);
+  //       const isDocumented = result.some((doc: any) => doc._id === data._id);
+  //
+  //       if (isDocumented) {
+  //         const response = await updateDocumentation(token, data._id, data);
+  //         if (isBuildingOnCanvas) emit("BUILD", response, appSettings);
+  //         await fetchAndUpdateData(
+  //           token,
+  //           setDataForUpdate,
+  //           selectedCollection._id
+  //         );
+  //       } else {
+  //         console.log("data", data);
+  //         const response = await createDocumentation(token, data);
+  //         setSelectedMasterId(response._id);
+  //         if (isBuildingOnCanvas) emit("BUILD", response, appSettings);
+  //         await fetchAndUpdateData(
+  //           token,
+  //           setDataForUpdate,
+  //           selectedCollection._id
+  //         );
+  //         setDocumentationData((prevDocumentation: any) => {
+  //           return {
+  //             ...prevDocumentation,
+  //             ["_id"]: response._id,
+  //           };
+  //         });
+  //       }
+  //     } catch (error) {
+  //       console.log("error", error);
+  //     }
+  //     setIsLoading(false);
+  //     setIsBuilding(false);
+  //     setIsBuildingOnCanvas(false);
+  //     if (isPublishAndView) {
+  //       setIsPublishAndView(false);
+  //       setTimeout(() => {
+  //         setShowMainContent(false);
+  //         setShowContentFromServer(true);
+  //         setIsFromSavedData(true);
+  //         setIsViewModeOpen(true);
+  //       }, 600);
+  //     }
+  //   }
 
   useEffect(() => {
     console.log("dataForUpdate", dataForUpdate);
@@ -663,22 +644,22 @@ function Plugin() {
     }
   }, [selectedMasterId, isViewModeOpen, dataForUpdate]);
 
-  //! Logout after 10 seconds of inactivity - IMPORTANT
-  useEffect(() => {
-    let timeoutId: any;
-    if (isLoading) {
-      timeoutId = setTimeout(() => {
-        // emit("LOGOUT");
-        setIsLoading(false);
-        // setShowCrashLogoutPopup(true);
-      }, 10000); // 10 seconds
-    }
-    return () => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-    };
-  }, [isLoading]);
+  // //! Logout after 10 seconds of inactivity - IMPORTANT
+  // useEffect(() => {
+  //   let timeoutId: any;
+  //   if (isLoading) {
+  //     timeoutId = setTimeout(() => {
+  //       // emit("LOGOUT");
+  //       setIsLoading(false);
+  //       // setShowCrashLogoutPopup(true);
+  //     }, 10000); // 10 seconds
+  //   }
+  //   return () => {
+  //     if (timeoutId) {
+  //       clearTimeout(timeoutId);
+  //     }
+  //   };
+  // }, [isLoading]);
 
   useEffect(() => {
     console.log("showNonEmptyCollectionPopup", showNonEmptyCollectionPopup);
@@ -704,7 +685,7 @@ function Plugin() {
       }}
     >
       {showFeedbackPopup && <FeedbackPopup />}
-      {isLoading && <LoaderPage />}
+      {/* {isLoading && <LoaderPage />} */}
       {showResetPopup && <ResetPopup />}
       {showDeletePopup && <DeletePopup />}
       {showDeleteSectionPopup && <DeleteSectionPopup />}
@@ -715,12 +696,9 @@ function Plugin() {
 
       {isToastOpen && toastMessage && <Toast onClose={closePopup} />}
 
-      {!token && showSigninPage && <SignIn />}
-      {showLoginPage && (token ? <LoggedIn /> : <Login />)}
-
       <Header />
 
-      {showIndexPage && !showLoginPage && !showSigninPage && <IndexPage />}
+      {showIndexPage && <IndexPage />}
       {/* {(isFirstTime || showIndexPage) && <IndexPage />} */}
 
       {!isCollectionSwitching && showIndexPage && <EmptyIndex />}

@@ -4,8 +4,6 @@ import { useAtom } from "jotai";
 import {
   currentPageAtom,
   showSettingsContentAtom,
-  showManageUsersPageAtom,
-  showManageCollectionsPageAtom,
   showManageCanvasAppearanceAtom,
   showDeleteAccountPopupAtom,
 } from "src/state/atoms";
@@ -15,8 +13,6 @@ import {
   IconUser,
   IconChevronRight,
 } from "@tabler/icons-react";
-import manageUsersPage from "./manageUsersPage";
-import manageCollectionsPage from "./manageCollectionsPage";
 import manageCanvasAppearance from "./manageCanvasAppearance";
 import { useEffect } from "react";
 
@@ -25,12 +21,7 @@ const Settings = () => {
   const [showSettingsContent, setShowSettingsContent] = useAtom(
     showSettingsContentAtom
   );
-  const [showManageUsersPage, setShowManageUsersPage] = useAtom(
-    showManageUsersPageAtom
-  );
-  const [showManageCollectionsPage, setShowManageCollectionsPage] = useAtom(
-    showManageCollectionsPageAtom
-  );
+
   const [showManageCanvasAppearance, setShowManageCanvasAppearance] = useAtom(
     showManageCanvasAppearanceAtom
   );
@@ -40,24 +31,10 @@ const Settings = () => {
     setCurrentPage("settings");
   }, []);
 
-  useEffect(() => {
-    console.log("showSettingsContent", showSettingsContent);
-    console.log("showManageUsersPage", showManageUsersPage);
-    console.log("showManageCollectionsPage", showManageCollectionsPage);
-  }, [showSettingsContent, showManageUsersPage, showManageCollectionsPage]);
+  useEffect(() => {}, [showSettingsContent]);
 
   function handleSections(sectionName: string) {
     switch (sectionName) {
-      case "users":
-        setCurrentPage("settings-section");
-        setShowManageUsersPage(true);
-        setShowSettingsContent(false);
-        break;
-      case "collections":
-        setCurrentPage("settings-section");
-        setShowManageCollectionsPage(true);
-        setShowSettingsContent(false);
-        break;
       case "canvas":
         setCurrentPage("canvas-appearance");
         setShowManageCanvasAppearance(true);
@@ -82,27 +59,7 @@ const Settings = () => {
         }}
       />
       {/* users */}
-      <SettingsSection
-        props={{
-          icon: IconUser,
-          title: "Manage users",
-          description: "Show all users in your company",
-          onClick: () => {
-            handleSections("users");
-          },
-        }}
-      />
-      {/* collections */}
-      <SettingsSection
-        props={{
-          icon: IconUser,
-          title: "Manage collections",
-          description: "Show all collections in your company",
-          onClick: () => {
-            handleSections("collections");
-          },
-        }}
-      />
+
       <div className="delete-flex">
         <div className="delete-content">
           <div className="title-flex">
@@ -125,8 +82,7 @@ const Settings = () => {
   return (
     <div style={{ width: "100%" }}>
       {showSettingsContent && SettingsContent}
-      {showManageUsersPage && manageUsersPage()}
-      {showManageCollectionsPage && manageCollectionsPage()}
+
       {showManageCanvasAppearance && manageCanvasAppearance()}
     </div>
   );

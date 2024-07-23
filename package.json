@@ -49,8 +49,8 @@
       ],
       "reasoning": "We need to access the internet to fetch the latest version of the Tidy Guide Builder."
     },
-    "id": "1346498731777233765",
-    "name": "Tidy Guide Builder 1.0",
+    "id": "1346498731777233689",
+    "name": "Tidy Guide Lite",
     "main": "src/main.ts",
     "ui": "src/ui.tsx"
   }

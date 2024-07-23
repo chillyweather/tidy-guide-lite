@@ -2,19 +2,19 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   IconArrowLeft,
-  IconEye,
-  IconPencil,
+  // IconEye,
+  // IconPencil,
   IconPlus,
   IconExternalLink,
-  IconList,
+  // IconList,
   IconSearch,
 } from "@tabler/icons-react";
 import { useAtom } from "jotai";
 import { useState, useEffect } from "preact/hooks";
 import {
   collectionsAtom,
-  currentUserRoleAtom,
-  isViewModeOpenAtom,
+  // currentUserRoleAtom,
+  // isViewModeOpenAtom,
   selectedCollectionAtom,
   isToBuildComponentPicAtom,
   currentPageAtom,
@@ -25,9 +25,9 @@ import {
   showContentFromServerAtom,
   showSettingsPageAtom,
   isDocJustOpenedAtom,
-  dataForUpdateAtom,
-  tokenAtom,
-  selectedMasterIdAtom,
+  // dataForUpdateAtom,
+  // tokenAtom,
+  // selectedMasterIdAtom,
   documentationDataAtom,
   selectedSectionsAtom,
   isFromSavedDataAtom,
@@ -35,7 +35,7 @@ import {
 } from "src/state/atoms";
 import BackButton from "./BackButton";
 
-import { getCollectionDocs } from "./ui_functions/collectionHandlers";
+// import { getCollectionDocs } from "./ui_functions/collectionHandlers";
 
 import { h } from "preact";
 import HeaderActions from "./HeaderActions";
@@ -45,26 +45,24 @@ import CollectionsDropdown from "./CollectionsDropdown";
 
 const Header = () => {
   const [isLoginPageOpen, setIsLoginPageOpen] = useAtom(showLoginPageAtom);
-  const [isViewModeOpen, setIsViewModeOpen] = useAtom(isViewModeOpenAtom);
+  // const [isViewModeOpen, setIsViewModeOpen] = useAtom(isViewModeOpenAtom);
   const [collections] = useAtom(collectionsAtom);
   const [selectedCollection, setSelectedCollection]: any = useAtom(
     selectedCollectionAtom
   );
-  const [userRole] = useAtom(currentUserRoleAtom);
+  // const [userRole] = useAtom(currentUserRoleAtom);
   const [, setIsToBuildComponentPic] = useAtom(isToBuildComponentPicAtom);
   const [, setCurrentPage] = useAtom(currentPageAtom);
   const [selectedElement] = useAtom(selectedElementAtom);
   const [isIndexOpen, setIsIndexOpen] = useAtom(showIndexPageAtom);
   const [isMainContentOpen, setIsMainContentOpen] =
     useAtom(showMainContentAtom);
-  const [isContenFromServerOpen, setIsContenFromServerOpen] = useAtom(
-    showContentFromServerAtom
-  );
+  const [isContenFromServerOpen] = useAtom(showContentFromServerAtom);
   const [isSettingsPageOpen] = useAtom(showSettingsPageAtom);
   const [isDocJustOpened, setIsDocJustOpened] = useAtom(isDocJustOpenedAtom);
-  const [dataForUpdate]: any = useAtom(dataForUpdateAtom);
-  const [, setSelectedMasterId] = useAtom(selectedMasterIdAtom);
-  const [token] = useAtom(tokenAtom);
+  // const [dataForUpdate]: any = useAtom(dataForUpdateAtom);
+  // const [, setSelectedMasterId] = useAtom(selectedMasterIdAtom);
+  // const [token] = useAtom(tokenAtom);
   const [documentationData]: any = useAtom(documentationDataAtom);
   const [selectedSections] = useAtom(selectedSectionsAtom);
   const [, setIsFromSavedData] = useAtom(isFromSavedDataAtom);
@@ -72,7 +70,7 @@ const Header = () => {
   const [, setInitialSelectedSections] = useState(null);
   const [, setInitialDocumentationData] = useState(null);
   const [, setInitialSelectedSectionsLength] = useState(0);
-  const [navState, setNavState] = useState(false);
+  // const [navState, setNavState] = useState(false);
   const [avatarColor, setAvatarColor] = useState("#F584AD");
   const [lastCollectionUpdate, setLastCollectionUpdate] = useState("");
 
@@ -94,37 +92,37 @@ const Header = () => {
     }
   }, [documentationData]);
 
-  function Toggle() {
-    const handleToggle = async () => {
-      if (!token) return;
-      setIsViewModeOpen(!isViewModeOpen);
-      if (!isIndexOpen) {
-        setIsMainContentOpen(false);
-        setIsContenFromServerOpen(true);
-        await getCollectionDocs(token, selectedCollection?._id);
-        const currentDocumentation = dataForUpdate.find(
-          (item: any) => item.title === documentationData.title
-        );
-        setSelectedMasterId(currentDocumentation._id);
-      }
-    };
-
-    return (
-      <button
-        className={isViewModeOpen ? "mode-button viewer" : "mode-button editor"}
-        onClick={handleToggle}
-        disabled={userRole === "Viewer" || isMainContentOpen}
-      >
-        <div className={"thumb"}></div>
-        <div className="mode-icon view">
-          <IconEye />
-        </div>
-        <div className="mode-icon edit">
-          <IconPencil />
-        </div>
-      </button>
-    );
-  }
+  //   function Toggle() {
+  //     const handleToggle = async () => {
+  //       if (!token) return;
+  //       setIsViewModeOpen(!isViewModeOpen);
+  //       if (!isIndexOpen) {
+  //         setIsMainContentOpen(false);
+  //         setIsContenFromServerOpen(true);
+  //         await getCollectionDocs(token, selectedCollection?._id);
+  //         const currentDocumentation = dataForUpdate.find(
+  //           (item: any) => item.title === documentationData.title
+  //         );
+  //         setSelectedMasterId(currentDocumentation._id);
+  //       }
+  //     };
+  //
+  //     return (
+  //       <button
+  //         className={isViewModeOpen ? "mode-button viewer" : "mode-button editor"}
+  //         onClick={handleToggle}
+  //         disabled={userRole === "Viewer" || isMainContentOpen}
+  //       >
+  //         <div className={"thumb"}></div>
+  //         <div className="mode-icon view">
+  //           <IconEye />
+  //         </div>
+  //         <div className="mode-icon edit">
+  //           <IconPencil />
+  //         </div>
+  //       </button>
+  //     );
+  //   }
   const [loggedInUser] = useAtom(loggedInUserAtom);
   function colorAvatar() {
     const colorList = [
@@ -197,23 +195,22 @@ const Header = () => {
               >
                 <IconExternalLink stroke={1.5} />
               </a>
-              {!isViewModeOpen && (
-                <button
-                  id="new-button"
-                  className="flex-button add-button"
-                  onClick={() => {
-                    setCurrentPage("new-documnent");
-                    setIsIndexOpen(false);
-                    setIsMainContentOpen(true);
-                    setIsFromSavedData(false);
-                    emit("GET_SELECTION");
-                    setIsToBuildComponentPic(true);
-                  }}
-                >
-                  <IconPlus />
-                  New Documentation
-                </button>
-              )}
+
+              <button
+                id="new-button"
+                className="flex-button add-button"
+                onClick={() => {
+                  setCurrentPage("new-documnent");
+                  setIsIndexOpen(false);
+                  setIsMainContentOpen(true);
+                  setIsFromSavedData(false);
+                  emit("GET_SELECTION");
+                  setIsToBuildComponentPic(true);
+                }}
+              >
+                <IconPlus />
+                New Documentation
+              </button>
             </div>
           ) : (
             <div className={"search-flex"}>
@@ -262,9 +259,9 @@ const Header = () => {
           Back
         </button>
         <div className={"side-flex"}>
-          {Toggle()}
+          {/* {Toggle()} */}
 
-          {!isIndexOpen &&
+          {/* {!isIndexOpen &&
             isViewModeOpen &&
             !isLoginPageOpen &&
             !isSettingsPageOpen && (
@@ -279,7 +276,7 @@ const Header = () => {
               >
                 <IconList />
               </button>
-            )}
+            )} */}
 
           <details className="header-login tooltip" id="userMenu">
             <summary>
@@ -298,7 +295,7 @@ const Header = () => {
       </div>
       {(selectedElement || isMainContentOpen || isContenFromServerOpen) &&
         !isIndexOpen &&
-        !isViewModeOpen &&
+        // !isViewModeOpen &&
         !isLoginPageOpen &&
         !isSettingsPageOpen && <HeaderActions />}
     </div>

@@ -2,7 +2,6 @@ import { emit, on, once, showUI } from "@create-figma-plugin/utilities";
 import documentationBuilder from "./figma_functions/documentationBuilder";
 // import { tempData } from "./tempData";
 import { checkSelection } from "./figma_functions/checkSelection";
-import { loginDataHandler } from "./figma_functions/loginDataHandler";
 import { settingsDataHandler } from "./figma_functions/settingsDataHandler";
 import { getNode } from "./figma_functions/getNode";
 import imageFromFigma from "./figma_functions/imageFromFigma";
@@ -19,31 +18,20 @@ const loadFonts = async () => {
 };
 
 export default async function () {
-  await loginDataHandler();
   await settingsDataHandler();
 
-  const user = figma.currentUser;
-  const document = figma.root.name;
-  const page = figma.currentPage.name;
+  // const user = figma.currentUser;
+  // const document = figma.root.name;
+  // const page = figma.currentPage.name;
 
-  const sessionData = {
-    user: user,
-    document: document,
-    page: page,
-  };
-
-  emit("SESSION", sessionData);
+  // const sessionData = {
+  //   user: user,
+  //   document: document,
+  //   page: page,
+  // };
 
   const selectionData = await checkSelection();
   if (selectionData) emit("SELECTION", selectionData);
-
-  on("SAVE_USER_LOGIN_DATA", (token, email, rank, user, company, id) => {
-    loginDataHandler(token, email, rank, user, company, id);
-  });
-
-  on("LOGOUT", async () => {
-    logoutDataHandler();
-  });
 
   on("GET_SELECTION", async () => {
     const selectionData = await checkSelection();
