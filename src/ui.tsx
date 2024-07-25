@@ -6,20 +6,14 @@ import { emit, on } from "@create-figma-plugin/utilities";
 import { h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 
-import FeedbackPopup from "./ui_components/popups/feedbackPopup";
 import ResetPopup from "./ui_components/popups/resetPopup";
 import DeletePopup from "./ui_components/popups/deletePopup";
 import EmptyIndex from "./ui_components/EmptyIndex";
 import DeleteSectionPopup from "./ui_components/popups/deleteSectionPopup";
-import PasswordResetPopup from "./ui_components/popups/passwordResetPopup";
-import DeleteAccountPopup from "./ui_components/popups/deleteAccountPopup";
-import CrashLogoutPopup from "./ui_components/popups/crashLogoutPopup";
-import NoDeleteCollectionPopup from "./ui_components/popups/noDeleteCollectionPopup";
 import Toast from "./ui_components/Toast";
 // import { sendRaster } from "./ui_components/ui_functions/sendRaster";
 // import fetchAndUpdateData from "./ui_components/ui_functions/fetchAndUpdateData";
 import ContentFromServer from "./ui_components/ContentFromServer";
-import DetailsPage from "./ui_components/ViewModeElements/DetailsPage";
 import Footer from "./ui_components/Footer";
 import Header from "./ui_components/Header";
 import IndexPage from "./ui_components/IndexPage";
@@ -61,20 +55,14 @@ import {
   selectedSectionsAtom,
   selectionDataAtom,
   showContentFromServerAtom,
-  showCrashLogoutPopupAtom,
-  showDeleteAccountPopupAtom,
   showDeletePopupAtom,
   showDeleteSectionPopupAtom,
-  showFeedbackPopupAtom,
   showIndexPageAtom,
   showMainContentAtom,
   showNonEmptyCollectionPopupAtom,
-  showPasswordResetPopupAtom,
   showSettingsPageAtom,
-  tokenAtom,
   toastMessageAtom,
   toastTypeAtom,
-  usersAtom,
   isPdSectionOpenAtom,
   documentationTitleAtom,
   isScrollAtom,
@@ -102,9 +90,6 @@ function Plugin() {
   );
   const [, setSelectionData] = useAtom(selectionDataAtom);
   const [, setCurrentUserCollections] = useAtom(currentUserCollectionsAtom);
-  const [isCollectionSwitching, setIsCollectionSwitching] = useAtom(
-    isCollectionSwitchingAtom
-  );
   const [isDetailsPageOpen, setIsDetailsPageOpen] = useAtom(
     isDetailsPageOpenAtom
   );
@@ -442,7 +427,6 @@ function Plugin() {
         if (e.key === "Escape") {
           setShowResetPopup(false);
           setShowDeletePopup(false);
-          setShowDeleteAccountPopup(false);
         }
       }}
     >
@@ -455,23 +439,12 @@ function Plugin() {
       <Header />
 
       {showIndexPage && <IndexPage />}
-      {/* {(isFirstTime || showIndexPage) && <IndexPage />} */}
 
-      {/* {!isCollectionSwitching && showIndexPage && <EmptyIndex />} */}
+      {showMainContent && <MainContent />}
 
-      {showMainContent && !isViewModeOpen && <MainContent />}
-
-      {/* content in Edit mode */}
-      {selectedMasterId &&
-        showContentFromServer &&
-        !showMainContent &&
-        !isViewModeOpen && <ContentFromServer />}
-
-      {/* //MARK: View mode content */}
-      {selectedMasterId &&
-        showContentFromServer &&
-        !showMainContent &&
-        isViewModeOpen && <DetailsPage />}
+      {selectedMasterId && showContentFromServer && !showMainContent && (
+        <ContentFromServer />
+      )}
 
       {showSettingsPage && <Settings />}
 
