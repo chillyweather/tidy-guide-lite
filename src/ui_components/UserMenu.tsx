@@ -22,7 +22,7 @@ const UserMenu = () => {
   const [, setShowSettingsContent] = useAtom(showSettingsContentAtom);
   function closeMenu() {
     // @ts-ignore
-    document.getElementById("userMenu").open = false;
+    // document.getElementById("userMenu").open = false;
   }
 
   return (
