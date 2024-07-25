@@ -60,7 +60,7 @@ const Footer = () => {
       <div className="rightFooterContent">
         {isPublishDropdownOpen && <PublishButtonDropdown />}
         <div
-          className={isValid ? "split" : "split split-disabled"}
+          className={isValid ? "" : "split-disabled"}
           disabled={!isValid}
         >
           <button
@@ -72,7 +72,7 @@ const Footer = () => {
           >
             Build
           </button>
-          <button
+          {/* <button
             className={isValid ? "primary" : "primary primary-disabled"}
             onClick={() => {
               setSaveData(true);
@@ -83,7 +83,7 @@ const Footer = () => {
             }}
           >
             <IconChevronDown />
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

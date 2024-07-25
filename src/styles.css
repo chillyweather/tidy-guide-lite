@@ -3056,7 +3056,7 @@ summary button {
   color: #ffffff;
   min-height: 16px;
   min-width: 16px;
-  padding: 8px;
+  /* padding: 8px; */
   border-radius: 6px;
 }
 
