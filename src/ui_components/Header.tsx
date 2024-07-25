@@ -18,6 +18,15 @@ import {
   isFromSavedDataAtom,
   loggedInUserAtom,
 } from "src/state/atoms";
+import {
+  showSettingsContentAtom,
+  isFirstTimeAtom,
+  showLoginPageAtom,
+  showSettingsPageAtom,
+  showIndexPageAtom,
+  showMainContentAtom,
+  showContentFromServerAtom,
+} from "src/state/atoms";
 import BackButton from "./BackButton";
 import { IconSettings } from "@tabler/icons-react";
 
@@ -46,9 +55,7 @@ const Header = () => {
   const [, setInitialSelectedSectionsLength] = useState(0);
   const [avatarColor, setAvatarColor] = useState("#F584AD");
 
-  const [, setIsLoginPageOpen] = useAtom(showLoginPageAtom);
-  const [, setIsIndexOpen] = useAtom(showIndexPageAtom);
-  const [, setIsMainContentOpen] = useAtom(showMainContentAtom);
+  
   const [, setIsContenFromServerOpen] = useAtom(showContentFromServerAtom);
   const [, setIsSettingsPageOpen] = useAtom(showSettingsPageAtom);
   const [, setIsFirstTime] = useAtom(isFirstTimeAtom);
