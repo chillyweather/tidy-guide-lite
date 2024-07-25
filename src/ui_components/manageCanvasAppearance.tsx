@@ -17,7 +17,7 @@ import {
 } from "@tabler/icons-react";
 import { emit } from "@create-figma-plugin/utilities";
 import RadioButton from "./RadioButton";
-import { NumericInput } from "tidy-ds";
+// import { NumericInput } from "tidy-ds";
 
 export default function manageCanvasAppearance() {
   const [appSettings, setAppSettings]: any = useAtom(appSettingsAtom);
@@ -151,7 +151,7 @@ export default function manageCanvasAppearance() {
               />
             </div>
           </div>
-          <div className="tags-settings-element">
+          {/* <div className="tags-settings-element">
             <p style={{ margin: 0 }}>Units:</p>
             <div className="appearance-button-wrapper">
               <RadioButton
@@ -161,7 +161,7 @@ export default function manageCanvasAppearance() {
               />
             </div>
           </div>
-          <NumericInput value={rootValue} onChange={setRootValue} />
+          <NumericInput value={rootValue} onChange={setRootValue} /> */}
         </div>
         <div className="tag-preview-frame">
           <div className="tag-preview">
