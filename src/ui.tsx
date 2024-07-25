@@ -8,45 +8,25 @@ import { useEffect, useState } from "preact/hooks";
 
 import ResetPopup from "./ui_components/popups/resetPopup";
 import DeletePopup from "./ui_components/popups/deletePopup";
-import EmptyIndex from "./ui_components/EmptyIndex";
+//! import EmptyIndex from "./ui_components/EmptyIndex";
 import DeleteSectionPopup from "./ui_components/popups/deleteSectionPopup";
 import Toast from "./ui_components/Toast";
-// import { sendRaster } from "./ui_components/ui_functions/sendRaster";
-// import fetchAndUpdateData from "./ui_components/ui_functions/fetchAndUpdateData";
 import ContentFromServer from "./ui_components/ContentFromServer";
 import Footer from "./ui_components/Footer";
 import Header from "./ui_components/Header";
 import IndexPage from "./ui_components/IndexPage";
-// import LoaderPage from "./ui_components/LoadingPage";
-// import LoggedIn from "./ui_components/LoggedInPage";
-// import Login from "./ui_components/LoginPage";
-// import SignIn from "./ui_components/SigninPage";
 import Settings from "./ui_components/SettingsPage";
 import MainContent from "./ui_components/MainContent";
-// import {
-//   updateDocumentation,
-//   createDocumentation,
-// } from "./ui_components/ui_functions/documentationHandlers";
-// import {
-//   getCollections,
-//   getCollectionDocs,
-// } from "./ui_components/ui_functions/collectionHandlers";
 
 import { useAtom } from "jotai";
 import {
   appSettingsAtom,
-  collectionsAtom,
-  currentUserCollectionsAtom,
-  currentUserIdAtom,
   dataForUpdateAtom,
-  isCollectionSwitchingAtom,
   isDetailsPageOpenAtom,
   isFromSavedDataAtom,
   isResetAtom,
-  isViewModeOpenAtom,
   isBuildingAtom,
   isBuildingOnCanvasAtom,
-  selectedCollectionAtom,
   selectedElementAtom,
   selectedElementNameAtom,
   selectedMasterIdAtom,
@@ -66,7 +46,6 @@ import {
   isPdSectionOpenAtom,
   documentationTitleAtom,
   isScrollAtom,
-  isDraftAtom,
   showResetPopupAtom,
   isCurrentNameValidAtom,
   isWipAtom,
@@ -79,23 +58,13 @@ import {
 import "!./styles.css";
 
 function Plugin() {
-  //!Jotai states
   const [selectedNodeId, setSelectedNodeId] = useAtom(selectedNodeIdAtom);
   const [selectedNodeKey, setSelectedNodeKey] = useAtom(selectedNodeKeyAtom);
-  const [isViewModeOpen, setIsViewModeOpen] = useAtom(isViewModeOpenAtom);
-  const [currentUserId, setCurrentUserId] = useAtom(currentUserIdAtom);
-  const [collections, setCollections] = useAtom(collectionsAtom);
-  const [selectedCollection, setSelectedCollection]: any = useAtom(
-    selectedCollectionAtom
-  );
   const [, setSelectionData] = useAtom(selectionDataAtom);
-  const [, setCurrentUserCollections] = useAtom(currentUserCollectionsAtom);
-  const [isDetailsPageOpen, setIsDetailsPageOpen] = useAtom(
-    isDetailsPageOpenAtom
-  );
+  const [, setIsDetailsPageOpen] = useAtom(isDetailsPageOpenAtom);
   const [appSettings, setAppSettings] = useAtom(appSettingsAtom);
   const [showIndexPage, setShowIndexPage] = useAtom(showIndexPageAtom);
-  const [showMainContent, setShowMainContent] = useAtom(showMainContentAtom);
+  const [showMainContent] = useAtom(showMainContentAtom);
   const [showContentFromServer, setShowContentFromServer] = useAtom(
     showContentFromServerAtom
   );
@@ -111,7 +80,7 @@ function Plugin() {
   //data from server
   const [dataForUpdate, setDataForUpdate]: any = useAtom(dataForUpdateAtom);
 
-  const [isBuilding, setIsBuilding] = useAtom(isBuildingAtom);
+  const [isBuilding] = useAtom(isBuildingAtom);
   const [isBuildingOnCanvas, setIsBuildingOnCanvas] = useAtom(
     isBuildingOnCanvasAtom
   );
@@ -157,13 +126,13 @@ function Plugin() {
   //reset documentation
   const [isReset, setIsReset] = useAtom(isResetAtom);
   //is draft
-  const [isDraft] = useAtom(isDraftAtom);
   const [, setIsPdSectionOpen] = useAtom(isPdSectionOpenAtom);
 
   const [, setIsCurrentNameValid] = useAtom(isCurrentNameValidAtom);
 
   on("SETTINGS", (settings: any) => {
     if (settings) {
+      console.log("settings", settings);
       setAppSettings(settings);
     }
   });
@@ -182,14 +151,6 @@ function Plugin() {
       setIsPdSectionOpen(false);
     }
   }, [selectedElement]);
-  useEffect(() => {
-    if (collections && currentUserId) {
-      const userCollections = collections.filter(
-        (collection: any) => collection.owner === currentUserId
-      );
-      setCurrentUserCollections(userCollections);
-    }
-  }, [collections, currentUserId]);
 
   on("CHANGED_SELECTION", (data) => {
     setSelectionData(data);
@@ -208,12 +169,10 @@ function Plugin() {
     setDocumentationData((prevDocumentation: any) => {
       return {
         ...prevDocumentation,
-        // ["_id"]: documentationId,
         ["componentKey"]: selectedNodeKey,
         ["nodeId"]: selectedNodeId || "",
         ["docs"]: [],
         ["title"]: documentationTitle,
-        ["draft"]: isDraft,
         ["inProgress"]: isWip,
       };
     });
@@ -337,12 +296,10 @@ function Plugin() {
           ...prevDocumentation,
           ["title"]: documentationTitle,
           ["inProgress"]: isWip,
-          ["draft"]: isDraft,
-          ["collection"]: selectedCollection?._id,
         };
       });
     }
-  }, [documentationTitle, isWip, isDraft, selectedCollection]);
+  }, [documentationTitle, isWip]);
 
   useEffect(() => {
     if (selectedNodeKey) {

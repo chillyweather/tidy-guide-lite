@@ -5,20 +5,18 @@ import {
   isBuildingAtom,
   isBuildingOnCanvasAtom,
   documentationTitleAtom,
-  showResetPopupAtom,
   isCurrentNameValidAtom,
   selectedNodeIdAtom,
 } from "src/state/atoms";
-import { IconReload, IconChevronDown } from "@tabler/icons-react";
+import { IconChevronDown } from "@tabler/icons-react";
 
 const Footer = () => {
   const [, setIsBuilding] = useAtom(isBuildingAtom);
   const [, setIsBuildingOnCanvas] = useAtom(isBuildingOnCanvasAtom);
   const [saveData, setSaveData] = useState(false);
-  const [buildOnCanvas, setBuildOnCanvas] = useState(false);
+  const [, setBuildOnCanvas] = useState(false);
   const [isPublishDropdownOpen, setIsPublishDropdownOpen] = useState(false);
   const [documentationTitle] = useAtom(documentationTitleAtom);
-  const [, setShowResetPopup] = useAtom(showResetPopupAtom);
   const [isCurrentNameValid] = useAtom(isCurrentNameValidAtom);
   const [selectedNodeId] = useAtom(selectedNodeIdAtom);
 
@@ -64,12 +62,7 @@ const Footer = () => {
 
   return (
     <div className={"footer"}>
-      <div className="leftFooterContent">
-        <button className={"flex-btn"} onClick={() => setShowResetPopup(true)}>
-          <IconReload />
-          Reset
-        </button>
-      </div>
+      <div className="leftFooterContent"></div>
       <div className="rightFooterContent">
         {/* <button
           className={"second"}

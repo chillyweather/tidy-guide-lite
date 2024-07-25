@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { h, FunctionComponent } from "preact";
 import { textBoxElement } from "../textBoxElement";
-import { DropZone } from "../DropZone";
 import { useState } from "preact/hooks";
 import { IconX } from "@tabler/icons-react";
 import { deleteFileFromServer } from "../ui_functions/fileManagementFunctions";
@@ -10,18 +9,12 @@ const ImageCard: FunctionComponent<{
   remoteImageLink: string;
   setRemoteImageLink: any;
 }> = ({ remoteImageLink, setRemoteImageLink }) => {
-  const [isImageLoading, setIsImageLoading] = useState(false);
+  const [, setIsImageLoading] = useState(false);
 
   function setContent() {
     {
       return !remoteImageLink ? (
         <div className={"image-container"}>
-          {/* {DropZone(
-            setRemoteImageLink,
-            setIsImageLoading,
-            isImageLoading,
-            remoteImageLink
-          )} */}
           <div className={"bold-me"}>Add URL</div>
           {textBoxElement(remoteImageLink, setRemoteImageLink, "Add link")}
         </div>
