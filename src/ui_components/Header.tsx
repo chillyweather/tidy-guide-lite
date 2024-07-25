@@ -148,7 +148,10 @@ const Header = () => {
           Back
         </button>
         <div className={"side-flex"}>
-          <details className="header-login tooltip" id="userMenu">
+          <button>
+            <IconSettings />
+          </button>
+          {/* <details className="header-login tooltip" id="userMenu">
             <summary>
               <div
                 style={{ backgroundColor: avatarColor }}
@@ -160,7 +163,7 @@ const Header = () => {
             </summary>
             {colorAavatar()}
             <UserMenu />
-          </details>
+          </details> */}
         </div>
         <IconSettings />
       </div>
