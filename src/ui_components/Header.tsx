@@ -195,7 +195,7 @@ const Header = () => {
             <UserMenu />
           </details> */}
         </div>
-        <IconSettings />
+        {/* <IconSettings /> */}
       </div>
       {(selectedElement || isMainContentOpen || isContenFromServerOpen) &&
         !isIndexOpen &&
