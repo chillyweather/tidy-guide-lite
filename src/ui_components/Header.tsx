@@ -148,25 +148,6 @@ const Header = () => {
           Back
         </button>
         <div className={"side-flex"}>
-          {/* {Toggle()} */}
-
-          {/* {!isIndexOpen &&
-            isViewModeOpen &&
-            !isLoginPageOpen &&
-            !isSettingsPageOpen && (
-              <button
-                className={"navigation-button " + navState}
-                onClick={() => {
-                  setNavState(!navState);
-                }}
-                onBlur={() => {
-                  setNavState(false);
-                }}
-              >
-                <IconList />
-              </button>
-            )} */}
-
           <details className="header-login tooltip" id="userMenu">
             <summary>
               <div
@@ -192,16 +173,3 @@ const Header = () => {
 };
 
 export default Header;
-
-// function convertTimestamp(timestamp: string) {
-//   const date = new Date(timestamp);
-//   const options = {
-//     year: "numeric" as const,
-//     month: "long" as const,
-//     day: "numeric" as const,
-//     hour: "2-digit" as const,
-//     minute: "2-digit" as const,
-//     hour12: true,
-//   };
-//   return new Intl.DateTimeFormat("en-US", options).format(date);
-// }
