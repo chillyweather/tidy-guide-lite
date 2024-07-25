@@ -46,6 +46,18 @@ const Header = () => {
   const [, setInitialSelectedSectionsLength] = useState(0);
   const [avatarColor, setAvatarColor] = useState("#F584AD");
 
+  const [, setIsLoginPageOpen] = useAtom(showLoginPageAtom);
+  const [, setIsIndexOpen] = useAtom(showIndexPageAtom);
+  const [, setIsMainContentOpen] = useAtom(showMainContentAtom);
+  const [, setIsContenFromServerOpen] = useAtom(showContentFromServerAtom);
+  const [, setIsSettingsPageOpen] = useAtom(showSettingsPageAtom);
+  const [, setIsFirstTime] = useAtom(isFirstTimeAtom);
+  const [, setShowSettingsContent] = useAtom(showSettingsContentAtom);
+  function closeMenu() {
+    // @ts-ignore
+    // document.getElementById("userMenu").open = false;
+  }
+
   useEffect(() => {
     if (documentationData && documentationData.title && isDocJustOpened) {
       setInitialDocumentationData(
@@ -148,7 +160,18 @@ const Header = () => {
           Back
         </button>
         <div className={"side-flex"}>
-          <button>
+          <button
+            onClick={() => {
+              closeMenu();
+              setIsLoginPageOpen(false);
+              setIsIndexOpen(false);
+              setIsMainContentOpen(false);
+              setIsContenFromServerOpen(false);
+              setIsSettingsPageOpen(true);
+              setShowSettingsContent(true);
+              setIsFirstTime(false);
+            }}
+          >
             <IconSettings />
           </button>
           {/* <details className="header-login tooltip" id="userMenu">
