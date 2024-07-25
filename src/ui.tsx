@@ -105,7 +105,6 @@ function Plugin() {
   const [isCollectionSwitching, setIsCollectionSwitching] = useAtom(
     isCollectionSwitchingAtom
   );
-  const [showCrashLogoutPopup] = useAtom(showCrashLogoutPopupAtom);
   const [isDetailsPageOpen, setIsDetailsPageOpen] = useAtom(
     isDetailsPageOpenAtom
   );
@@ -458,7 +457,7 @@ function Plugin() {
       {showIndexPage && <IndexPage />}
       {/* {(isFirstTime || showIndexPage) && <IndexPage />} */}
 
-      {!isCollectionSwitching && showIndexPage && <EmptyIndex />}
+      {/* {!isCollectionSwitching && showIndexPage && <EmptyIndex />} */}
 
       {showMainContent && !isViewModeOpen && <MainContent />}
 
