@@ -72,18 +72,6 @@ const Footer = () => {
           >
             Build
           </button>
-          {/* <button
-            className={isValid ? "primary" : "primary primary-disabled"}
-            onClick={() => {
-              setSaveData(true);
-              setBuildOnCanvas(true);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Escape") setIsPublishDropdownOpen(false);
-            }}
-          >
-            <IconChevronDown />
-          </button> */}
         </div>
       </div>
     </div>
