@@ -1,21 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {
-  IconArrowLeft,
-  // IconEye,
-  // IconPencil,
-  IconPlus,
-  // IconExternalLink,
-  // IconList,
-  IconSearch,
-} from "@tabler/icons-react";
+import { IconArrowLeft, IconPlus } from "@tabler/icons-react";
 import { useAtom } from "jotai";
 import { useState, useEffect } from "preact/hooks";
 import {
-  // collectionsAtom,
-  // currentUserRoleAtom,
-  // isViewModeOpenAtom,
-  // selectedCollectionAtom,
   isToBuildComponentPicAtom,
   currentPageAtom,
   showLoginPageAtom,
@@ -25,9 +13,6 @@ import {
   showContentFromServerAtom,
   showSettingsPageAtom,
   isDocJustOpenedAtom,
-  // dataForUpdateAtom,
-  // tokenAtom,
-  // selectedMasterIdAtom,
   documentationDataAtom,
   selectedSectionsAtom,
   isFromSavedDataAtom,
@@ -36,22 +21,13 @@ import {
 import BackButton from "./BackButton";
 import { IconSettings } from "@tabler/icons-react";
 
-// import { getCollectionDocs } from "./ui_functions/collectionHandlers";
-
 import { h } from "preact";
 import HeaderActions from "./HeaderActions";
 import UserMenu from "./UserMenu";
 import { emit } from "@create-figma-plugin/utilities";
-// import CollectionsDropdown from "./CollectionsDropdown";
 
 const Header = () => {
   const [isLoginPageOpen, setIsLoginPageOpen] = useAtom(showLoginPageAtom);
-  // const [isViewModeOpen, setIsViewModeOpen] = useAtom(isViewModeOpenAtom);
-  // const [collections] = useAtom(collectionsAtom);
-  // const [selectedCollection, setSelectedCollection]: any = useAtom(
-  //   selectedCollectionAtom
-  // );
-  // const [userRole] = useAtom(currentUserRoleAtom);
   const [, setIsToBuildComponentPic] = useAtom(isToBuildComponentPicAtom);
   const [, setCurrentPage] = useAtom(currentPageAtom);
   const [selectedElement] = useAtom(selectedElementAtom);
@@ -61,9 +37,6 @@ const Header = () => {
   const [isContenFromServerOpen] = useAtom(showContentFromServerAtom);
   const [isSettingsPageOpen] = useAtom(showSettingsPageAtom);
   const [isDocJustOpened, setIsDocJustOpened] = useAtom(isDocJustOpenedAtom);
-  // const [dataForUpdate]: any = useAtom(dataForUpdateAtom);
-  // const [, setSelectedMasterId] = useAtom(selectedMasterIdAtom);
-  // const [token] = useAtom(tokenAtom);
   const [documentationData]: any = useAtom(documentationDataAtom);
   const [selectedSections] = useAtom(selectedSectionsAtom);
   const [, setIsFromSavedData] = useAtom(isFromSavedDataAtom);
@@ -71,16 +44,7 @@ const Header = () => {
   const [, setInitialSelectedSections] = useState(null);
   const [, setInitialDocumentationData] = useState(null);
   const [, setInitialSelectedSectionsLength] = useState(0);
-  // const [navState, setNavState] = useState(false);
   const [avatarColor, setAvatarColor] = useState("#F584AD");
-  // const [lastCollectionUpdate, setLastCollectionUpdate] = useState("");
-
-  // useEffect(() => {
-  //   if (selectedCollection) {
-  //     const timestamp = convertTimestamp(selectedCollection.updatedAt);
-  //     setLastCollectionUpdate(timestamp);
-  //   }
-  // }, [selectedCollection]);
 
   useEffect(() => {
     if (documentationData && documentationData.title && isDocJustOpened) {
@@ -93,37 +57,6 @@ const Header = () => {
     }
   }, [documentationData]);
 
-  //   function Toggle() {
-  //     const handleToggle = async () => {
-  //       if (!token) return;
-  //       setIsViewModeOpen(!isViewModeOpen);
-  //       if (!isIndexOpen) {
-  //         setIsMainContentOpen(false);
-  //         setIsContenFromServerOpen(true);
-  //         await getCollectionDocs(token, selectedCollection?._id);
-  //         const currentDocumentation = dataForUpdate.find(
-  //           (item: any) => item.title === documentationData.title
-  //         );
-  //         setSelectedMasterId(currentDocumentation._id);
-  //       }
-  //     };
-  //
-  //     return (
-  //       <button
-  //         className={isViewModeOpen ? "mode-button viewer" : "mode-button editor"}
-  //         onClick={handleToggle}
-  //         disabled={userRole === "Viewer" || isMainContentOpen}
-  //       >
-  //         <div className={"thumb"}></div>
-  //         <div className="mode-icon view">
-  //           <IconEye />
-  //         </div>
-  //         <div className="mode-icon edit">
-  //           <IconPencil />
-  //         </div>
-  //       </button>
-  //     );
-  //   }
   const [loggedInUser] = useAtom(loggedInUserAtom);
   function colorAavatar() {
     const colorList = [
@@ -182,21 +115,6 @@ const Header = () => {
         {!isLoginPageOpen &&
           (isIndexOpen ? (
             <div className="componentHeader">
-              {/* {collections && collections.length && (
-                <CollectionsDropdown
-                  options={collections}
-                  onSelect={setSelectedCollection}
-                />
-              )} */}
-              {/* <h2 className={"updated"}>{lastCollectionUpdate}</h2>
-              <a
-                href={"https://tidy.guide/guide/overview"}
-                target={"_blank"}
-                className={"link-icon"}
-              >
-                <IconExternalLink stroke={1.5} />
-              </a> */}
-
               <button
                 id="new-button"
                 className="flex-button add-button"
@@ -216,36 +134,6 @@ const Header = () => {
           ) : (
             <div className={"search-flex"}>
               <BackButton />
-              {/* {!isSettingsPageOpen && (
-                <div className="searchbox">
-                  <IconSearch />
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      document
-                        .getElementsByClassName("headerSection")[0]
-                        // @ts-ignore
-                        .click();
-                      // @ts-ignore
-                      window.find(
-                        (e.target as HTMLFormElement).getElementsByTagName(
-                          "input"
-                        )[0].value
-                      );
-                      // @ts-ignore
-                      window
-                        .getSelection()
-                        .anchorNode.parentElement.scrollIntoView();
-                    }}
-                  >
-                    <input
-                      id={"search-input"}
-                      type={"search"}
-                      placeholder={"Type to search..."}
-                    ></input>
-                  </form>
-                </div>
-              )} */}
               <div></div>
             </div>
           ))}

@@ -23,12 +23,6 @@ const Footer = () => {
   const isValid =
     !!documentationTitle?.length && isCurrentNameValid && selectedNodeId;
 
-  // useEffect(() => {
-  //   console.log("+++++++++++++++");
-  //   console.log("isCurrentNameValid", isCurrentNameValid);
-  //   console.log("+++++++++++++++");
-  // }, [isValid, documentationTitle, isCurrentNameValid]);
-
   function PublishButtonDropdown() {
     return (
       <div
@@ -64,16 +58,6 @@ const Footer = () => {
     <div className={"footer"}>
       <div className="leftFooterContent"></div>
       <div className="rightFooterContent">
-        {/* <button
-          className={"second"}
-          onClick={() => {
-            setIsDraft(true);
-            setSaveData(true);
-          }}
-        >
-          Save as draft
-        </button> */}
-
         {isPublishDropdownOpen && <PublishButtonDropdown />}
         <div
           className={isValid ? "split" : "split split-disabled"}
