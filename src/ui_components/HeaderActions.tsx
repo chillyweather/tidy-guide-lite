@@ -47,13 +47,13 @@ import {
   isScrollAtom,
 } from "src/state/atoms";
 import { deleteFileFromServer } from "./ui_functions/fileManagementFunctions";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 const cardsForPopup = sectionData;
 
 function AddSectionPopupCard(card: any) {
-  const [selectedNodeId] = useAtom(selectedNodeIdAtom);
-  const [selectedNodeKey] = useAtom(selectedNodeKeyAtom);
+  // const [selectedNodeId] = useAtom(selectedNodeIdAtom);
+  // const [selectedNodeKey] = useAtom(selectedNodeKeyAtom);
   const [selectedElement] = useAtom(selectedElementAtom);
   const [isHovering, setIsHovering] = useState(false);
   const [selectedSections, setSelectedSections]: any =
@@ -131,16 +131,16 @@ function AddSectionPopupCard(card: any) {
   );
 
   async function addSection() {
-    const type = card.datatype;
-
-    if (pdTypes.includes(card.datatype)) {
-      if (!selectedElement) return;
-      emit("PIC_FROM_FIGMA", {
-        type,
-        nodeId: selectedNodeId,
-        key: selectedNodeKey,
-      });
-    }
+    // const type = card.datatype;
+    //
+    //     if (pdTypes.includes(card.datatype)) {
+    //       if (!selectedElement) return;
+    //       emit("PIC_FROM_FIGMA", {
+    //         type,
+    //         nodeId: selectedNodeId,
+    //         key: selectedNodeKey,
+    //       });
+    //     }
 
     const newCard = {
       ...card,
@@ -191,15 +191,13 @@ function AddSectionPopup(pdcards: any[], cards: any[], cardElement: any) {
 }
 
 function HeaderActions() {
-  const [selectedNodeId, setSelectedNodeId] = useAtom(selectedNodeIdAtom);
-  const [selectedNodeKey, setSelectedNodeKey] = useAtom(selectedNodeKeyAtom);
+  const [, setSelectedNodeId] = useAtom(selectedNodeIdAtom);
+  const [, setSelectedNodeKey] = useAtom(selectedNodeKeyAtom);
   const [selectedComponentPic, setSelectedComponentPic] = useAtom(
     selectedComponentPicAtom
   );
   const [selectionData] = useAtom(selectionDataAtom);
-  const [isToBuildComponentPic, setIsToBuildComponentPic] = useAtom(
-    isToBuildComponentPicAtom
-  );
+  const [, setIsToBuildComponentPic] = useAtom(isToBuildComponentPicAtom);
   const [selectedElementName, setSelectedElementName] = useAtom(
     selectedElementNameAtom
   );
@@ -209,17 +207,6 @@ function HeaderActions() {
 
   const [documentationTitle] = useAtom(documentationTitleAtom);
   const [isScroll] = useAtom(isScrollAtom);
-
-  useEffect(() => {
-    if (isToBuildComponentPic && selectedNodeKey && selectedNodeId) {
-      emit("GET_COMPONENT_PIC", selectedNodeKey, selectedNodeId);
-    }
-  }, [
-    isToBuildComponentPic,
-    setIsToBuildComponentPic,
-    selectedNodeKey,
-    selectedNodeId,
-  ]);
 
   return (
     <div

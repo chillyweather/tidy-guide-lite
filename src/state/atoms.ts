@@ -122,5 +122,5 @@ export const showNonEmptyCollectionPopupAtom = atom(false);
 export const elementToDeleteAtom = atom("");
 
 //small interface elements
-export const isPdSectionOpenAtom = atom(false);
+export const isPdSectionOpenAtom = atom(true);
 export const isCurrentNameValidAtom = atom(false);

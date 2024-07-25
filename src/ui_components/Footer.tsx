@@ -2,16 +2,13 @@ import { h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { useAtom } from "jotai";
 import {
-  isPublishAndViewAtom,
   isBuildingAtom,
   isBuildingOnCanvasAtom,
-  isDraftAtom,
   documentationTitleAtom,
   showResetPopupAtom,
   isCurrentNameValidAtom,
+  selectedNodeIdAtom,
 } from "src/state/atoms";
-import PublishCanvas from "../images/publish-icon-canvas.jpg";
-import PublishViewer from "../images/publish-icon-viewer.jpg";
 import { IconReload, IconChevronDown } from "@tabler/icons-react";
 
 const Footer = () => {
@@ -19,15 +16,14 @@ const Footer = () => {
   const [, setIsBuildingOnCanvas] = useAtom(isBuildingOnCanvasAtom);
   const [saveData, setSaveData] = useState(false);
   const [buildOnCanvas, setBuildOnCanvas] = useState(false);
-  const [publishToViewer, setPublishToViewer] = useState(false);
   const [isPublishDropdownOpen, setIsPublishDropdownOpen] = useState(false);
-  const [, setIsPublishAndView] = useAtom(isPublishAndViewAtom);
-  const [isDraft, setIsDraft] = useAtom(isDraftAtom);
   const [documentationTitle] = useAtom(documentationTitleAtom);
   const [, setShowResetPopup] = useAtom(showResetPopupAtom);
   const [isCurrentNameValid] = useAtom(isCurrentNameValidAtom);
+  const [selectedNodeId] = useAtom(selectedNodeIdAtom);
 
-  const isValid = !!documentationTitle?.length && isCurrentNameValid;
+  const isValid =
+    !!documentationTitle?.length && isCurrentNameValid && selectedNodeId;
 
   // useEffect(() => {
   //   console.log("+++++++++++++++");
@@ -41,45 +37,12 @@ const Footer = () => {
         className={"feedbackPopupBackground"}
         // className={"feedbackPopupBackground invisible"}
         onClick={() => {
+          console.log("will publish");
+          setSaveData(true);
+          setBuildOnCanvas(true);
           setIsPublishDropdownOpen(false);
         }}
-      >
-        <div className={"publish-dropdown"}>
-          <button
-            className={"publish-dropdown-item"}
-            id={"publish-button"}
-            onClick={() => {
-              setSaveData(true);
-              setIsDraft(false);
-              setBuildOnCanvas(true);
-              setIsPublishDropdownOpen(false);
-            }}
-          >
-            <div className="publish-content-wrapper">
-              <h4>Build on Canvas</h4>
-              <p>Build on Canvas and publish to Tidy Viewer</p>
-            </div>
-            <img src={PublishCanvas} className={"publish-icon"} />
-          </button>
-          <div className="divider"></div>
-          <button
-            className={"publish-dropdown-item"}
-            onClick={() => {
-              setSaveData(true);
-              setIsDraft(false);
-              setPublishToViewer(true);
-              setIsPublishDropdownOpen(false);
-              setIsPublishAndView(true);
-            }}
-          >
-            <div className={"publish-content-wrapper"}>
-              <h4>Publish and view</h4>
-              <p>Publish & switch to view mode</p>
-            </div>
-            <img src={PublishViewer} className={"publish-icon"} />
-          </button>
-        </div>
-      </div>
+      ></div>
     );
   }
 
@@ -92,12 +55,8 @@ const Footer = () => {
   useEffect(() => {
     handlePublish(
       saveData,
-      isDraft,
       setIsBuilding,
       setIsBuildingOnCanvas,
-      buildOnCanvas,
-      publishToViewer,
-      setPublishToViewer,
       setBuildOnCanvas,
       setSaveData
     );
@@ -112,7 +71,7 @@ const Footer = () => {
         </button>
       </div>
       <div className="rightFooterContent">
-        <button
+        {/* <button
           className={"second"}
           onClick={() => {
             setIsDraft(true);
@@ -120,7 +79,7 @@ const Footer = () => {
           }}
         >
           Save as draft
-        </button>
+        </button> */}
 
         {isPublishDropdownOpen && <PublishButtonDropdown />}
         <div
@@ -129,28 +88,18 @@ const Footer = () => {
         >
           <button
             className={isValid ? "primary" : "primary primary-disabled"}
-            onClick={(e) => {
-              if (e.metaKey || e.ctrlKey) {
-                setSaveData(true);
-                setIsDraft(false);
-                setBuildOnCanvas(true);
-              } else {
-                setSaveData(true);
-                setIsDraft(false);
-                setPublishToViewer(true);
-              }
+            onClick={() => {
+              setSaveData(true);
+              setBuildOnCanvas(true);
             }}
           >
-            Publish
+            Build
           </button>
           <button
             className={isValid ? "primary" : "primary primary-disabled"}
             onClick={() => {
-              console.log("first button clicked");
-              setIsPublishDropdownOpen(!isPublishDropdownOpen);
-              setTimeout(function () {
-                document.getElementById("publish-button")?.focus();
-              }, 300);
+              setSaveData(true);
+              setBuildOnCanvas(true);
             }}
             onKeyDown={(e) => {
               if (e.key === "Escape") setIsPublishDropdownOpen(false);
@@ -168,28 +117,15 @@ export default Footer;
 
 function handlePublish(
   saveData: boolean,
-  isDraft: boolean | undefined,
   setIsBuilding: (arg: boolean) => void,
   setIsBuildingOnCanvas: (arg: boolean) => void,
-  buildOnCanvas: boolean,
-  publishToViewer: boolean,
-  setPublishToViewer: (arg: boolean) => void,
   setBuildOnCanvas: (arg: boolean) => void,
   setSaveData: (arg: boolean) => void
 ) {
   if (saveData) {
-    if (isDraft) {
-      setIsBuilding(true);
-      setIsBuildingOnCanvas(false);
-    } else if (!isDraft && buildOnCanvas) {
-      setIsBuilding(true);
-      setIsBuildingOnCanvas(true);
-      setBuildOnCanvas(false);
-    } else if (!isDraft && publishToViewer) {
-      setIsBuilding(true);
-      setIsBuildingOnCanvas(false);
-      setPublishToViewer(false);
-    }
-    setSaveData(false);
+    setIsBuilding(true);
+    setIsBuildingOnCanvas(true);
+    setBuildOnCanvas(false);
   }
+  setSaveData(false);
 }

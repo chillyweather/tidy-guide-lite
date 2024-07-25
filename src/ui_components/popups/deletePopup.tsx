@@ -2,22 +2,14 @@
 import { h } from "preact";
 import { IconX } from "@tabler/icons-react";
 import { useAtom } from "jotai";
-import {
-  dataForUpdateAtom,
-  elementToDeleteAtom,
-  showDeletePopupAtom,
-  tokenAtom,
-} from "src/state/atoms";
+import { elementToDeleteAtom, showDeletePopupAtom } from "src/state/atoms";
 
-import { deleteDocumentation } from "../ui_functions/documentationHandlers";
 import Spinner from "../../images/loader-spinner-white.png";
-import { handleDeletePictures } from "../ui_functions/deleteHandlers";
+import { emit } from "@create-figma-plugin/utilities";
 
-function DeletePopup() {
+export default function DeletePopup() {
   const [, setShowDeletePopup] = useAtom(showDeletePopupAtom);
   const [elementToDelete] = useAtom(elementToDeleteAtom);
-  const [dataForUpdate, setDataForUpdate] = useAtom(dataForUpdateAtom);
-  const [token] = useAtom(tokenAtom);
   return (
     <div
       className={"feedbackPopupBackground"}
@@ -52,16 +44,8 @@ function DeletePopup() {
             className={"button primary"}
             id={"delete-button"}
             onClick={async () => {
-              document
-                .getElementById("delete-button")
-                ?.classList.add("spinner");
-              handleDelete(
-                token,
-                elementToDelete,
-                setDataForUpdate,
-                setShowDeletePopup,
-                dataForUpdate
-              );
+              emit("DELETE_DOCUMENTATION", elementToDelete);
+              setShowDeletePopup(false);
             }}
           >
             <img src={Spinner} />
@@ -72,26 +56,3 @@ function DeletePopup() {
     </div>
   );
 }
-
-async function handleDelete(
-  token: string | undefined,
-  elementId: string,
-  setDataForUpdate: (value: any) => void,
-  setShowDeletePopup: (value: boolean) => void,
-  dataForUpdate: any
-) {
-  const result = await deleteDocumentation(token!, elementId);
-
-  if (result) {
-    await handleDeletePictures(elementId, dataForUpdate);
-    setDataForUpdate((prevData: any) => {
-      const newData = prevData.filter((el: any) => el._id !== elementId);
-      return newData;
-    });
-    setShowDeletePopup(false);
-  } else {
-    alert("Something went wrong, please try again later.");
-  }
-}
-
-export default DeletePopup;

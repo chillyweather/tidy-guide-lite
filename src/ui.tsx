@@ -16,27 +16,27 @@ import DeleteAccountPopup from "./ui_components/popups/deleteAccountPopup";
 import CrashLogoutPopup from "./ui_components/popups/crashLogoutPopup";
 import NoDeleteCollectionPopup from "./ui_components/popups/noDeleteCollectionPopup";
 import Toast from "./ui_components/Toast";
-import { sendRaster } from "./ui_components/ui_functions/sendRaster";
-import fetchAndUpdateData from "./ui_components/ui_functions/fetchAndUpdateData";
+// import { sendRaster } from "./ui_components/ui_functions/sendRaster";
+// import fetchAndUpdateData from "./ui_components/ui_functions/fetchAndUpdateData";
 import ContentFromServer from "./ui_components/ContentFromServer";
 import DetailsPage from "./ui_components/ViewModeElements/DetailsPage";
 import Footer from "./ui_components/Footer";
 import Header from "./ui_components/Header";
 import IndexPage from "./ui_components/IndexPage";
-import LoaderPage from "./ui_components/LoadingPage";
+// import LoaderPage from "./ui_components/LoadingPage";
 // import LoggedIn from "./ui_components/LoggedInPage";
 // import Login from "./ui_components/LoginPage";
 // import SignIn from "./ui_components/SigninPage";
 import Settings from "./ui_components/SettingsPage";
 import MainContent from "./ui_components/MainContent";
-import {
-  updateDocumentation,
-  createDocumentation,
-} from "./ui_components/ui_functions/documentationHandlers";
-import {
-  getCollections,
-  getCollectionDocs,
-} from "./ui_components/ui_functions/collectionHandlers";
+// import {
+//   updateDocumentation,
+//   createDocumentation,
+// } from "./ui_components/ui_functions/documentationHandlers";
+// import {
+//   getCollections,
+//   getCollectionDocs,
+// } from "./ui_components/ui_functions/collectionHandlers";
 import { getUsers } from "./ui_components/ui_functions/authentication";
 
 import { useAtom } from "jotai";
@@ -45,7 +45,7 @@ import {
   collectionDocsTriggerAtom,
   collectionsAtom,
   // currentCompanyAtom,
-  currentDocumentationsAtom,
+  // currentDocumentationsAtom,
   // currentFigmaUserAtom,
   currentUserCollectionsAtom,
   currentUserIdAtom,
@@ -55,7 +55,7 @@ import {
   isCollectionSwitchingAtom,
   isDetailsPageOpenAtom,
   isFromSavedDataAtom,
-  isPublishAndViewAtom,
+  // isPublishAndViewAtom,
   isResetAtom,
   isViewModeOpenAtom,
   isBuildingAtom,
@@ -121,8 +121,8 @@ function Plugin() {
   );
   const [collectionDocsTrigger] = useAtom(collectionDocsTriggerAtom);
   const [currentUserRole] = useAtom(currentUserRoleAtom);
-  const [, setCurrentDocumentations] = useAtom(currentDocumentationsAtom);
-  const [isPublishAndView, setIsPublishAndView] = useAtom(isPublishAndViewAtom);
+  // const [, setCurrentDocumentations] = useAtom(currentDocumentationsAtom);
+  // const [isPublishAndView, setIsPublishAndView] = useAtom(isPublishAndViewAtom);
   const [, setSelectionData] = useAtom(selectionDataAtom);
   const [, setCurrentUserCollections] = useAtom(currentUserCollectionsAtom);
   const [isCollectionSwitching, setIsCollectionSwitching] = useAtom(
@@ -229,7 +229,7 @@ function Plugin() {
     }
   });
   useEffect(() => {
-    console.log("showIndexPage", showIndexPage);
+    // console.log("showIndexPage", showIndexPage);
   }, [showIndexPage]);
 
   useEffect(() => {
@@ -282,31 +282,31 @@ function Plugin() {
     }
   }, [collections, currentUserId]);
 
-  useEffect(() => {
-    if (selectedCollection) {
-      collectionDocsHandler(token, selectedCollection._id);
-    }
-  }, [selectedCollection, collectionDocsTrigger]);
+  // useEffect(() => {
+  //   if (selectedCollection) {
+  //     collectionDocsHandler(token, selectedCollection._id);
+  //   }
+  // }, [selectedCollection, collectionDocsTrigger]);
 
-  useEffect(() => {
-    if (token && currentUserId) {
-      getUserCollections(token, currentUserId);
-    }
-  }, [token, currentUserId, collectionDocsTrigger]);
+  // useEffect(() => {
+  //   if (token && currentUserId) {
+  //     getUserCollections(token, currentUserId);
+  //   }
+  // }, [token, currentUserId, collectionDocsTrigger]);
 
-  useEffect(() => {
-    if (token) {
-      setCurrentUsers(token);
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (token) {
+  //     setCurrentUsers(token);
+  //   }
+  // }, [token]);
 
-  useEffect(() => {
-    if (currentUserRole && currentUserRole === "Viewer") {
-      setIsViewModeOpen(true);
-    } else {
-      setIsViewModeOpen(false);
-    }
-  }, [currentUserRole]);
+  // useEffect(() => {
+  //   if (currentUserRole && currentUserRole === "Viewer") {
+  //     setIsViewModeOpen(true);
+  //   } else {
+  //     setIsViewModeOpen(false);
+  //   }
+  // }, [currentUserRole]);
 
   on("CHANGED_SELECTION", (data) => {
     setSelectionData(data);
@@ -391,47 +391,47 @@ function Plugin() {
     }
   }
 
-  async function uploadComponentPic(bytes: Uint8Array, loggedInUser: string) {
-    const url = await sendRaster(bytes, loggedInUser, "componentPic");
-    if (url) {
-      setSelectedComponentPic(url);
-    }
-  }
+  // async function uploadComponentPic(bytes: Uint8Array, loggedInUser: string) {
+  //   const url = await sendRaster(bytes, loggedInUser, "componentPic");
+  //   if (url) {
+  //     setSelectedComponentPic(url);
+  //   }
+  // }
 
-  async function getUserCollections(token: string, userId: string) {
-    let collections = await getCollections(token, userId);
-
-    collections = collections.sort((a: any, b: any) => {
-      const aIsOwnedByUser = a.owner === userId;
-      const bIsOwnedByUser = b.owner === userId;
-
-      if (aIsOwnedByUser && !bIsOwnedByUser) {
-        return -1;
-      }
-      if (!aIsOwnedByUser && bIsOwnedByUser) {
-        return 1;
-      }
-      return 0;
-    });
-
-    setCollections(collections);
-  }
+  //   async function getUserCollections(token: string, userId: string) {
+  //     let collections = await getCollections(token, userId);
+  //
+  //     collections = collections.sort((a: any, b: any) => {
+  //       const aIsOwnedByUser = a.owner === userId;
+  //       const bIsOwnedByUser = b.owner === userId;
+  //
+  //       if (aIsOwnedByUser && !bIsOwnedByUser) {
+  //         return -1;
+  //       }
+  //       if (!aIsOwnedByUser && bIsOwnedByUser) {
+  //         return 1;
+  //       }
+  //       return 0;
+  //     });
+  //
+  //     setCollections(collections);
+  //   }
 
   async function setCurrentUsers(token: string) {
     const users = await getUsers(token);
     setUsers(users);
   }
 
-  useEffect(() => {
-    if (
-      currentImageArray &&
-      currentImageArray.length &&
-      !selectedComponentPic &&
-      (showMainContent || isDetailsPageOpen)
-    ) {
-      uploadComponentPic(currentImageArray, loggedInUser);
-    }
-  }, [currentImageArray, selectedComponentPic]);
+  // useEffect(() => {
+  //   if (
+  //     currentImageArray &&
+  //     currentImageArray.length &&
+  //     !selectedComponentPic &&
+  //     (showMainContent || isDetailsPageOpen)
+  //   ) {
+  //     uploadComponentPic(currentImageArray, loggedInUser);
+  //   }
+  // }, [currentImageArray, selectedComponentPic]);
 
   useEffect(() => {
     const found = checkIfDocumentationExists(dataForUpdate, selectedNodeKey);
@@ -551,6 +551,10 @@ function Plugin() {
     setIsToastOpen(false);
   }
 
+  on("SAVED_DATA", (data) => {
+    setDataForUpdate(data);
+  });
+
   useEffect(() => {
     // console.log("dataForUpdate", dataForUpdate);
     // console.log("documentationData", documentationData);
@@ -576,73 +580,37 @@ function Plugin() {
     }
   }, [documentationTitle]);
 
-  //MARK: Add/update documentation
-  //   async function handleAddDocumentation(token: string, data: any) {
-  //     setIsLoading(true);
-  //     try {
-  //       const result = await getCollectionDocs(token, selectedCollection._id);
-  //       const isDocumented = result.some((doc: any) => doc._id === data._id);
-  //
-  //       if (isDocumented) {
-  //         const response = await updateDocumentation(token, data._id, data);
-  //         if (isBuildingOnCanvas) emit("BUILD", response, appSettings);
-  //         await fetchAndUpdateData(
-  //           token,
-  //           setDataForUpdate,
-  //           selectedCollection._id
-  //         );
-  //       } else {
-  //         console.log("data", data);
-  //         const response = await createDocumentation(token, data);
-  //         setSelectedMasterId(response._id);
-  //         if (isBuildingOnCanvas) emit("BUILD", response, appSettings);
-  //         await fetchAndUpdateData(
-  //           token,
-  //           setDataForUpdate,
-  //           selectedCollection._id
-  //         );
-  //         setDocumentationData((prevDocumentation: any) => {
-  //           return {
-  //             ...prevDocumentation,
-  //             ["_id"]: response._id,
-  //           };
-  //         });
-  //       }
-  //     } catch (error) {
-  //       console.log("error", error);
-  //     }
-  //     setIsLoading(false);
-  //     setIsBuilding(false);
-  //     setIsBuildingOnCanvas(false);
-  //     if (isPublishAndView) {
-  //       setIsPublishAndView(false);
-  //       setTimeout(() => {
-  //         setShowMainContent(false);
-  //         setShowContentFromServer(true);
-  //         setIsFromSavedData(true);
-  //         setIsViewModeOpen(true);
-  //       }, 600);
-  //     }
-  //   }
+  async function handleAddDocumentation(data: any) {
+    // console.log("data", data);
+    if (isBuildingOnCanvas) emit("BUILD", data, appSettings);
+    setIsBuildingOnCanvas(false);
+    setDocumentationData((prevDocumentation: any) => {
+      return {
+        ...prevDocumentation,
+        ["_id"]: data._id,
+      };
+    });
+  }
 
   useEffect(() => {
-    console.log("dataForUpdate", dataForUpdate);
+    // console.log("dataForUpdate", dataForUpdate);
   }, [dataForUpdate]);
 
   useEffect(() => {
-    if (Object.keys(documentationData).length > 0 && isBuilding && token) {
-      handleAddDocumentation(token, documentationData);
+    if (Object.keys(documentationData).length > 0 && isBuilding) {
+      // console.log("documentationData", documentationData);
+      handleAddDocumentation(documentationData);
     }
-  }, [documentationData, isBuilding, token]);
+  }, [documentationData, isBuilding]);
 
-  useEffect(() => {
-    if (isViewModeOpen && selectedMasterId && dataForUpdate) {
-      const foundData = dataForUpdate.find(
-        (item: any) => item._id === selectedMasterId
-      );
-      setSelectedSections(foundData.docs);
-    }
-  }, [selectedMasterId, isViewModeOpen, dataForUpdate]);
+  // useEffect(() => {
+  //   if (isViewModeOpen && selectedMasterId && dataForUpdate) {
+  //     const foundData = dataForUpdate.find(
+  //       (item: any) => item._id === selectedMasterId
+  //     );
+  //     setSelectedSections(foundData.docs);
+  //   }
+  // }, [selectedMasterId, isViewModeOpen, dataForUpdate]);
 
   // //! Logout after 10 seconds of inactivity - IMPORTANT
   // useEffect(() => {
@@ -662,7 +630,7 @@ function Plugin() {
   // }, [isLoading]);
 
   useEffect(() => {
-    console.log("showNonEmptyCollectionPopup", showNonEmptyCollectionPopup);
+    // console.log("showNonEmptyCollectionPopup", showNonEmptyCollectionPopup);
   }, [showNonEmptyCollectionPopup]);
 
   return (

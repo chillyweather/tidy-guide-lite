@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { h } from "preact";
-import { useState, useEffect } from "preact/hooks";
+import { useEffect } from "preact/hooks";
 import { DraggableCardList } from "./DraggableCardsList";
 //content cards
 import HeaderCard from "./sectionCards/HeaderCard";
@@ -13,7 +13,6 @@ import {
   dataForUpdateAtom,
   selectedMasterIdAtom,
   selectedSectionsAtom,
-  isDraftAtom,
   documentationTitleAtom,
   documentationIdAtom,
   isWipAtom,
@@ -27,22 +26,12 @@ const ContentFromServer = () => {
   const [selectedNodeKey, setSelectedNodeKey] = useAtom(selectedNodeKeyAtom);
   const [selectedNodeId, setSelectedNodeId] = useAtom(selectedNodeIdAtom);
   const [, setSelectedComponentPic] = useAtom(selectedComponentPicAtom);
-  const [thisCardIsDraft, setThisCardIsDraft] = useState(false);
-  const [, setIsDraft] = useAtom(isDraftAtom);
   const [, setDocumentationTitle] = useAtom(documentationTitleAtom);
   const [, setDocumentationId] = useAtom(documentationIdAtom);
   const [, setIsWip] = useAtom(isWipAtom);
   const [, setDocumentationData] = useAtom(documentationDataAtom);
 
-  const foundData = data.find((item: any) => item._id === selectedMasterId);
-
-  useEffect(() => {
-    setIsDraft(thisCardIsDraft);
-  }, [thisCardIsDraft]);
-
-  useEffect(() => {
-    setThisCardIsDraft(foundData.draft);
-  }, [foundData.draft]);
+  const foundData = data.find((item: any) => item.nodeId === selectedMasterId);
 
   useEffect(() => {
     if (selectedNodeId && selectedNodeKey) {
@@ -51,10 +40,10 @@ const ContentFromServer = () => {
   }, [selectedMasterId, selectedNodeId]);
 
   useEffect(() => {
-    if (foundData && foundData._id) {
+    if (foundData && foundData.nodeId) {
       setSelectedSections(foundData.docs);
       setDocumentationTitle(foundData.title);
-      setDocumentationId(foundData._id);
+      setDocumentationId(foundData.nodeId);
       setSelectedNodeKey(foundData.componentKey);
       setSelectedNodeId(foundData.nodeId);
       setIsWip(foundData.inProgress);
@@ -62,11 +51,11 @@ const ContentFromServer = () => {
       setDocumentationData((prevDocumentation: any) => {
         return {
           ...prevDocumentation,
-          _id: foundData._id,
+          nodeId: foundData.nodeId,
         };
       });
     }
-  }, [foundData._id]);
+  }, [foundData.nodeId]);
 
   return (
     <div className="mainContent">

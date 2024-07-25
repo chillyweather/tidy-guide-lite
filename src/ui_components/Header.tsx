@@ -5,17 +5,17 @@ import {
   // IconEye,
   // IconPencil,
   IconPlus,
-  IconExternalLink,
+  // IconExternalLink,
   // IconList,
   IconSearch,
 } from "@tabler/icons-react";
 import { useAtom } from "jotai";
 import { useState, useEffect } from "preact/hooks";
 import {
-  collectionsAtom,
+  // collectionsAtom,
   // currentUserRoleAtom,
   // isViewModeOpenAtom,
-  selectedCollectionAtom,
+  // selectedCollectionAtom,
   isToBuildComponentPicAtom,
   currentPageAtom,
   showLoginPageAtom,
@@ -34,6 +34,7 @@ import {
   loggedInUserAtom,
 } from "src/state/atoms";
 import BackButton from "./BackButton";
+import { IconSettings } from "@tabler/icons-react";
 
 // import { getCollectionDocs } from "./ui_functions/collectionHandlers";
 
@@ -41,15 +42,15 @@ import { h } from "preact";
 import HeaderActions from "./HeaderActions";
 import UserMenu from "./UserMenu";
 import { emit } from "@create-figma-plugin/utilities";
-import CollectionsDropdown from "./CollectionsDropdown";
+// import CollectionsDropdown from "./CollectionsDropdown";
 
 const Header = () => {
   const [isLoginPageOpen, setIsLoginPageOpen] = useAtom(showLoginPageAtom);
   // const [isViewModeOpen, setIsViewModeOpen] = useAtom(isViewModeOpenAtom);
-  const [collections] = useAtom(collectionsAtom);
-  const [selectedCollection, setSelectedCollection]: any = useAtom(
-    selectedCollectionAtom
-  );
+  // const [collections] = useAtom(collectionsAtom);
+  // const [selectedCollection, setSelectedCollection]: any = useAtom(
+  //   selectedCollectionAtom
+  // );
   // const [userRole] = useAtom(currentUserRoleAtom);
   const [, setIsToBuildComponentPic] = useAtom(isToBuildComponentPicAtom);
   const [, setCurrentPage] = useAtom(currentPageAtom);
@@ -72,14 +73,14 @@ const Header = () => {
   const [, setInitialSelectedSectionsLength] = useState(0);
   // const [navState, setNavState] = useState(false);
   const [avatarColor, setAvatarColor] = useState("#F584AD");
-  const [lastCollectionUpdate, setLastCollectionUpdate] = useState("");
+  // const [lastCollectionUpdate, setLastCollectionUpdate] = useState("");
 
-  useEffect(() => {
-    if (selectedCollection) {
-      const timestamp = convertTimestamp(selectedCollection.updatedAt);
-      setLastCollectionUpdate(timestamp);
-    }
-  }, [selectedCollection]);
+  // useEffect(() => {
+  //   if (selectedCollection) {
+  //     const timestamp = convertTimestamp(selectedCollection.updatedAt);
+  //     setLastCollectionUpdate(timestamp);
+  //   }
+  // }, [selectedCollection]);
 
   useEffect(() => {
     if (documentationData && documentationData.title && isDocJustOpened) {
@@ -124,7 +125,7 @@ const Header = () => {
   //     );
   //   }
   const [loggedInUser] = useAtom(loggedInUserAtom);
-  function colorAvatar() {
+  function colorAavatar() {
     const colorList = [
       "#F584AD",
       "#AC93F0",
@@ -181,20 +182,20 @@ const Header = () => {
         {!isLoginPageOpen &&
           (isIndexOpen ? (
             <div className="componentHeader">
-              {collections && collections.length && (
+              {/* {collections && collections.length && (
                 <CollectionsDropdown
                   options={collections}
                   onSelect={setSelectedCollection}
                 />
-              )}
-              <h2 className={"updated"}>Last update: {lastCollectionUpdate}</h2>
+              )} */}
+              {/* <h2 className={"updated"}>{lastCollectionUpdate}</h2>
               <a
                 href={"https://tidy.guide/guide/overview"}
                 target={"_blank"}
                 className={"link-icon"}
               >
                 <IconExternalLink stroke={1.5} />
-              </a>
+              </a> */}
 
               <button
                 id="new-button"
@@ -215,7 +216,7 @@ const Header = () => {
           ) : (
             <div className={"search-flex"}>
               <BackButton />
-              {!isSettingsPageOpen && (
+              {/* {!isSettingsPageOpen && (
                 <div className="searchbox">
                   <IconSearch />
                   <form
@@ -244,7 +245,7 @@ const Header = () => {
                     ></input>
                   </form>
                 </div>
-              )}
+              )} */}
               <div></div>
             </div>
           ))}
@@ -288,14 +289,14 @@ const Header = () => {
                 {loggedInUser.slice(0, 1)}
               </div>
             </summary>
-            {colorAvatar()}
+            {colorAavatar()}
             <UserMenu />
           </details>
         </div>
+        <IconSettings />
       </div>
       {(selectedElement || isMainContentOpen || isContenFromServerOpen) &&
         !isIndexOpen &&
-        // !isViewModeOpen &&
         !isLoginPageOpen &&
         !isSettingsPageOpen && <HeaderActions />}
     </div>
@@ -304,15 +305,15 @@ const Header = () => {
 
 export default Header;
 
-function convertTimestamp(timestamp: string) {
-  const date = new Date(timestamp);
-  const options = {
-    year: "numeric" as const,
-    month: "long" as const,
-    day: "numeric" as const,
-    hour: "2-digit" as const,
-    minute: "2-digit" as const,
-    hour12: true,
-  };
-  return new Intl.DateTimeFormat("en-US", options).format(date);
-}
+// function convertTimestamp(timestamp: string) {
+//   const date = new Date(timestamp);
+//   const options = {
+//     year: "numeric" as const,
+//     month: "long" as const,
+//     day: "numeric" as const,
+//     hour: "2-digit" as const,
+//     minute: "2-digit" as const,
+//     hour12: true,
+//   };
+//   return new Intl.DateTimeFormat("en-US", options).format(date);
+// }

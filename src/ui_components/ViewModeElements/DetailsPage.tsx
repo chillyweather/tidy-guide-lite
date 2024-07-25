@@ -22,7 +22,7 @@ const DetailsPage = () => {
   useEffect(() => {
     if (data) {
       const currentData = data.find(
-        (item: any) => item._id === selectedMasterId
+        (item: any) => item.nodeId === selectedMasterId
       );
       setDocData(currentData);
     }
@@ -64,18 +64,6 @@ const DetailsPage = () => {
             <strong>
               <h1 id={"sectionHeader"}>{docData.title}</h1>
             </strong>
-            <div className="flex-link">
-              {docData.inProgress && <div className={"wip"}>WIP</div>}
-              {docData.docs && (
-                <a
-                  href={"https://tidy.guide/guide/" + docData._id}
-                  className={"web-link"}
-                  target={"_blank"}
-                >
-                  View on Website
-                </a>
-              )}
-            </div>
           </div>
           <div className={"nav-wrapper"}>
             <div className={"nav-container"}>

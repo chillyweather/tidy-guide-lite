@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { h } from "preact";
-import { IconTrash, IconCopy } from "@tabler/icons-react";
+import {
+  // _loneElement,
+  h,
+} from "preact";
+import { IconTrash } from "@tabler/icons-react";
 import { emit } from "@create-figma-plugin/utilities";
 import { useEffect } from "preact/hooks";
-import {
-  getDocumentation,
-  createDocumentation,
-} from "./ui_functions/documentationHandlers";
+
 import { useAtom } from "jotai";
 import {
   currentPageAtom,
@@ -14,30 +14,26 @@ import {
   elementToDeleteAtom,
   isDetailsPageOpenAtom,
   isViewModeOpenAtom,
-  selectedCollectionAtom,
   selectedMasterIdAtom,
   showContentFromServerAtom,
   showDeletePopupAtom,
   showIndexPageAtom,
   isFromSavedDataAtom,
-  tokenAtom,
 } from "src/state/atoms";
-import { getCollectionDocs } from "./ui_functions/collectionHandlers";
 
 const IndexPage = () => {
   const [, setIsFromSavedData] = useAtom(isFromSavedDataAtom);
   const [, setIsContenFromServerOpen] = useAtom(showContentFromServerAtom);
   const [, setIsIndexOpen] = useAtom(showIndexPageAtom);
   const [, setSelectedMasterId] = useAtom(selectedMasterIdAtom);
-  const [token] = useAtom(tokenAtom);
   const [, setShowDeletePopup] = useAtom(showDeletePopupAtom);
   const [, setElementToDelete] = useAtom(elementToDeleteAtom);
-  const [dataForUpdate, setDataForUpdate]: any = useAtom(dataForUpdateAtom);
+  const [dataForUpdate]: any = useAtom(dataForUpdateAtom);
   const [isViewModeOpen] = useAtom(isViewModeOpenAtom);
-  const [selectedCollection]: any = useAtom(selectedCollectionAtom);
   const [, setIsDetailsPageOpen] = useAtom(isDetailsPageOpenAtom);
   const [, setCurrentPage] = useAtom(currentPageAtom);
   if (Object.keys(dataForUpdate).length === 0) return <div>{!!"no data"}</div>;
+
   const sortedData = dataForUpdate.sort((a: any, b: any) =>
     a.title.localeCompare(b.title)
   );
@@ -69,7 +65,6 @@ const IndexPage = () => {
                 setIsDetailsPageOpen(true);
                 setCurrentPage("details");
                 if (e.metaKey || e.ctrlKey) {
-                  //
                   emit(
                     "GET_NEW_SELECTION",
                     element.componentKey,
@@ -81,7 +76,7 @@ const IndexPage = () => {
                     element.componentKey,
                     element.nodeId
                   );
-                  setSelectedMasterId(element._id);
+                  setSelectedMasterId(element.nodeId);
                   setIsFromSavedData(true);
                   setIsIndexOpen(false);
                   setIsContenFromServerOpen(true);
@@ -94,29 +89,12 @@ const IndexPage = () => {
             {!isViewModeOpen && (
               <button
                 className={
-                  "cardAuxButton noPredefined tooltipButton duplicateButton"
-                }
-                onClick={async () =>
-                  await handleDocClone(
-                    token,
-                    element._id,
-                    setDataForUpdate,
-                    selectedCollection
-                  )
-                }
-              >
-                <IconCopy />
-              </button>
-            )}
-            {!isViewModeOpen && (
-              <button
-                className={
                   "cardAuxButton noPredefined redButton tooltipButton trashButton"
                 }
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowDeletePopup(true);
-                  setElementToDelete(element._id);
+                  setElementToDelete(element.nodeId);
                   setTimeout(function () {
                     document.getElementById("cancel-button")?.focus();
                   }, 300);
@@ -133,24 +111,3 @@ const IndexPage = () => {
 };
 
 export default IndexPage;
-
-async function handleDocClone(
-  token: string,
-  id: string,
-  setData: (value: any) => void,
-  selectedCollection: any
-) {
-  const docFromServer = await getDocumentation(token, id);
-
-  delete docFromServer._id;
-  docFromServer.title = docFromServer.title + " copy";
-  docFromServer["collection"] = selectedCollection?._id;
-
-  const clonedDoc = await createDocumentation(token, docFromServer);
-  if (!clonedDoc._id) return;
-
-  const newDocs = await getCollectionDocs(token, selectedCollection?._id);
-  if (!newDocs) return;
-
-  setData(newDocs);
-}

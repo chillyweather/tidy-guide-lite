@@ -16,13 +16,13 @@ const ImageCard: FunctionComponent<{
     {
       return !remoteImageLink ? (
         <div className={"image-container"}>
-          {DropZone(
+          {/* {DropZone(
             setRemoteImageLink,
             setIsImageLoading,
             isImageLoading,
             remoteImageLink
-          )}
-          <div className={"bold-me"}>Or add URL</div>
+          )} */}
+          <div className={"bold-me"}>Add URL</div>
           {textBoxElement(remoteImageLink, setRemoteImageLink, "Add link")}
         </div>
       ) : (

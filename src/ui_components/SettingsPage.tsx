@@ -5,10 +5,10 @@ import {
   currentPageAtom,
   showSettingsContentAtom,
   showManageCanvasAppearanceAtom,
-  showDeleteAccountPopupAtom,
+  // showDeleteAccountPopupAtom,
 } from "src/state/atoms";
 import {
-  IconAlertCircleFilled,
+  // IconAlertCircleFilled,
   IconArrowRight,
   IconUser,
   IconChevronRight,
@@ -17,7 +17,7 @@ import manageCanvasAppearance from "./manageCanvasAppearance";
 import { useEffect } from "react";
 
 const Settings = () => {
-  const [, setShowDeleteAccountPopup] = useAtom(showDeleteAccountPopupAtom);
+  // const [, setShowDeleteAccountPopup] = useAtom(showDeleteAccountPopupAtom);
   const [showSettingsContent, setShowSettingsContent] = useAtom(
     showSettingsContentAtom
   );
@@ -60,7 +60,7 @@ const Settings = () => {
       />
       {/* users */}
 
-      <div className="delete-flex">
+      {/* <div className="delete-flex">
         <div className="delete-content">
           <div className="title-flex">
             <IconAlertCircleFilled className={"red-icon icon-16"} />
@@ -75,7 +75,7 @@ const Settings = () => {
         >
           Delete this account
         </button>
-      </div>
+      </div> */}
     </div>
   );
 

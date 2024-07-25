@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { emit, on, once, showUI } from "@create-figma-plugin/utilities";
 import documentationBuilder from "./figma_functions/documentationBuilder";
 // import { tempData } from "./tempData";
@@ -5,7 +6,6 @@ import { checkSelection } from "./figma_functions/checkSelection";
 import { settingsDataHandler } from "./figma_functions/settingsDataHandler";
 import { getNode } from "./figma_functions/getNode";
 import imageFromFigma from "./figma_functions/imageFromFigma";
-import { logoutDataHandler } from "./figma_functions/logoutDataHandler";
 import { buildOneSection } from "./figma_functions/buildOneSection";
 import handleCanvasColors from "./figma_functions/handleCanvasColors";
 
@@ -19,6 +19,21 @@ const loadFonts = async () => {
 
 export default async function () {
   await settingsDataHandler();
+  let savedData: any = {};
+
+  try {
+    const savedDataString = figma.root.getSharedPluginData(
+      "guide_lite",
+      "saved_data"
+    );
+    if (savedDataString) savedData = JSON.parse(savedDataString);
+    if (Object.keys(savedData).length) {
+      const savedDataArray = convertToArray(savedData);
+      emit("SAVED_DATA", savedDataArray);
+    }
+  } catch (error) {
+    console.log("error", error);
+  }
 
   // const user = figma.currentUser;
   // const document = figma.root.name;
@@ -52,27 +67,6 @@ export default async function () {
     handleCanvasColors(data);
   });
 
-  on("GET_COMPONENT_PIC", async (key, id) => {
-    if (key) {
-      const foundElement = await getNode(id, key);
-      if (foundElement) {
-        if (foundElement.type === "COMPONENT_SET") {
-          const bytes = await foundElement.defaultVariant.exportAsync({
-            format: "PNG",
-            constraint: { type: "SCALE", value: 2 },
-          });
-          emit("COMPONENT_PIC_FOR_UPLOAD", { bytes });
-        } else {
-          const bytes = await foundElement.exportAsync({
-            format: "PNG",
-            constraint: { type: "SCALE", value: 2 },
-          });
-          emit("COMPONENT_PIC_FOR_UPLOAD", { bytes });
-        }
-      }
-    }
-  });
-
   on("CLEAR_SELECTION", () => {
     figma.currentPage.selection = [];
   });
@@ -90,6 +84,16 @@ export default async function () {
 
   on("BUILD", async (data, appSettings) => {
     try {
+      const id = data.nodeId;
+      savedData[id] = data;
+      const savedDataArray = convertToArray(savedData);
+      emit("SAVED_DATA", savedDataArray);
+      const savedDataString = JSON.stringify(savedData);
+      figma.root.setSharedPluginData(
+        "guide_lite",
+        "saved_data",
+        savedDataString
+      );
       await documentationBuilder(data, loadFonts, appSettings);
     } catch (error) {
       console.log("error on documentation build in Figma :>> ", error);
@@ -118,11 +122,13 @@ export default async function () {
     }
   );
 
-  on("DELETE_ACCOUNT", async () => {
-    await figma.clientStorage.deleteAsync("token");
-    figma.notify("Account deleted");
+  on("DELETE_DOCUMENTATION", async (data) => {
+    delete savedData[data];
+    const savedDataArray = convertToArray(savedData);
+    emit("SAVED_DATA", savedDataArray);
+    const savedDataString = JSON.stringify(savedData);
+    figma.root.setSharedPluginData("guide_lite", "saved_data", savedDataString);
   });
-
   figma.on("selectionchange", async () => {
     const selectionData = await checkSelection();
     if (selectionData) {
@@ -130,18 +136,6 @@ export default async function () {
     } else {
       emit("CHANGED_SELECTION", null);
     }
-  });
-
-  once("LOGOUT", () => {
-    const date = Date.now();
-    const parsedDate = new Date(date);
-    console.log("LOGOUT at ", parsedDate);
-    figma.clientStorage.deleteAsync("token");
-    figma.clientStorage.deleteAsync("email");
-    figma.clientStorage.deleteAsync("rank");
-    figma.clientStorage.deleteAsync("userName");
-    figma.clientStorage.deleteAsync("companyName");
-    figma.clientStorage.deleteAsync("userId");
   });
 
   once("CLOSE", () => {
@@ -155,3 +149,10 @@ showUI({
   // height: 640,
   // width: 520,
 });
+function convertToArray(savedData: any) {
+  const savedDataArray = [];
+  for (const key in savedData) {
+    savedDataArray.push(savedData[key]);
+  }
+  return savedDataArray;
+}
