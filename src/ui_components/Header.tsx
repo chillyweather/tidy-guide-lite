@@ -181,21 +181,7 @@ const Header = () => {
           >
             <IconSettings />
           </button>
-          {/* <details className="header-login tooltip" id="userMenu">
-            <summary>
-              <div
-                style={{ backgroundColor: avatarColor }}
-                className="user-tag"
-                first-letter={loggedInUser.slice(0, 1)}
-              >
-                {loggedInUser.slice(0, 1)}
-              </div>
-            </summary>
-            {colorAavatar()}
-            <UserMenu />
-          </details> */}
         </div>
-        {/* <IconSettings /> */}
       </div>
       {(selectedElement || isMainContentOpen || isContenFromServerOpen) &&
         !isIndexOpen &&
