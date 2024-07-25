@@ -32,7 +32,6 @@ import { IconSettings } from "@tabler/icons-react";
 
 import { h } from "preact";
 import HeaderActions from "./HeaderActions";
-import UserMenu from "./UserMenu";
 import { emit } from "@create-figma-plugin/utilities";
 
 const Header = () => {
