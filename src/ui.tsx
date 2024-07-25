@@ -37,31 +37,22 @@ import MainContent from "./ui_components/MainContent";
 //   getCollections,
 //   getCollectionDocs,
 // } from "./ui_components/ui_functions/collectionHandlers";
-import { getUsers } from "./ui_components/ui_functions/authentication";
 
 import { useAtom } from "jotai";
 import {
   appSettingsAtom,
-  collectionDocsTriggerAtom,
   collectionsAtom,
-  // currentCompanyAtom,
-  // currentDocumentationsAtom,
-  // currentFigmaUserAtom,
   currentUserCollectionsAtom,
   currentUserIdAtom,
-  // currentUserNameAtom,
-  currentUserRoleAtom,
   dataForUpdateAtom,
   isCollectionSwitchingAtom,
   isDetailsPageOpenAtom,
   isFromSavedDataAtom,
-  // isPublishAndViewAtom,
   isResetAtom,
   isViewModeOpenAtom,
   isBuildingAtom,
   isBuildingOnCanvasAtom,
   selectedCollectionAtom,
-  selectedComponentPicAtom,
   selectedElementAtom,
   selectedElementNameAtom,
   selectedMasterIdAtom,
@@ -80,12 +71,10 @@ import {
   showNonEmptyCollectionPopupAtom,
   showPasswordResetPopupAtom,
   showSettingsPageAtom,
-  // showSignupPageAtom,
   tokenAtom,
   toastMessageAtom,
   toastTypeAtom,
   usersAtom,
-  // userRankAtom,
   isPdSectionOpenAtom,
   documentationTitleAtom,
   isScrollAtom,
@@ -94,10 +83,7 @@ import {
   isCurrentNameValidAtom,
   isWipAtom,
   documentationDataAtom,
-  // loggedInUserAtom,
   selectedCardAtom,
-  // currentFigmaFileAtom,
-  // currentFigmaPageAtom,
   isFirstTimeAtom,
 } from "./state/atoms";
 
@@ -108,21 +94,12 @@ function Plugin() {
   //!Jotai states
   const [selectedNodeId, setSelectedNodeId] = useAtom(selectedNodeIdAtom);
   const [selectedNodeKey, setSelectedNodeKey] = useAtom(selectedNodeKeyAtom);
-  const [selectedComponentPic, setSelectedComponentPic] = useAtom(
-    selectedComponentPicAtom
-  );
   const [isViewModeOpen, setIsViewModeOpen] = useAtom(isViewModeOpenAtom);
-  // const [, setCurrentCompany] = useAtom(currentCompanyAtom);
-  // const [, setCurrentUserName] = useAtom(currentUserNameAtom);
   const [currentUserId, setCurrentUserId] = useAtom(currentUserIdAtom);
   const [collections, setCollections] = useAtom(collectionsAtom);
   const [selectedCollection, setSelectedCollection]: any = useAtom(
     selectedCollectionAtom
   );
-  const [collectionDocsTrigger] = useAtom(collectionDocsTriggerAtom);
-  const [currentUserRole] = useAtom(currentUserRoleAtom);
-  // const [, setCurrentDocumentations] = useAtom(currentDocumentationsAtom);
-  // const [isPublishAndView, setIsPublishAndView] = useAtom(isPublishAndViewAtom);
   const [, setSelectionData] = useAtom(selectionDataAtom);
   const [, setCurrentUserCollections] = useAtom(currentUserCollectionsAtom);
   const [isCollectionSwitching, setIsCollectionSwitching] = useAtom(
@@ -132,16 +109,7 @@ function Plugin() {
   const [isDetailsPageOpen, setIsDetailsPageOpen] = useAtom(
     isDetailsPageOpenAtom
   );
-  const [, setUsers] = useAtom(usersAtom);
   const [appSettings, setAppSettings] = useAtom(appSettingsAtom);
-
-  // const [isLoading, setIsLoading] = useState(true);
-  const [token, setToken] = useAtom(tokenAtom);
-  // const [, setFigmaCurrentUser] = useAtom(currentFigmaUserAtom);
-  // const [, setCurrentDocument] = useAtom(currentFigmaFileAtom);
-  // const [, setCurrentPage] = useAtom(currentFigmaPageAtom);
-
-  // const [showSigninPage] = useAtom(showSignupPageAtom);
   const [showIndexPage, setShowIndexPage] = useAtom(showIndexPageAtom);
   const [showMainContent, setShowMainContent] = useAtom(showMainContentAtom);
   const [showContentFromServer, setShowContentFromServer] = useAtom(
@@ -149,15 +117,9 @@ function Plugin() {
   );
   const [showSettingsPage] = useAtom(showSettingsPageAtom);
 
-  //navigation-popups
   const [showDeleteSectionPopup] = useAtom(showDeleteSectionPopupAtom);
-  const [showFeedbackPopup] = useAtom(showFeedbackPopupAtom);
   const [showResetPopup, setShowResetPopup] = useAtom(showResetPopupAtom);
   const [showDeletePopup, setShowDeletePopup] = useAtom(showDeletePopupAtom);
-  const [showPasswordResetPopup] = useAtom(showPasswordResetPopupAtom);
-  const [showDeleteAccountPopup, setShowDeleteAccountPopup] = useAtom(
-    showDeleteAccountPopupAtom
-  );
   const [showNonEmptyCollectionPopup] = useAtom(
     showNonEmptyCollectionPopupAtom
   );
@@ -212,14 +174,7 @@ function Plugin() {
   const [isReset, setIsReset] = useAtom(isResetAtom);
   //is draft
   const [isDraft] = useAtom(isDraftAtom);
-  //is pd section open
   const [, setIsPdSectionOpen] = useAtom(isPdSectionOpenAtom);
-  //user rank
-
-  //current image array
-  const [currentImageArray, setCurrentImageArray] = useState<Uint8Array | null>(
-    null
-  );
 
   const [, setIsCurrentNameValid] = useAtom(isCurrentNameValidAtom);
 
@@ -228,21 +183,13 @@ function Plugin() {
       setAppSettings(settings);
     }
   });
-  useEffect(() => {
-    // console.log("showIndexPage", showIndexPage);
-  }, [showIndexPage]);
+  useEffect(() => {}, [showIndexPage]);
 
   useEffect(() => {
     if (showSettingsPage || showIndexPage) {
       setIsDetailsPageOpen(false);
     }
-  }, [
-    setIsDetailsPageOpen,
-    // showLoginPage,
-    // showSigninPage,
-    showIndexPage,
-    showSettingsPage,
-  ]);
+  }, [setIsDetailsPageOpen, showIndexPage, showSettingsPage]);
 
   useEffect(() => {
     if (selectedElement) {
@@ -251,28 +198,6 @@ function Plugin() {
       setIsPdSectionOpen(false);
     }
   }, [selectedElement]);
-
-  useEffect(() => {
-    if (collections && collections.length && !selectedCollection) {
-      const userCollections = collections.filter(
-        (collection: any) => collection.owner === currentUserId
-      );
-      setSelectedCollection(userCollections[0]);
-    }
-  }, [collections, selectedCollection, setSelectedCollection, token]);
-  //
-  //   async function collectionDocsHandler(token: string, collectionId: string) {
-  //     const data = await getCollectionDocs(token, collectionId);
-  //     if (data && data.length) {
-  //       setDataForUpdate(data);
-  //       setCurrentDocumentations(data);
-  //     } else {
-  //       setDataForUpdate([]);
-  //     }
-  //     setIsCollectionSwitching(false);
-  //     setIsLoading(false);
-  //   }
-
   useEffect(() => {
     if (collections && currentUserId) {
       const userCollections = collections.filter(
@@ -281,32 +206,6 @@ function Plugin() {
       setCurrentUserCollections(userCollections);
     }
   }, [collections, currentUserId]);
-
-  // useEffect(() => {
-  //   if (selectedCollection) {
-  //     collectionDocsHandler(token, selectedCollection._id);
-  //   }
-  // }, [selectedCollection, collectionDocsTrigger]);
-
-  // useEffect(() => {
-  //   if (token && currentUserId) {
-  //     getUserCollections(token, currentUserId);
-  //   }
-  // }, [token, currentUserId, collectionDocsTrigger]);
-
-  // useEffect(() => {
-  //   if (token) {
-  //     setCurrentUsers(token);
-  //   }
-  // }, [token]);
-
-  // useEffect(() => {
-  //   if (currentUserRole && currentUserRole === "Viewer") {
-  //     setIsViewModeOpen(true);
-  //   } else {
-  //     setIsViewModeOpen(false);
-  //   }
-  // }, [currentUserRole]);
 
   on("CHANGED_SELECTION", (data) => {
     setSelectionData(data);
@@ -336,7 +235,6 @@ function Plugin() {
     });
   });
 
-  //MARK: Auto open details page
   useEffect(() => {
     if (
       isFirstTime &&
@@ -380,58 +278,11 @@ function Plugin() {
     setSelectedNodeKey(key);
   });
 
-  on("COMPONENT_PIC_FOR_UPLOAD", async ({ bytes }) => {
-    // console.log("bytes", bytes);
-    setCurrentImageArray(bytes);
-  });
-
   function checkIfDocumentationExists(docs: any[], id: string) {
     if (docs.length && id) {
       return docs.find((doc) => doc._id === id);
     }
   }
-
-  // async function uploadComponentPic(bytes: Uint8Array, loggedInUser: string) {
-  //   const url = await sendRaster(bytes, loggedInUser, "componentPic");
-  //   if (url) {
-  //     setSelectedComponentPic(url);
-  //   }
-  // }
-
-  //   async function getUserCollections(token: string, userId: string) {
-  //     let collections = await getCollections(token, userId);
-  //
-  //     collections = collections.sort((a: any, b: any) => {
-  //       const aIsOwnedByUser = a.owner === userId;
-  //       const bIsOwnedByUser = b.owner === userId;
-  //
-  //       if (aIsOwnedByUser && !bIsOwnedByUser) {
-  //         return -1;
-  //       }
-  //       if (!aIsOwnedByUser && bIsOwnedByUser) {
-  //         return 1;
-  //       }
-  //       return 0;
-  //     });
-  //
-  //     setCollections(collections);
-  //   }
-
-  async function setCurrentUsers(token: string) {
-    const users = await getUsers(token);
-    setUsers(users);
-  }
-
-  // useEffect(() => {
-  //   if (
-  //     currentImageArray &&
-  //     currentImageArray.length &&
-  //     !selectedComponentPic &&
-  //     (showMainContent || isDetailsPageOpen)
-  //   ) {
-  //     uploadComponentPic(currentImageArray, loggedInUser);
-  //   }
-  // }, [currentImageArray, selectedComponentPic]);
 
   useEffect(() => {
     const found = checkIfDocumentationExists(dataForUpdate, selectedNodeKey);
@@ -529,24 +380,6 @@ function Plugin() {
     }
   }, [selectedNodeKey, selectedNodeId]);
 
-  useEffect(() => {
-    if (selectedComponentPic) {
-      setDocumentationData((prevDocumentation: any) => {
-        return {
-          ...prevDocumentation,
-          ["componentPic"]: selectedComponentPic,
-        };
-      });
-    } else {
-      setDocumentationData((prevDocumentation: any) => {
-        return {
-          ...prevDocumentation,
-          ["componentPic"]: "",
-        };
-      });
-    }
-  }, [selectedComponentPic]);
-
   function closePopup() {
     setIsToastOpen(false);
   }
@@ -556,13 +389,7 @@ function Plugin() {
   });
 
   useEffect(() => {
-    // console.log("dataForUpdate", dataForUpdate);
-    // console.log("documentationData", documentationData);
-    if (
-      documentationTitle
-      // &&
-      // (dataForUpdate.length || documentationData.docs.length)
-    ) {
+    if (documentationTitle) {
       const foundDoc = dataForUpdate.find(
         (doc: any) =>
           doc.title.toLowerCase() === documentationTitle.toLowerCase()
@@ -581,7 +408,6 @@ function Plugin() {
   }, [documentationTitle]);
 
   async function handleAddDocumentation(data: any) {
-    // console.log("data", data);
     if (isBuildingOnCanvas) emit("BUILD", data, appSettings);
     setIsBuildingOnCanvas(false);
     setDocumentationData((prevDocumentation: any) => {
@@ -593,45 +419,14 @@ function Plugin() {
   }
 
   useEffect(() => {
-    // console.log("dataForUpdate", dataForUpdate);
-  }, [dataForUpdate]);
-
-  useEffect(() => {
     if (Object.keys(documentationData).length > 0 && isBuilding) {
-      // console.log("documentationData", documentationData);
       handleAddDocumentation(documentationData);
     }
   }, [documentationData, isBuilding]);
 
-  // useEffect(() => {
-  //   if (isViewModeOpen && selectedMasterId && dataForUpdate) {
-  //     const foundData = dataForUpdate.find(
-  //       (item: any) => item._id === selectedMasterId
-  //     );
-  //     setSelectedSections(foundData.docs);
-  //   }
-  // }, [selectedMasterId, isViewModeOpen, dataForUpdate]);
-
   // //! Logout after 10 seconds of inactivity - IMPORTANT
-  // useEffect(() => {
-  //   let timeoutId: any;
-  //   if (isLoading) {
-  //     timeoutId = setTimeout(() => {
-  //       // emit("LOGOUT");
-  //       setIsLoading(false);
-  //       // setShowCrashLogoutPopup(true);
-  //     }, 10000); // 10 seconds
-  //   }
-  //   return () => {
-  //     if (timeoutId) {
-  //       clearTimeout(timeoutId);
-  //     }
-  //   };
-  // }, [isLoading]);
 
-  useEffect(() => {
-    // console.log("showNonEmptyCollectionPopup", showNonEmptyCollectionPopup);
-  }, [showNonEmptyCollectionPopup]);
+  useEffect(() => {}, [showNonEmptyCollectionPopup]);
 
   return (
     <div
@@ -652,15 +447,9 @@ function Plugin() {
         }
       }}
     >
-      {showFeedbackPopup && <FeedbackPopup />}
-      {/* {isLoading && <LoaderPage />} */}
       {showResetPopup && <ResetPopup />}
       {showDeletePopup && <DeletePopup />}
       {showDeleteSectionPopup && <DeleteSectionPopup />}
-      {showDeleteAccountPopup && <DeleteAccountPopup />}
-      {showPasswordResetPopup && <PasswordResetPopup />}
-      {showCrashLogoutPopup && <CrashLogoutPopup />}
-      {showNonEmptyCollectionPopup && <NoDeleteCollectionPopup />}
 
       {isToastOpen && toastMessage && <Toast onClose={closePopup} />}
 
