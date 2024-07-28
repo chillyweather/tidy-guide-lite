@@ -6,9 +6,7 @@ import { emit, on } from "@create-figma-plugin/utilities";
 import { h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 
-import ResetPopup from "./ui_components/popups/resetPopup";
 import DeletePopup from "./ui_components/popups/deletePopup";
-//! import EmptyIndex from "./ui_components/EmptyIndex";
 import DeleteSectionPopup from "./ui_components/popups/deleteSectionPopup";
 import Toast from "./ui_components/Toast";
 import ContentFromServer from "./ui_components/ContentFromServer";
@@ -24,7 +22,6 @@ import {
   dataForUpdateAtom,
   isDetailsPageOpenAtom,
   isFromSavedDataAtom,
-  isResetAtom,
   isBuildingAtom,
   isBuildingOnCanvasAtom,
   selectedElementAtom,
@@ -39,18 +36,15 @@ import {
   showDeleteSectionPopupAtom,
   showIndexPageAtom,
   showMainContentAtom,
-  showNonEmptyCollectionPopupAtom,
   showSettingsPageAtom,
   toastMessageAtom,
   toastTypeAtom,
   isPdSectionOpenAtom,
   documentationTitleAtom,
   isScrollAtom,
-  showResetPopupAtom,
   isCurrentNameValidAtom,
   isWipAtom,
   documentationDataAtom,
-  selectedCardAtom,
   isFirstTimeAtom,
 } from "./state/atoms";
 
@@ -71,11 +65,7 @@ function Plugin() {
   const [showSettingsPage] = useAtom(showSettingsPageAtom);
 
   const [showDeleteSectionPopup] = useAtom(showDeleteSectionPopupAtom);
-  const [showResetPopup, setShowResetPopup] = useAtom(showResetPopupAtom);
   const [showDeletePopup, setShowDeletePopup] = useAtom(showDeletePopupAtom);
-  const [showNonEmptyCollectionPopup] = useAtom(
-    showNonEmptyCollectionPopupAtom
-  );
 
   //data from server
   const [dataForUpdate, setDataForUpdate]: any = useAtom(dataForUpdateAtom);
@@ -94,21 +84,15 @@ function Plugin() {
 
   //!TODO: documentatation level states
   //documentation title
-  const [documentationTitle, setDocumentationTitle] = useAtom(
-    documentationTitleAtom
-  );
+  const [documentationTitle] = useAtom(documentationTitleAtom);
   //work in progress
-  const [isWip, setIsWip] = useAtom(isWipAtom);
+  const [isWip] = useAtom(isWipAtom);
   //selected element
   const [selectedElement, setSelectedElement] = useAtom(selectedElementAtom);
   const [selectedElementName, setSelectedElementName] = useAtom(
     selectedElementNameAtom
   );
-  const [, setSelectedCard] = useAtom(selectedCardAtom);
-  //selected cards
-  const [selectedSections, setSelectedSections] = useAtom(selectedSectionsAtom);
-  //element to delete
-  //documentation
+  const [selectedSections] = useAtom(selectedSectionsAtom);
   const [documentationData, setDocumentationData] = useAtom(
     documentationDataAtom
   );
@@ -123,8 +107,6 @@ function Plugin() {
   const [, setIsFromSavedData] = useAtom(isFromSavedDataAtom);
   //found existing documentation
   const [, setFoundDocumentation]: any = useState(null);
-  //reset documentation
-  const [isReset, setIsReset] = useAtom(isResetAtom);
   //is draft
   const [, setIsPdSectionOpen] = useAtom(isPdSectionOpenAtom);
 
@@ -208,12 +190,6 @@ function Plugin() {
     });
   }, [selectedSections]);
 
-  // on("SESSION", ({ user, document, page }) => {
-  //   setFigmaCurrentUser(user);
-  //   setCurrentDocument(document);
-  //   setCurrentPage(page);
-  // });
-
   on("FOUND_ELEMENT", (foundElement, foundElementName, key) => {
     setIsNewElementFound(true);
     setSelectedElement(foundElement);
@@ -274,20 +250,6 @@ function Plugin() {
       setIsFirstTime(false);
     }
   }, [showMainContent, showContentFromServer]);
-
-  useEffect(() => {
-    if (isReset) {
-      setDocumentationTitle("");
-      setIsWip(false);
-      setSelectedElement(null);
-      setSelectedElementName("");
-      setSelectedCard("");
-      setSelectedNodeKey("");
-      setSelectedSections([]);
-      setDocumentationData({ docs: [] });
-      setIsReset(false);
-    }
-  }, [isReset]);
 
   useEffect(() => {
     if (documentationTitle) {
@@ -367,8 +329,6 @@ function Plugin() {
 
   // //! Logout after 10 seconds of inactivity - IMPORTANT
 
-  useEffect(() => {}, [showNonEmptyCollectionPopup]);
-
   return (
     <div
       className={"container"}
@@ -382,12 +342,10 @@ function Plugin() {
       }}
       onKeyDown={(e) => {
         if (e.key === "Escape") {
-          setShowResetPopup(false);
           setShowDeletePopup(false);
         }
       }}
     >
-      {showResetPopup && <ResetPopup />}
       {showDeletePopup && <DeletePopup />}
       {showDeleteSectionPopup && <DeleteSectionPopup />}
 
