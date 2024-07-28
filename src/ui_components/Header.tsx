@@ -6,17 +6,11 @@ import { useState, useEffect } from "preact/hooks";
 import {
   isToBuildComponentPicAtom,
   currentPageAtom,
-  showLoginPageAtom,
   selectedElementAtom,
-  showIndexPageAtom,
-  showMainContentAtom,
-  showContentFromServerAtom,
-  showSettingsPageAtom,
   isDocJustOpenedAtom,
   documentationDataAtom,
   selectedSectionsAtom,
   isFromSavedDataAtom,
-  loggedInUserAtom,
 } from "src/state/atoms";
 import {
   showSettingsContentAtom,
@@ -52,9 +46,7 @@ const Header = () => {
   const [, setInitialSelectedSections] = useState(null);
   const [, setInitialDocumentationData] = useState(null);
   const [, setInitialSelectedSectionsLength] = useState(0);
-  const [avatarColor, setAvatarColor] = useState("#F584AD");
 
-  
   const [, setIsContenFromServerOpen] = useAtom(showContentFromServerAtom);
   const [, setIsSettingsPageOpen] = useAtom(showSettingsPageAtom);
   const [, setIsFirstTime] = useAtom(isFirstTimeAtom);
@@ -74,58 +66,6 @@ const Header = () => {
       setIsDocJustOpened(false);
     }
   }, [documentationData]);
-
-  const [loggedInUser] = useAtom(loggedInUserAtom);
-  function colorAavatar() {
-    const colorList = [
-      "#F584AD",
-      "#AC93F0",
-      "#D1423F",
-      "#DC1677",
-      "#C233A0",
-      "#6163E1",
-      "#246DB6",
-      "#008290",
-      "#7BA100",
-      "#9355D2",
-      "#6D8391",
-      "#3B814F",
-      "#8190EA",
-      "#50CE71",
-      "#F2BA3B",
-      "#030303",
-      "#E38072",
-      "#543150",
-      "#F8970C",
-      "#285736",
-      "#00BFA5",
-      "#FF7BAD",
-      "#84CE29",
-      "#FF6D00",
-      "#FF372B",
-      "#304FFE",
-    ];
-    const alphaUser =
-      loggedInUser.slice(0, 1).toLowerCase().charCodeAt(0) - 97 + 1;
-    const alphaToken =
-      loggedInUser
-        .slice(loggedInUser.lastIndexOf("@") - 1, loggedInUser.lastIndexOf("@"))
-        .toLowerCase()
-        .charCodeAt(0) -
-      97 +
-      1;
-    let selectedColorIndex = alphaUser - alphaToken;
-    if (selectedColorIndex < 0) {
-      selectedColorIndex *= -1;
-    }
-    const selectedColor = colorList[selectedColorIndex];
-    setAvatarColor(selectedColor);
-
-    const styles = ".user-tag{background-color:" + selectedColor + "}";
-    const styleSheet = document.createElement("style");
-    styleSheet.innerText = styles;
-    document.head.appendChild(styleSheet);
-  }
 
   return (
     <div className="header">

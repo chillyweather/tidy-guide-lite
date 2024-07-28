@@ -8,7 +8,6 @@ import {
   isCurrentNameValidAtom,
   selectedNodeIdAtom,
 } from "src/state/atoms";
-import { IconChevronDown } from "@tabler/icons-react";
 
 const Footer = () => {
   const [, setIsBuilding] = useAtom(isBuildingAtom);
@@ -59,10 +58,7 @@ const Footer = () => {
       <div className="leftFooterContent"></div>
       <div className="rightFooterContent">
         {isPublishDropdownOpen && <PublishButtonDropdown />}
-        <div
-          className={isValid ? "" : "split-disabled"}
-          disabled={!isValid}
-        >
+        <div className={isValid ? "" : "split-disabled"} disabled={!isValid}>
           <button
             className={isValid ? "primary" : "primary primary-disabled"}
             onClick={() => {
