@@ -4085,7 +4085,6 @@ body:has(.addSectionIcon[alt="release-notes"]) .addSectionPopup .addSectionCard:
   opacity: 1;
 }
 
-.sectionCard .cardHeader .hoverButton:focus,
 .sectionCard .cardHeader .hoverButton:focus-within {
   opacity: 1;
 }
