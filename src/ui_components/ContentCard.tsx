@@ -456,7 +456,7 @@ export const ContentCard = (card: any, index: number) => {
           <button
             onClick={handleBuildClick}
             className={"cardAuxButton hoverButton"}
-            tool-tip={"Build this section on canvasssss"}
+            tool-tip={"Build this section on canvas"}
           >
             <IconArtboard />
           </button>
