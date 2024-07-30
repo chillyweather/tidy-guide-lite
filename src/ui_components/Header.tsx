@@ -2,14 +2,14 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { IconArrowLeft, IconPlus } from "@tabler/icons-react";
 import { useAtom } from "jotai";
-import { useState, useEffect } from "preact/hooks";
+// import { useState, useEffect } from "preact/hooks";
 import {
   isToBuildComponentPicAtom,
   currentPageAtom,
   selectedElementAtom,
-  isDocJustOpenedAtom,
-  documentationDataAtom,
-  selectedSectionsAtom,
+  // isDocJustOpenedAtom,
+  // documentationDataAtom,
+  // selectedSectionsAtom,
   isFromSavedDataAtom,
 } from "src/state/atoms";
 import {
@@ -38,34 +38,19 @@ const Header = () => {
     useAtom(showMainContentAtom);
   const [isContenFromServerOpen] = useAtom(showContentFromServerAtom);
   const [isSettingsPageOpen] = useAtom(showSettingsPageAtom);
-  const [isDocJustOpened, setIsDocJustOpened] = useAtom(isDocJustOpenedAtom);
-  const [documentationData]: any = useAtom(documentationDataAtom);
-  const [selectedSections] = useAtom(selectedSectionsAtom);
+  // const [isDocJustOpened, setIsDocJustOpened] = useAtom(isDocJustOpenedAtom);
+  // const [documentationData]: any = useAtom(documentationDataAtom);
+  // const [selectedSections] = useAtom(selectedSectionsAtom);
   const [, setIsFromSavedData] = useAtom(isFromSavedDataAtom);
 
-  const [, setInitialSelectedSections] = useState(null);
-  const [, setInitialDocumentationData] = useState(null);
-  const [, setInitialSelectedSectionsLength] = useState(0);
+  // const [, setInitialSelectedSections] = useState(null);
+  // const [, setInitialDocumentationData] = useState(null);
+  // const [, setInitialSelectedSectionsLength] = useState(0);
 
   const [, setIsContenFromServerOpen] = useAtom(showContentFromServerAtom);
   const [, setIsSettingsPageOpen] = useAtom(showSettingsPageAtom);
   const [, setIsFirstTime] = useAtom(isFirstTimeAtom);
   const [, setShowSettingsContent] = useAtom(showSettingsContentAtom);
-  function closeMenu() {
-    // @ts-ignore
-    // document.getElementById("userMenu").open = false;
-  }
-
-  useEffect(() => {
-    if (documentationData && documentationData.title && isDocJustOpened) {
-      setInitialDocumentationData(
-        JSON.parse(JSON.stringify(documentationData))
-      );
-      setInitialSelectedSections(JSON.parse(JSON.stringify(selectedSections)));
-      setInitialSelectedSectionsLength(selectedSections!.length || 0);
-      setIsDocJustOpened(false);
-    }
-  }, [documentationData]);
 
   return (
     <div className="header">
@@ -108,7 +93,7 @@ const Header = () => {
         <div className={"side-flex"}>
           <button
             onClick={() => {
-              closeMenu();
+              // closeMenu();
               setIsLoginPageOpen(false);
               setIsIndexOpen(false);
               setIsMainContentOpen(false);

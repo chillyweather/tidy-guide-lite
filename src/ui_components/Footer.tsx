@@ -14,34 +14,12 @@ const Footer = () => {
   const [, setIsBuildingOnCanvas] = useAtom(isBuildingOnCanvasAtom);
   const [saveData, setSaveData] = useState(false);
   const [, setBuildOnCanvas] = useState(false);
-  const [isPublishDropdownOpen, setIsPublishDropdownOpen] = useState(false);
   const [documentationTitle] = useAtom(documentationTitleAtom);
   const [isCurrentNameValid] = useAtom(isCurrentNameValidAtom);
   const [selectedNodeId] = useAtom(selectedNodeIdAtom);
 
   const isValid =
     !!documentationTitle?.length && isCurrentNameValid && selectedNodeId;
-
-  function PublishButtonDropdown() {
-    return (
-      <div
-        className={"feedbackPopupBackground"}
-        // className={"feedbackPopupBackground invisible"}
-        onClick={() => {
-          console.log("will publish");
-          setSaveData(true);
-          setBuildOnCanvas(true);
-          setIsPublishDropdownOpen(false);
-        }}
-      ></div>
-    );
-  }
-
-  useEffect(() => {
-    if (!isValid) {
-      setIsPublishDropdownOpen(false);
-    }
-  }, [isValid, setIsPublishDropdownOpen]);
 
   useEffect(() => {
     handlePublish(
@@ -57,7 +35,6 @@ const Footer = () => {
     <div className={"footer"}>
       <div className="leftFooterContent"></div>
       <div className="rightFooterContent">
-        {isPublishDropdownOpen && <PublishButtonDropdown />}
         <div className={isValid ? "" : "split-disabled"} disabled={!isValid}>
           <button
             className={isValid ? "primary" : "primary primary-disabled"}

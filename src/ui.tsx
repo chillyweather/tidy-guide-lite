@@ -4,7 +4,7 @@ import { render } from "@create-figma-plugin/ui";
 
 import { emit, on } from "@create-figma-plugin/utilities";
 import { h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useState, useCallback, useMemo } from "preact/hooks";
 
 import DeletePopup from "./ui_components/popups/deletePopup";
 import DeleteSectionPopup from "./ui_components/popups/deleteSectionPopup";
@@ -82,7 +82,6 @@ function Plugin() {
   const [toastMessage, setToastMessage] = useAtom(toastMessageAtom);
   const [, setToastType] = useAtom(toastTypeAtom);
 
-  //!TODO: documentatation level states
   //documentation title
   const [documentationTitle] = useAtom(documentationTitleAtom);
   //work in progress
@@ -197,14 +196,17 @@ function Plugin() {
     setSelectedNodeKey(key);
   });
 
-  function checkIfDocumentationExists(docs: any[], id: string) {
-    if (docs.length && id) {
-      return docs.find((doc) => doc._id === id);
-    }
-  }
+  const checkIfDocumentationExists = useMemo(
+    () => (docs: any[], id: string) => {
+      if (docs.length && id) {
+        return docs.find((doc) => doc.nodeId === id);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
-    const found = checkIfDocumentationExists(dataForUpdate, selectedNodeKey);
+    const found = checkIfDocumentationExists(dataForUpdate, selectedNodeId);
     if (found && showMainContent && selectedElementName.length) {
       setFoundDocumentation(found);
       setIsToastOpen(true);
@@ -283,7 +285,7 @@ function Plugin() {
     }
   }, [selectedNodeKey, selectedNodeId]);
 
-  function closePopup() {
+  function closeToast() {
     setIsToastOpen(false);
   }
 
@@ -310,24 +312,19 @@ function Plugin() {
     }
   }, [documentationTitle]);
 
-  async function handleAddDocumentation(data: any) {
-    if (isBuildingOnCanvas) emit("BUILD", data, appSettings);
-    setIsBuildingOnCanvas(false);
-    setDocumentationData((prevDocumentation: any) => {
-      return {
-        ...prevDocumentation,
-        ["_id"]: data._id,
-      };
-    });
-  }
+  const handleAddDocumentation = useCallback(
+    async (data: any) => {
+      if (isBuildingOnCanvas) emit("BUILD", data, appSettings);
+      setIsBuildingOnCanvas(false);
+    },
+    [isBuildingOnCanvas, appSettings]
+  );
 
   useEffect(() => {
     if (Object.keys(documentationData).length > 0 && isBuilding) {
       handleAddDocumentation(documentationData);
     }
   }, [documentationData, isBuilding]);
-
-  // //! Logout after 10 seconds of inactivity - IMPORTANT
 
   return (
     <div
@@ -347,9 +344,10 @@ function Plugin() {
       }}
     >
       {showDeletePopup && <DeletePopup />}
+
       {showDeleteSectionPopup && <DeleteSectionPopup />}
 
-      {isToastOpen && toastMessage && <Toast onClose={closePopup} />}
+      {isToastOpen && toastMessage && <Toast onClose={closeToast} />}
 
       <Header />
 
