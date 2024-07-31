@@ -294,7 +294,7 @@ async function buildLabels(
   page: PageNode,
   settings?: any
 ) {
-  const units = settings.units;
+  const units = settings.units || "px";
   const dsGray600 = await setColorStyle(
     ".TG-admin/spacing-block-label",
     "707070"
