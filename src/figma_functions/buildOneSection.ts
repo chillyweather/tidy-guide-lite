@@ -7,6 +7,7 @@ import { buildAutoLayoutFrame, getDefaultElement } from "./utilityFunctions";
 import { buildTitle } from "src/figma_doc_sections/elementBuildingFunctions";
 import { getNode } from "./getNode";
 import { computeMaximumBounds } from "@create-figma-plugin/utilities";
+import { buildAnatomySpacings } from "./buildAnatomySpacings";
 
 export async function buildOneSection(
   loadFonts: () => Promise<void>,
@@ -63,6 +64,8 @@ async function buildSectionContent(
     frame.appendChild(title);
     await buildSpacingSection(node, frame, pluginSettings);
     adjustSpacingFrame(frame);
+    //! here be anatomy spacing
+    await buildAnatomySpacings(node, frame);
   } else if (type === "property") {
     const title = buildTitle("Property");
     frame.appendChild(title);

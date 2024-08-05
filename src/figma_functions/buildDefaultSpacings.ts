@@ -282,14 +282,14 @@ async function placeLabels(
   return { sizeAl, paddingsAl, spacingsAl };
 }
 
-function setTitlePosition(title: InstanceNode, frame: FrameNode) {
+export function setTitlePosition(title: InstanceNode, frame: FrameNode) {
   frame.appendChild(title);
   title.layoutPositioning = "ABSOLUTE";
   title.x = 16;
   title.y = 8;
 }
 
-async function buildLabels(
+export async function buildLabels(
   labelComponent: ComponentNode,
   page: PageNode,
   settings?: any

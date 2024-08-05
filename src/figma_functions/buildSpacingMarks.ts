@@ -10,7 +10,7 @@ const elementsCoordinatesAndDimensionsX: any = [];
 const elementsCoordinatesAndDimensionsY: any = [];
 
 function buildSpacingMarks(
-  frame: InstanceNode,
+  frame: any,
   selectedCheckboxes: any,
   sizeMarker: ComponentSetNode,
   spacingMarker: ComponentSetNode
