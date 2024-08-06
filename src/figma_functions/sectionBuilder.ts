@@ -12,6 +12,7 @@ import { buildReleaseNotes } from "src/figma_doc_sections/buildReleaseNotes";
 import { buildSpacingSection } from "src/figma_doc_sections/buildSpacingSection";
 import { buildPropSection } from "src/figma_doc_sections/buildPropSection";
 import { buildVarSection } from "src/figma_doc_sections/buildVarSection";
+import { buildAnatomySpacings } from "./buildAnatomySpacings";
 
 async function buildSection(
   element: any,
@@ -32,7 +33,8 @@ async function buildSection(
       break;
 
     case "spacing":
-      buildSpacingSection(currentNode, sectionFrame, appSettings);
+      await buildSpacingSection(currentNode, sectionFrame, appSettings);
+      await buildAnatomySpacings(currentNode, sectionFrame);
       break;
 
     case "property":

@@ -19,16 +19,21 @@ export async function buildAnatomySpacings(
   element: InstanceNode,
   frame: FrameNode
 ) {
+  const elements = getAnatomyElements(element);
+  if (!(elements && elements.length)) return;
+  const subtitle = figma.createText();
+  subtitle.fontName = {
+    family: "Inter",
+    style: "Semi Bold",
+  };
+  subtitle.fontSize = 32;
+  subtitle.characters = "Internal spacings";
+  frame.appendChild(subtitle);
   const booleanProperties = await findAllBooleanProps(element);
   const variantProperties = await findAllVariantProps(element);
   const elementSizes = (await getElementSizes(element)) || [];
-  // console.log(
-  //   "booleanProperties, variantProperties, elementSizes",
-  //   booleanProperties,
-  //   variantProperties,
-  //   elementSizes
-  // );
   const anatomyGroups: (FrameNode[] | null)[] = [];
+
   if (elementSizes && elementSizes.length) {
     for (const size of elementSizes) {
       const propNames = Object.keys(variantProperties);
@@ -40,6 +45,7 @@ export async function buildAnatomySpacings(
       }
       const spacings = await buildOneSizeAnatomySpacings(
         element,
+        elements,
         frame,
         booleanProperties
       );
@@ -48,6 +54,7 @@ export async function buildAnatomySpacings(
   } else {
     const spacings = await buildOneSizeAnatomySpacings(
       element,
+      elements,
       frame,
       booleanProperties
     );
@@ -58,6 +65,7 @@ export async function buildAnatomySpacings(
 
 async function buildOneSizeAnatomySpacings(
   element: InstanceNode,
+  elements: (InstanceNode | FrameNode)[],
   frame: FrameNode,
   booleanProperties: any
 ) {
@@ -74,14 +82,13 @@ async function buildOneSizeAnatomySpacings(
   if (!element.children) {
     return null;
   }
-  const elements = getAnatomyElements(element);
 
   const workingElements: any[] = [];
   let tempX = 0;
 
   elements.forEach((subElement, index) => {
     const currentElement = element.clone();
-    if (subElement.visible === true) {
+    if (subElement && subElement.visible === true) {
       workingElements.push({ currentElement, subElement, index });
     }
     turnAllBooleansOn(currentElement, booleanProperties);
@@ -163,29 +170,23 @@ async function buildOneSizeAnatomySpacings(
         anatomyLabel.layoutPositioning = "ABSOLUTE";
         anatomyLabel.setFillStyleIdAsync(dsGray600.id);
         frame.appendChild(anatomyAl);
-        //         const anatomyFrame = buildAutoLayoutFrame(
-        //           `${found.name}`,
-        //           "HORIZONTAL",
-        //           0,
-        //           0
-        //         );
-        //         anatomyFrame.appendChild(anatomyGroup);
-        //         anatomyFrame.paddingLeft = 160;
-        //         anatomyFrame.paddingRight = 160;
-        //         anatomyFrame.paddingTop = 40;
-        //         anatomyFrame.paddingBottom = 40;
-        //
-        //         anatomyFrame.setFillStyleIdAsync(dsGray100.id);
-        //         anatomyFrames.push(anatomyFrame);
+        anatomyAl.layoutSizingHorizontal = "HUG";
         dataElement.currentElement.opacity = 0.2;
       }
     }
   }
+  frame.children.forEach((element) => {
+    if (element.type === "FRAME") {
+      element.layoutSizingHorizontal = "FILL";
+    }
+  });
+  sizeMarker?.remove();
+  spacingMarker.remove();
   return anatomyFrames;
 }
 
 function getAnatomyElements(element: InstanceNode | FrameNode) {
-  const anatomyElements: FrameNode | InstanceNode[] = [];
+  const anatomyElements: FrameNode[] | InstanceNode[] = [];
   recurciveSearch(element, anatomyElements);
   const result = anatomyElements.filter(
     (item: any, index: number, self: any) =>

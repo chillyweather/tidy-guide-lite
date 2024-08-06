@@ -31,6 +31,7 @@ function buildIndexesFrame(frame: FrameNode) {
   indexes.maxWidth = 400;
   indexes.minWidth = 240;
   indexes.name = `${frame.name} - indexes`;
+  indexes.layoutSizingHorizontal = "HUG";
   return indexes;
 }
 
