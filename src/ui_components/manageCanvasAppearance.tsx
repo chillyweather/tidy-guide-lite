@@ -142,7 +142,7 @@ export default function manageCanvasAppearance() {
             </div>
           </div>
           <div className="tags-settings-element">
-            <p style={{ margin: 0 }}>Stroke style:</p>
+            <p style={{ margin: 0 }}>style:</p>
             <div className="appearance-button-wrapper">
               <RadioButton
                 selectedOption={lineType}

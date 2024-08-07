@@ -54,7 +54,6 @@ export const currentUserIdAtom = atom("");
 export const currentUserRoleAtom = atom("");
 export const currentDocumentationsAtom = atom(null);
 export const documentationDataAtom = atom({ docs: [] });
-// export const documentationDataAtom = atom({ docs: [] });
 export const userRankAtom = atom("");
 export const loggedInUserAtom = atom("");
 
@@ -96,7 +95,6 @@ export const isCollectionSwitchingAtom = atom(false);
 
 //show forms
 export const showEditUserFormAtom = atom(false);
-// export const showEditCollectionFormAtom = atom(false);
 
 //popup trigger states
 export const showCrashLogoutPopupAtom = atom(false);
@@ -110,10 +108,6 @@ export const showResetPopupAtom = atom(false);
 //toast states
 export const toastMessageAtom = atom("");
 export const toastTypeAtom = atom("idle");
-
-//add user/collection (settings)
-// export const errorMessageAtom = atom("");
-// export const isAddErrorAtom = atom(false);
 
 //show non empty collection
 export const showNonEmptyCollectionPopupAtom = atom(false);

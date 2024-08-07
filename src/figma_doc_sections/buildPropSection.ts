@@ -114,21 +114,23 @@ export async function buildPropSection(
       elementFrame.appendChild(wrapper);
       wrapper.appendChild(onWrapper);
       wrapper.appendChild(offWrapper);
-      const onText = figma.createText();
-      onText.characters = "On";
-      onText.fontSize = 14;
-      onText.fontName = { family: "Inter", style: "Semi Bold" };
-      const offText = figma.createText();
-      offText.characters = "Off";
-      offText.fontSize = 14;
-      offText.fontName = { family: "Inter", style: "Semi Bold" };
+      const onText = buildPropTitle("on");
+      const offText = buildPropTitle("off");
       onWrapper.appendChild(onText);
       onWrapper.appendChild(clonedNode);
       onWrapper.counterAxisAlignItems = "CENTER";
       offWrapper.appendChild(offText);
       offWrapper.appendChild(currentNode);
       offWrapper.counterAxisAlignItems = "CENTER";
-      // allElementsFrame.appendChild(wrapper);
+      if (onWrapper.height !== offWrapper.height) {
+        console.log("different heights");
+        const diff = Math.abs(onWrapper.height - offWrapper.height);
+        if (onWrapper.height > offWrapper.height) {
+          offWrapper.itemSpacing += diff;
+        } else {
+          onWrapper.itemSpacing += diff;
+        }
+      }
       elementFrame.layoutSizingHorizontal = "FILL";
       elementFrame.counterAxisAlignItems = "CENTER";
     });
@@ -141,6 +143,14 @@ export async function buildPropSection(
   }
   parentFrame.name = parentFrame.name + "- Properties";
   return parentFrame;
+}
+
+function buildPropTitle(text: string) {
+  const onText = figma.createText();
+  onText.characters = text;
+  onText.fontSize = 14;
+  onText.fontName = { family: "Inter", style: "Semi Bold" };
+  return onText;
 }
 
 function buildVarProperytyElement(

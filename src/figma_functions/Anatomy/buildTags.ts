@@ -11,6 +11,7 @@ import { buildAutoLayoutFrame, setVariantProps } from "../utilityFunctions";
 import { getEffects } from "../getEffects";
 import { setTextContent } from "../utilityFunctions";
 import { buildIndexElementForText } from "./buildIndexElementForText";
+import { toTitleCase } from "../utilityFunctions";
 // import main from 'token2css';
 
 export default async function buildTags(
@@ -521,7 +522,7 @@ function setStrokeProps(
     : setTextContent(
         tag,
         "Text",
-        `${strokeKind} - ${strokeWeight}px, ${strokeAlign}`
+        `${strokeKind} - ${strokeWeight}px, ${toTitleCase(strokeAlign)}`
       );
 
   const indexLink = tag.findOne((element: any) => element.name === "link");

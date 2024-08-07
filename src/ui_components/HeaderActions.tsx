@@ -47,6 +47,7 @@ import {
   isScrollAtom,
 } from "src/state/atoms";
 import { deleteFileFromServer } from "./ui_functions/fileManagementFunctions";
+import { useEffect } from "react";
 // import { useEffect } from "react";
 
 const cardsForPopup = sectionData;
@@ -59,6 +60,10 @@ function AddSectionPopupCard(card: any) {
   const [selectedSections, setSelectedSections]: any =
     useAtom(selectedSectionsAtom);
   const pdTypes = ["anatomy", "spacing", "property", "variants"];
+
+  useEffect(() => {
+    console.log("selectedElement", selectedElement);
+  }, [selectedElement]);
 
   return (
     <div className={"addSection-outer"}>

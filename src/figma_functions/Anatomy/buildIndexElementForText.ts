@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { buildAutoLayoutFrame, setTextContent } from "../utilityFunctions";
 import { makeCollapsibleComponent } from "../utilityFunctions";
+// import { toTitleCase } from "../utilityFunctions";
 
 export function buildIndexElementForText(
   parent: FrameNode,
@@ -162,7 +163,6 @@ function buildTextData(
   unit: string,
   rootValue: number
 ): FrameNode {
-  console.log("element!!!!!!!!!!!!!!!!!", element);
   const textData = `font-family: ${element.elementFontName.family};
 font-size: ${
     isRem
@@ -173,7 +173,7 @@ font-style: ${element.elementFontName.style};
 font-weight: ${element.elementFontWeight};
 line-height: ${element.elementLineHeight.value || "AUTO"};
 letter-spacing: ${element.elementLetterSpacing};
-text-decoration: ${element.elementTextDecoration};
+text-decoration: ${element.elementTextDecoration.toLowerCase()};
 text-case: ${element.elementTextCase};`;
 
   const text = figma.createText();

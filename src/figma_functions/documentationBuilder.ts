@@ -18,12 +18,15 @@ export default async function documentationBuilder(
 ) {
   await loadFonts();
 
-  const bounds = computeMaximumBounds(Array.from(figma.currentPage.children));
+  const children = figma.currentPage.children;
+  const bounds = computeMaximumBounds(Array.from(children));
 
   const documentationFrame = buildDocumentationFrame();
   figma.currentPage.appendChild(documentationFrame);
-  documentationFrame.x = bounds[1].x + 100;
-  documentationFrame.y = bounds[0].y;
+  if (children && children.length) {
+    documentationFrame.x = bounds[1].x + 100;
+    documentationFrame.y = bounds[0].y;
+  }
 
   const headerSectionFrame = buildSectionFrame();
   documentationFrame.appendChild(headerSectionFrame);

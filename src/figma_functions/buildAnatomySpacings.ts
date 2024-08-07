@@ -87,14 +87,18 @@ async function buildOneSizeAnatomySpacings(
   let tempX = 0;
 
   elements.forEach((subElement, index) => {
-    const currentElement = element.clone();
-    if (subElement && subElement.visible === true) {
-      workingElements.push({ currentElement, subElement, index });
+    try {
+      const currentElement = element.clone();
+      if (subElement && subElement.visible === true) {
+        workingElements.push({ currentElement, subElement, index });
+      }
+      turnAllBooleansOn(currentElement, booleanProperties);
+      frame.appendChild(currentElement);
+      currentElement.x = tempX;
+      tempX += 300;
+    } catch (error) {
+      //
     }
-    turnAllBooleansOn(currentElement, booleanProperties);
-    frame.appendChild(currentElement);
-    currentElement.x = tempX;
-    tempX += 300;
   });
 
   const anatomyFrames: FrameNode[] = [];
@@ -320,20 +324,21 @@ function changeSizingMarkerCharacters(
   node: InstanceNode,
   position = `${node.componentProperties.position.value}`
 ) {
-  //! find position property
   if (position === "left" || position === "right") {
     const textElement = node.children.find((node) => node.type === "TEXT");
     const size = Math.round(node.height);
-    if (textElement) {
-      textElement.characters = `${size}`;
-      const diff = 16 - textElement.width;
-      const newWidth = node.width - diff;
-      node.resize(newWidth, node.height);
+    if (textElement && textElement.type === "TEXT") {
+      {
+        textElement.characters = `${size}`;
+        const diff = 16 - textElement.width;
+        const newWidth = node.width - diff;
+        node.resize(newWidth, node.height);
+      }
     }
   } else {
     const textElement = node.children.find((node) => node.type === "TEXT");
     const size = Math.round(node.width);
-    if (textElement) {
+    if (textElement && textElement.type === "TEXT") {
       textElement.characters = `${size}`;
     }
   }

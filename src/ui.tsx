@@ -117,7 +117,6 @@ function Plugin() {
       setAppSettings(settings);
     }
   });
-  useEffect(() => {}, [showIndexPage]);
 
   useEffect(() => {
     if (showSettingsPage || showIndexPage) {
