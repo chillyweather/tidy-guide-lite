@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { buildAutoLayoutFrame, setTextContent } from "../utilityFunctions";
 import { makeCollapsibleComponent } from "../utilityFunctions";
+import { buildElementData } from "./buildElementData";
 // import { toTitleCase } from "../utilityFunctions";
 
 export function buildIndexElementForText(
@@ -39,13 +40,19 @@ export function buildIndexElementForText(
   );
 
   const textStyleFrame = buildTextStyleData(element, textStyleSection);
-  const textDataFrame = buildTextData(
-    element,
-    textDataSection,
-    isRem,
-    unit,
-    rootValue
-  );
+  const textData = `font-family: ${element.elementFontName.family};
+font-size: ${
+    isRem
+      ? (parseInt(element.elementFontSize) / rootValue).toFixed(2)
+      : element.elementFontSize
+  }${unit};
+font-style: ${element.elementFontName.style};
+font-weight: ${element.elementFontWeight};
+line-height: ${element.elementLineHeight.value || "AUTO"};
+letter-spacing: ${element.elementLetterSpacing};
+text-decoration: ${element.elementTextDecoration.toLowerCase()};
+text-case: ${element.elementTextCase};`;
+  const textDataFrame = buildElementData(textDataSection, textData);
   const textColorFrame = buildTextColorSection(element, testColorSection);
 
   const data = buildAutoLayoutFrame("index-data", "VERTICAL", 0, 0, 12);
@@ -148,66 +155,6 @@ function buildTextStyleData(element: any, frame: FrameNode): FrameNode {
         r: 0.9330241084098816,
         g: 0.9330241084098816,
         b: 0.9330241084098816,
-      },
-      boundVariables: {},
-    },
-  ];
-
-  return frame;
-}
-
-function buildTextData(
-  element: any,
-  frame: FrameNode,
-  isRem: boolean,
-  unit: string,
-  rootValue: number
-): FrameNode {
-  const textData = `font-family: ${element.elementFontName.family};
-font-size: ${
-    isRem
-      ? (parseInt(element.elementFontSize) / rootValue).toFixed(2)
-      : element.elementFontSize
-  }${unit};
-font-style: ${element.elementFontName.style};
-font-weight: ${element.elementFontWeight};
-line-height: ${element.elementLineHeight.value || "AUTO"};
-letter-spacing: ${element.elementLetterSpacing};
-text-decoration: ${element.elementTextDecoration.toLowerCase()};
-text-case: ${element.elementTextCase};`;
-
-  const text = figma.createText();
-  text.fontName = { family: "IBM Plex Mono", style: "Medium" };
-  text.characters = textData;
-  frame.appendChild(text);
-
-  frame.strokeLeftWeight = 1;
-  frame.paddingLeft = 19;
-  frame.strokes = [
-    {
-      type: "SOLID",
-      visible: true,
-      opacity: 1,
-      blendMode: "NORMAL",
-      color: {
-        r: 0.8299999833106995,
-        g: 0.8299999833106995,
-        b: 0.8299999833106995,
-      },
-      boundVariables: {},
-    },
-  ];
-
-  frame.fills = [
-    {
-      type: "SOLID",
-      visible: true,
-      opacity: 1,
-      blendMode: "NORMAL",
-      color: {
-        r: 0.9803921580314636,
-        g: 0.9803921580314636,
-        b: 0.9803921580314636,
       },
       boundVariables: {},
     },

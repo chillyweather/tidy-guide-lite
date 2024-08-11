@@ -12,7 +12,7 @@ import { getEffects } from "../getEffects";
 import { setTextContent } from "../utilityFunctions";
 import { buildIndexElementForText } from "./buildIndexElementForText";
 import { toTitleCase } from "../utilityFunctions";
-// import main from 'token2css';
+import { addBorderRadius } from "./addBorderRadius";
 
 export default async function buildTags(
   tagComponent: ComponentSetNode | undefined,
@@ -341,75 +341,6 @@ function addEffectsInfo(
     }
     indexes.appendChild(indexInfo);
   });
-}
-
-function addBorderRadius(
-  frame: any,
-  tagComponent: ComponentSetNode,
-  indexes: FrameNode,
-  isRem: boolean = false,
-  rootValue: number = 16,
-  unit: string = "px"
-) {
-  if (frame.cornerRadius !== 0) {
-    const tag = tagComponent.findOne(
-      (node) => node.name === "type=cornerRadius"
-    );
-    if (!(tag && tag.type === "COMPONENT")) return;
-    if (frame.cornerRadius !== figma.mixed) {
-      const indexInfo = tag.createInstance();
-      indexInfo.name = ".corner-radius";
-      const cornerRadius = frame.cornerRadius;
-      if (indexInfo.children[1].type === "TEXT") {
-        isRem
-          ? (indexInfo.children[1].characters = `Corner radius - ${(
-              cornerRadius / rootValue
-            ).toFixed(3)}${unit}`)
-          : (indexInfo.children[1].characters = `Border radius - ${cornerRadius}${unit}`);
-        indexes.appendChild(indexInfo);
-      }
-      return;
-    } else if (frame.cornerRadius === figma.mixed) {
-      const ltRadiusIndex = tag.createInstance();
-      const rtRadiusIndex = tag.createInstance();
-      const rbRadiusIndex = tag.createInstance();
-      const lbRadiusIndex = tag.createInstance();
-
-      const leftTopRadius = isRem
-        ? frame.topLeftRadius.toFixed(2)
-        : frame.topLeftRadius;
-      const rightTopRadius = isRem
-        ? frame.topRightRadius.toFixed(2)
-        : frame.topRightRadius;
-      const rightBottomRadius = isRem
-        ? frame.bottomRightRadius.toFixed(2)
-        : frame.bottomRightRadius;
-      const leftBottomRadius = isRem
-        ? frame.bottomLeftRadius.toFixed(2)
-        : frame.bottomLeftRadius;
-
-      if (ltRadiusIndex.children[1].type === "TEXT")
-        ltRadiusIndex.children[1].characters = `Top left corner radius - ${leftTopRadius}${unit}`;
-      if (rtRadiusIndex.children[1].type === "TEXT")
-        rtRadiusIndex.children[1].characters = `Top right corner radius - ${rightTopRadius}${unit}`;
-      if (rbRadiusIndex.children[1].type === "TEXT")
-        rbRadiusIndex.children[1].characters = `Bottom right corner radius - ${rightBottomRadius}${unit}`;
-      if (lbRadiusIndex.children[1].type === "TEXT")
-        lbRadiusIndex.children[1].characters = `Bottom left corner radius - ${leftBottomRadius}${unit}`;
-
-      const cornerIndexes = [
-        ltRadiusIndex,
-        rtRadiusIndex,
-        rbRadiusIndex,
-        lbRadiusIndex,
-      ];
-
-      cornerIndexes.forEach((node) => {
-        indexes.appendChild(node);
-      });
-      return;
-    }
-  }
 }
 
 function addMaxWidth(

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Checkbox, Text } from "@create-figma-plugin/ui";
 import { h, JSX } from "preact";
 

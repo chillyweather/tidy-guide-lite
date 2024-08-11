@@ -61,7 +61,6 @@ export async function buildTag(
   label?: string,
   isLink = true
 ) {
-  console.log("settings >>>>", settings, "type >>>>", type);
   const TGWhite = await setColorStyle(".TG-admin/anatomy-icon", "FFFFFF");
   const TGGray600 = await setColorStyle(
     ".TG-admin/anatomy-secondary",

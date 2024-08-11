@@ -34,7 +34,10 @@ async function buildSection(
 
     case "spacing":
       await buildSpacingSection(currentNode, sectionFrame, appSettings);
-      await buildAnatomySpacings(currentNode, sectionFrame);
+      const isInternalSpacing = element.content.isInternalSpacing;
+      if (isInternalSpacing) {
+        await buildAnatomySpacings(currentNode, sectionFrame);
+      }
       break;
 
     case "property":

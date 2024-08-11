@@ -19,6 +19,7 @@ import {
   selectedSectionsAtom,
   currentFigmaPageAtom,
   currentFigmaFileAtom,
+  isInternalSpacingAtom,
 } from "../state/atoms";
 import {
   IconGripVertical,
@@ -91,6 +92,9 @@ export const ContentCard = (card: any, index: number) => {
   const [isBuilding, setIsBuilding] = useAtom(isBuildingAtom);
   const [selectedCard, setSelectedCard] = useAtom(selectedCardAtom);
   const [, setSelectedSections]: any = useAtom(selectedSectionsAtom);
+  const [isInternalSpacing, setIsInternalSpacing] = useAtom(
+    isInternalSpacingAtom
+  );
 
   //card title
   const [cardTitle, setCardTitle] = useState(card.title);
@@ -178,6 +182,12 @@ export const ContentCard = (card: any, index: number) => {
   }
 
   useEffect(() => {
+    if (isFromSavedData) {
+      setIsInternalSpacing(card.content.isInternalSpacing);
+    }
+  }, [isFromSavedData]);
+
+  useEffect(() => {
     if (
       !card.content.remoteImageLink &&
       currentImageArray &&
@@ -224,6 +234,7 @@ export const ContentCard = (card: any, index: number) => {
       //anatomy content
       anatomyIndexPosition: anatomyIndexPosition || "left",
       anatomyIndexSpacing: anatomyIndexSpacing || "32",
+      isInternalSpacing: isInternalSpacing,
       //two column content
       subtitle1: leftTitle,
       subtitle2: rightTitle,
@@ -366,6 +377,7 @@ export const ContentCard = (card: any, index: number) => {
       anatomyIndexPosition,
       anatomyIndexSpacing,
       appSettings,
+      isInternalSpacing,
     });
   }
 

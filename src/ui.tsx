@@ -46,6 +46,7 @@ import {
   isWipAtom,
   documentationDataAtom,
   isFirstTimeAtom,
+  checkExistingDocumentAtom,
 } from "./state/atoms";
 
 //styles
@@ -110,6 +111,9 @@ function Plugin() {
   const [, setIsPdSectionOpen] = useAtom(isPdSectionOpenAtom);
 
   const [, setIsCurrentNameValid] = useAtom(isCurrentNameValidAtom);
+  const [checkExistingDocument, setCheckExistingDocument] = useAtom(
+    checkExistingDocumentAtom
+  );
 
   on("SETTINGS", (settings: any) => {
     if (settings) {
@@ -156,6 +160,7 @@ function Plugin() {
         ["inProgress"]: isWip,
       };
     });
+    setCheckExistingDocument(true);
   });
 
   useEffect(() => {
@@ -205,18 +210,21 @@ function Plugin() {
   );
 
   useEffect(() => {
-    const found = checkIfDocumentationExists(dataForUpdate, selectedNodeId);
-    if (found && showMainContent && selectedElementName.length) {
-      setFoundDocumentation(found);
-      setIsToastOpen(true);
-      setToastType("idle");
-      setToastMessage(
-        `Documentations must be unique, this element already have one in: \n${found.title}`
-      );
-      setSelectedElement(null);
-      setSelectedElementName("");
+    if (checkExistingDocument) {
+      const found = checkIfDocumentationExists(dataForUpdate, selectedNodeId);
+      if (found && showMainContent && selectedElementName.length) {
+        setFoundDocumentation(found);
+        setIsToastOpen(true);
+        setToastType("idle");
+        setToastMessage(
+          `Documentations must be unique, this element already have one in: \n${found.title}`
+        );
+        setSelectedElement(null);
+        setSelectedElementName("");
+      }
+      setCheckExistingDocument(false);
     }
-  }, [selectedNodeKey, selectedElement]);
+  }, [checkExistingDocument]);
 
   useEffect(() => {
     if (

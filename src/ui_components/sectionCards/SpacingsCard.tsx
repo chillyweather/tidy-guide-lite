@@ -1,10 +1,19 @@
 import { h } from "preact";
-import emptyImage from "../../images/empty.svg";
+import CheckboxElement from "../Checkbox";
+import { useAtom } from "jotai";
+import { isInternalSpacingAtom } from "src/state/atoms";
 
-const SpacingsCard = ({}: {}) => {
+const SpacingsCard = () => {
+  const [isInternalSpacing, setIsInternalSpacing] = useAtom(
+    isInternalSpacingAtom
+  );
   return (
-    <div className="nothingCards">
-      <p>This element will only be visible on canvas</p>
+    <div className="nothingCards" style={{ marginLeft: "112px" }}>
+      <CheckboxElement
+        value={isInternalSpacing}
+        setValue={setIsInternalSpacing}
+        label="Internal Spacings"
+      />
     </div>
   );
 };

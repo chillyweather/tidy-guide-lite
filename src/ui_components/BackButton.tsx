@@ -3,24 +3,26 @@ import { useAtom } from "jotai";
 import { useEffect } from "preact/hooks";
 import {
   currentPageAtom,
+  documentationTitleAtom,
   isDetailsPageOpenAtom,
+  isDocJustOpenedAtom,
+  isResetAtom,
   isToBuildComponentPicAtom,
-  selectedNodeKeyAtom,
-  selectedNodeIdAtom,
   selectedComponentPicAtom,
   selectedElementAtom,
   selectedElementNameAtom,
+  selectedSectionsAtom,
+  selectedNodeIdAtom,
+  selectedNodeKeyAtom,
+  showContentFromServerAtom,
+  showEditUserFormAtom,
   showIndexPageAtom,
   showMainContentAtom,
-  showContentFromServerAtom,
-  showSettingsPageAtom,
-  isDocJustOpenedAtom,
-  isResetAtom,
-  showSettingsContentAtom,
-  showManageUsersPageAtom,
-  showManageCollectionsPageAtom,
-  showEditUserFormAtom,
   showManageCanvasAppearanceAtom,
+  showManageCollectionsPageAtom,
+  showManageUsersPageAtom,
+  showSettingsContentAtom,
+  showSettingsPageAtom,
 } from "../state/atoms";
 import { IconArrowLeft } from "@tabler/icons-react";
 
@@ -48,6 +50,8 @@ export default function BackButton() {
   const [, setShowManageCanvasAppearance] = useAtom(
     showManageCanvasAppearanceAtom
   );
+  const [, setSelectedSections] = useAtom(selectedSectionsAtom);
+  const [, setDocumentationTitle] = useAtom(documentationTitleAtom);
 
   useEffect(() => {
     console.log("currentPage", currentPage);
@@ -73,6 +77,8 @@ export default function BackButton() {
     setShowSettingsContent(false);
     setShowManageCollectionsPage(false);
     setShowEditUserForm(false);
+    setSelectedSections([]);
+    setDocumentationTitle("");
   }
 
   function backToSettings() {

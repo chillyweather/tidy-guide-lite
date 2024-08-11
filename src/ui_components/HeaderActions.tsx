@@ -213,6 +213,10 @@ function HeaderActions() {
   const [documentationTitle] = useAtom(documentationTitleAtom);
   const [isScroll] = useAtom(isScrollAtom);
 
+  // useEffect(() => {
+  //   console.log("selectedElementName>>>>>>>>>>>>>", selectedElementName);
+  // }, [selectedElementName]);
+
   return (
     <div
       class={"headerContent headerActions"}

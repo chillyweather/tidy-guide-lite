@@ -109,6 +109,7 @@ export default async function () {
       anatomyIndexPosition,
       anatomyIndexSpacing,
       appSettings,
+      isInternalSpacing,
     }) => {
       buildOneSection(
         loadFonts,
@@ -117,7 +118,8 @@ export default async function () {
         cardType,
         anatomyIndexPosition,
         anatomyIndexSpacing,
-        appSettings
+        appSettings,
+        isInternalSpacing
       );
     }
   );

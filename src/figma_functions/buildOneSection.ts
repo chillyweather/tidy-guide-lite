@@ -16,7 +16,8 @@ export async function buildOneSection(
   type: string,
   indexPosition?: string,
   indexSpacing?: string,
-  pluginSettings?: any
+  pluginSettings?: any,
+  isInternalSpacing?: boolean
 ) {
   await loadFonts();
   const foundNode = await getNodeAndDefaultElement(nodeId, nodeKey);
@@ -29,7 +30,8 @@ export async function buildOneSection(
     instance,
     indexPosition,
     indexSpacing,
-    pluginSettings
+    pluginSettings,
+    isInternalSpacing
   );
 
   instance.remove();
@@ -41,7 +43,8 @@ async function buildSectionContent(
   node: InstanceNode,
   indexPosition?: string,
   indexSpacing?: string,
-  pluginSettings?: any
+  pluginSettings?: any,
+  isInternalSpacing?: boolean
 ) {
   const frame = buildResultFrame();
 
@@ -65,7 +68,7 @@ async function buildSectionContent(
     await buildSpacingSection(node, frame, pluginSettings);
     adjustSpacingFrame(frame);
     //! here be anatomy spacing
-    await buildAnatomySpacings(node, frame);
+    if (isInternalSpacing) await buildAnatomySpacings(node, frame);
   } else if (type === "property") {
     const title = buildTitle("Property");
     frame.appendChild(title);

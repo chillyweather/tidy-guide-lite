@@ -13,7 +13,6 @@ async function findFontStyleName(textNode: TextNode) {
     const foundStyle = await figma.getStyleByIdAsync(
       textNode.textStyleId as string
     );
-    console.log("textNode style", foundStyle);
     if (foundStyle) return foundStyle.name;
     // if (foundStyle?.remote === false) {
     //   return foundStyle.name;
@@ -47,7 +46,6 @@ export async function addTextNodesToArray(
   node: any,
   array: any[]
 ): Promise<void> {
-  console.log("node", node);
   const nodeFillColor = getTextNodeColor({ node });
   const variable = await getFillColorVariable(node);
   const styleName = await findFontStyleName(node);

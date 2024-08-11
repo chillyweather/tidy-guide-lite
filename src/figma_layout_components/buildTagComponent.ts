@@ -2,7 +2,6 @@
 import { buildTag } from "./buildTag";
 
 export default async function buildAllTags(settings: any) {
-  console.log("settings in buildTagComponent", settings);
   const tagBottomLine = await buildTag("A", "bottom", settings);
   tagBottomLine!.name = "type=bottom line";
   const tagTopLine = await buildTag("B", "top", settings);

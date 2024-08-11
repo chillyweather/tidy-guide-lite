@@ -11,6 +11,8 @@ export const currentPageAtom = atom<CurrenPage>("login");
 export const currentFigmaPageAtom = atom("");
 export const currentFigmaFileAtom = atom("");
 
+export const checkExistingDocumentAtom = atom(false);
+
 //settings
 export const appSettingsAtom = atom({});
 export const settingsUnitsAtom = atom("px");
@@ -77,6 +79,7 @@ export const isDraftAtom = atom(false);
 export const isWipAtom = atom(false);
 
 export const isScrollAtom = atom(false);
+export const isInternalSpacingAtom = atom(true);
 
 //collections
 export const collectionsAtom = atom([]);
