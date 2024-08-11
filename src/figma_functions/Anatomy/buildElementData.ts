@@ -1,44 +1,55 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export function buildElementData(
   frame: FrameNode,
   textData: string
 ): FrameNode {
+  const text = createText(textData);
+  frame.appendChild(text);
+
+  applyFrameStyles(frame);
+
+  return frame;
+}
+
+function createText(textData: string): TextNode {
   const text = figma.createText();
   text.fontName = { family: "IBM Plex Mono", style: "Medium" };
   text.characters = textData;
-  frame.appendChild(text);
+  return text;
+}
 
+function applyFrameStyles(frame: FrameNode): void {
   frame.strokeLeftWeight = 1;
   frame.paddingLeft = 19;
-  frame.strokes = [
-    {
-      type: "SOLID",
-      visible: true,
-      opacity: 1,
-      blendMode: "NORMAL",
-      color: {
-        r: 0.8299999833106995,
-        g: 0.8299999833106995,
-        b: 0.8299999833106995,
-      },
-      boundVariables: {},
-    },
-  ];
+  frame.strokes = [createStroke()];
+  frame.fills = [createFill()];
+}
 
-  frame.fills = [
-    {
-      type: "SOLID",
-      visible: true,
-      opacity: 1,
-      blendMode: "NORMAL",
-      color: {
-        r: 0.9803921580314636,
-        g: 0.9803921580314636,
-        b: 0.9803921580314636,
-      },
-      boundVariables: {},
+function createStroke(): Paint {
+  return {
+    type: "SOLID",
+    visible: true,
+    opacity: 1,
+    blendMode: "NORMAL",
+    color: {
+      r: 0.8299999833106995,
+      g: 0.8299999833106995,
+      b: 0.8299999833106995,
     },
-  ];
+    boundVariables: {},
+  };
+}
 
-  return frame;
+function createFill(): Paint {
+  return {
+    type: "SOLID",
+    visible: true,
+    opacity: 1,
+    blendMode: "NORMAL",
+    color: {
+      r: 0.9803921580314636,
+      g: 0.9803921580314636,
+      b: 0.9803921580314636,
+    },
+    boundVariables: {},
+  };
 }
