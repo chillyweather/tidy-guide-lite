@@ -68,7 +68,7 @@ import VideoCard from "./sectionCards/VideoCard";
 import SpacingsCard from "./sectionCards/SpacingsCard";
 import { useEffect } from "preact/hooks";
 import { sendRaster } from "./ui_functions/sendRaster";
-import DosDontsCard from "./sectionCards/DosDonts";
+// import DosDontsCard from "./sectionCards/DosDonts";
 
 function makeDraggable(event: any) {
   event.target.parentElement.parentElement.parentElement.parentElement.setAttribute(
@@ -123,12 +123,12 @@ export const ContentCard = (card: any, index: number) => {
   const [rightItems, setRightItems] = useState(
     isFromSavedData ? card.content.items2 : []
   );
-  const [leftTextContent, setLeftTextContent] = useState(
-    isFromSavedData ? card.content.text1 : ""
-  );
-  const [rightTextContent, setRightTextContent] = useState(
-    isFromSavedData ? card.content.text2 : ""
-  );
+  // const [leftTextContent, setLeftTextContent] = useState(
+  //   isFromSavedData ? card.content.text1 : ""
+  // );
+  // const [rightTextContent, setRightTextContent] = useState(
+  //   isFromSavedData ? card.content.text2 : ""
+  // );
   // list
   const [listItems, setListItems] = useState<string[]>(
     isFromSavedData ? card.content.inputs : [""]
@@ -245,8 +245,8 @@ export const ContentCard = (card: any, index: number) => {
       //two column content
       subtitle1: leftTitle,
       subtitle2: rightTitle,
-      text1: leftTextContent,
-      text2: rightTextContent,
+      leftItems,
+      rightItems,
       //link content
       sources: sources,
       //list content
@@ -302,28 +302,28 @@ export const ContentCard = (card: any, index: number) => {
         <TwoColumnCard
           leftTitle={leftTitle}
           setLeftTitle={setLeftTitle}
-          leftTextContent={leftTextContent}
-          setLeftTextContent={setLeftTextContent}
+          leftTextContent={leftItems}
+          setLeftTextContent={setLeftItems}
           rightTitle={rightTitle}
           setRightTitle={setRightTitle}
-          rightTextContent={rightTextContent}
-          setRightTextContent={setRightTextContent}
+          rightTextContent={rightItems}
+          setRightTextContent={setRightItems}
         />
       );
     } else if (cardType === "dos-donts") {
-      return (
-        <DosDontsCard
-          data={card}
-          leftTitle={leftTitle}
-          setLeftTitle={setLeftTitle}
-          leftTextContent={leftTextContent}
-          setLeftTextContent={setLeftTextContent}
-          rightTitle={rightTitle}
-          setRightTitle={setRightTitle}
-          rightTextContent={rightTextContent}
-          setRightTextContent={setRightTextContent}
-        />
-      );
+      // return (
+      //   <DosDontsCard
+      //     data={card}
+      //     leftTitle={leftTitle}
+      //     setLeftTitle={setLeftTitle}
+      //     leftTextContent={leftItems}
+      //     setLeftTextContent={setLeftItems}
+      //     rightTitle={rightTitle}
+      //     setRightTitle={setRightTitle}
+      //     rightTextContent={rightItems}
+      //     setRightTextContent={setRightItems}
+      //   />
+      // );
     } else if (cardType === "list") {
       return <ListCard listItems={listItems} setListItems={setListItems} />;
     } else if (cardType === "link") {
