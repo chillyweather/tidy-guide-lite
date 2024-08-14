@@ -113,11 +113,18 @@ export const ContentCard = (card: any, index: number) => {
   const [leftTitle, setLeftTitle] = useState(
     isFromSavedData ? card.content.subtitle1 : ""
   );
-  const [leftTextContent, setLeftTextContent] = useState(
-    isFromSavedData ? card.content.text1 : ""
-  );
   const [rightTitle, setRightTitle] = useState(
     isFromSavedData ? card.content.subtitle2 : ""
+  );
+  const [leftItems, setLeftItems] = useState(
+    isFromSavedData ? card.content.items1 : []
+  );
+
+  const [rightItems, setRightItems] = useState(
+    isFromSavedData ? card.content.items2 : []
+  );
+  const [leftTextContent, setLeftTextContent] = useState(
+    isFromSavedData ? card.content.text1 : ""
   );
   const [rightTextContent, setRightTextContent] = useState(
     isFromSavedData ? card.content.text2 : ""
