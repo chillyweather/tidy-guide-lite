@@ -61,7 +61,7 @@ export function buildTwoColumns(element: any, parentFrame: FrameNode) {
 
   if (leftItems.length) {
     leftItems.forEach((item: string) => {
-      const itemFrame = buildListText(item, "unordered");
+      const itemFrame = buildText(item);
       itemFrame.resize(columnWidth, itemFrame.height);
       leftElements.push(itemFrame);
     });
@@ -69,7 +69,7 @@ export function buildTwoColumns(element: any, parentFrame: FrameNode) {
 
   if (rightItems.length) {
     rightItems.forEach((item: string) => {
-      const itemFrame = buildListText(item, "unordered");
+      const itemFrame = buildText(item);
       itemFrame.resize(columnWidth, itemFrame.height);
       rightElements.push(itemFrame);
     });
