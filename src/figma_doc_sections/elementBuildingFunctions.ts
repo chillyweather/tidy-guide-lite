@@ -4,6 +4,7 @@ import {
   documentationWidth,
   documentationPadding,
 } from "../figma_functions/documentationBuilder";
+import { doNetwork, dontNetwork } from "src/resources/vectors/vectorElements";
 
 export function buildTitle(title: string) {
   const titleFrame = buildAutoLayoutFrame("title", "HORIZONTAL", 0, 0, 0);
@@ -63,7 +64,19 @@ export function buildTwoColumns(element: any, parentFrame: FrameNode) {
     leftItems.forEach((item: string) => {
       const itemFrame = buildText(item);
       itemFrame.resize(columnWidth, itemFrame.height);
-      leftElements.push(itemFrame);
+      const leftElementWrapper = buildAutoLayoutFrame(
+        "leftElementWrapper",
+        "HORIZONTAL",
+        0,
+        0,
+        12
+      );
+      const icon = figma.createVector();
+      icon.setVectorNetworkAsync(doNetwork as VectorNetwork);
+      icon.strokes = [];
+      leftElementWrapper.appendChild(icon);
+      leftElementWrapper.appendChild(itemFrame);
+      leftElements.push(leftElementWrapper);
     });
   }
 
@@ -71,26 +84,23 @@ export function buildTwoColumns(element: any, parentFrame: FrameNode) {
     rightItems.forEach((item: string) => {
       const itemFrame = buildText(item);
       itemFrame.resize(columnWidth, itemFrame.height);
-      rightElements.push(itemFrame);
+      const rightElementWrapper = buildAutoLayoutFrame(
+        "rightElementWrapper",
+        "HORIZONTAL",
+        0,
+        0,
+        12
+      );
+      const icon = figma.createVector();
+      icon.setVectorNetworkAsync(dontNetwork as VectorNetwork);
+      icon.strokes = [];
+      rightElementWrapper.appendChild(icon);
+      rightElementWrapper.appendChild(itemFrame);
+      rightElements.push(rightElementWrapper);
     });
   }
 
-  const titleWrapper = buildAutoLayoutFrame(
-    "titleWrapper",
-    "HORIZONTAL",
-    0,
-    0,
-    20
-  );
-  titleWrapper.appendChild(title1Frame);
-  titleWrapper.appendChild(title2Frame);
-  const textWrapper = buildAutoLayoutFrame(
-    "textWrapper",
-    "HORIZONTAL",
-    0,
-    0,
-    20
-  );
+  const textWrapper = buildAutoLayoutFrame("textWrapper", "VERTICAL", 0, 0, 20);
   const leftWrapper = buildAutoLayoutFrame("leftWrapper", "VERTICAL", 0, 0, 20);
   const rightWrapper = buildAutoLayoutFrame(
     "rightWrapper",
@@ -99,6 +109,8 @@ export function buildTwoColumns(element: any, parentFrame: FrameNode) {
     0,
     20
   );
+  leftWrapper.appendChild(title1Frame);
+  rightWrapper.appendChild(title2Frame);
   if (leftElements.length) {
     leftElements.forEach((item: FrameNode) => {
       leftWrapper.appendChild(item);
@@ -111,7 +123,6 @@ export function buildTwoColumns(element: any, parentFrame: FrameNode) {
   }
   textWrapper.appendChild(leftWrapper);
   textWrapper.appendChild(rightWrapper);
-  parentFrame.appendChild(titleWrapper);
   parentFrame.appendChild(textWrapper);
 }
 
