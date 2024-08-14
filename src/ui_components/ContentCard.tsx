@@ -109,15 +109,13 @@ export const ContentCard = (card: any, index: number) => {
   const [rightTitle, setRightTitle] = useState(
     isFromSavedData ? card.content.subtitle2 : ""
   );
-  const [leftItems, setLeftItems] = useState([""]);
+  const [leftItems, setLeftItems] = useState(
+    isFromSavedData ? card.content.leftItems : []
+  );
 
-  const [rightItems, setRightItems] = useState([""]);
-  // const [leftTextContent, setLeftTextContent] = useState(
-  //   isFromSavedData ? card.content.text1 : ""
-  // );
-  // const [rightTextContent, setRightTextContent] = useState(
-  //   isFromSavedData ? card.content.text2 : ""
-  // );
+  const [rightItems, setRightItems] = useState(
+    isFromSavedData ? card.content.rightItems : []
+  );
   // list
   const [listItems, setListItems] = useState<string[]>(
     isFromSavedData ? card.content.inputs : [""]

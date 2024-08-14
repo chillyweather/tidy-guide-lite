@@ -42,26 +42,39 @@ export function buildTwoColumns(element: any, parentFrame: FrameNode) {
   if (
     !element.content.subtitle1 ||
     !element.content.subtitle2 ||
-    !element.content.text1 ||
-    !element.content.text2
+    !element.content.leftItems ||
+    !element.content.rightItems
   ) {
     return;
   }
   const columnSpacing = 20;
   const columnWidth =
     (documentationWidth - documentationPadding * 2 - columnSpacing) / 2;
-  const title1 = element.content.subtitle1;
-  const title2 = element.content.subtitle2;
-  const text1 = element.content.text1;
-  const text2 = element.content.text2;
-  const title1Frame = buildSubtitle(title1);
+  const { subtitle1, subtitle2, rightItems, leftItems } = element.content;
+  const title1Frame = buildSubtitle(subtitle1);
   title1Frame.resize(columnWidth, title1Frame.height);
-  const title2Frame = buildSubtitle(title2);
+  const title2Frame = buildSubtitle(subtitle2);
   title2Frame.resize(columnWidth, title2Frame.height);
-  const text1Frame = buildListText(text1, "unordered");
-  text1Frame.resize(columnWidth, text1Frame.height);
-  const text2Frame = buildListText(text2, "unordered");
-  text2Frame.resize(columnWidth, text2Frame.height);
+
+  const leftElements: FrameNode[] = [];
+  const rightElements: FrameNode[] = [];
+
+  if (leftItems.length) {
+    leftItems.forEach((item: string) => {
+      const itemFrame = buildListText(item, "unordered");
+      itemFrame.resize(columnWidth, itemFrame.height);
+      leftElements.push(itemFrame);
+    });
+  }
+
+  if (rightItems.length) {
+    rightItems.forEach((item: string) => {
+      const itemFrame = buildListText(item, "unordered");
+      itemFrame.resize(columnWidth, itemFrame.height);
+      rightElements.push(itemFrame);
+    });
+  }
+
   const titleWrapper = buildAutoLayoutFrame(
     "titleWrapper",
     "HORIZONTAL",
@@ -78,8 +91,26 @@ export function buildTwoColumns(element: any, parentFrame: FrameNode) {
     0,
     20
   );
-  textWrapper.appendChild(text1Frame);
-  textWrapper.appendChild(text2Frame);
+  const leftWrapper = buildAutoLayoutFrame("leftWrapper", "VERTICAL", 0, 0, 20);
+  const rightWrapper = buildAutoLayoutFrame(
+    "rightWrapper",
+    "VERTICAL",
+    0,
+    0,
+    20
+  );
+  if (leftElements.length) {
+    leftElements.forEach((item: FrameNode) => {
+      leftWrapper.appendChild(item);
+    });
+  }
+  if (rightElements.length) {
+    rightElements.forEach((item: FrameNode) => {
+      rightWrapper.appendChild(item);
+    });
+  }
+  textWrapper.appendChild(leftWrapper);
+  textWrapper.appendChild(rightWrapper);
   parentFrame.appendChild(titleWrapper);
   parentFrame.appendChild(textWrapper);
 }

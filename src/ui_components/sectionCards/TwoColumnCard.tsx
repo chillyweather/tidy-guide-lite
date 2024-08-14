@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { h } from "preact";
-import { IconX } from "@tabler/icons-react";
+import { IconX, IconPlus } from "@tabler/icons-react";
+import { useRef } from "preact/hooks";
 
 const TwoColumnCard = ({
   leftTitle,
@@ -21,6 +22,10 @@ const TwoColumnCard = ({
   rightItems: string[];
   setRightItems: (items: any[]) => void;
 }) => {
+  const addButtonRef = useRef<HTMLButtonElement>(null);
+  const addInputField = (items: any[], setItems: (items: any[]) => void) => {
+    setItems([...items, ""]);
+  };
   const deleteInputField = (index: number, items: any[], setItems: any) => {
     const newInputs = [...items];
     newInputs.splice(index, 1);
@@ -37,7 +42,15 @@ const TwoColumnCard = ({
           value={leftTitle}
           onInput={(e) => setLeftTitle(e.currentTarget.value)}
         />
-        <div>
+        <div
+          style={{
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            gap: "10px",
+          }}
+        >
           {leftItems.map((item, index) => (
             <div className="dialogFlex">
               <div className="inputInputRowStyle">
@@ -61,6 +74,17 @@ const TwoColumnCard = ({
                   <IconX />
                 </button>
               </div>
+              {index === leftItems.length - 1 && (
+                <button
+                  ref={addButtonRef}
+                  onClick={() => {
+                    addInputField(leftItems, setLeftItems);
+                  }}
+                  className="listButtonStyle"
+                >
+                  <IconPlus className={"no-events"} />
+                </button>
+              )}
             </div>
           ))}
         </div>
@@ -97,6 +121,17 @@ const TwoColumnCard = ({
                   <IconX />
                 </button>
               </div>
+              {index === rightItems.length - 1 && (
+                <button
+                  ref={addButtonRef}
+                  onClick={() => {
+                    addInputField(rightItems, setRightItems);
+                  }}
+                  className="listButtonStyle"
+                >
+                  <IconPlus className={"no-events"} />
+                </button>
+              )}
             </div>
           ))}
         </div>
