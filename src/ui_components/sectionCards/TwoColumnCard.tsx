@@ -1,7 +1,6 @@
 import { h } from "preact";
 
 const TwoColumnCard = ({
-  data,
   leftTitle,
   setLeftTitle,
   leftTextContent,
@@ -11,15 +10,14 @@ const TwoColumnCard = ({
   rightTextContent,
   setRightTextContent,
 }: {
-  data: any;
   leftTitle: string;
-  setLeftTitle: Function;
+  setLeftTitle: (title: string) => void;
   leftTextContent: string;
-  setLeftTextContent: Function;
+  setLeftTextContent: (text: string) => void;
   rightTitle: string;
-  setRightTitle: Function;
+  setRightTitle: (title: string) => void;
   rightTextContent: string;
-  setRightTextContent: Function;
+  setRightTextContent: (text: string) => void;
 }) => {
   return (
     <div className="twoColumnCardBodyContent">

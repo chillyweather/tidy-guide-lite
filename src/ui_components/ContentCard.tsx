@@ -293,7 +293,6 @@ export const ContentCard = (card: any, index: number) => {
     } else if (cardType === "two-columns") {
       return (
         <TwoColumnCard
-          data={card}
           leftTitle={leftTitle}
           setLeftTitle={setLeftTitle}
           leftTextContent={leftTextContent}

@@ -256,7 +256,7 @@ export default async function buildTags(
       unit
     );
   }
-  addBorderRadius(frame, tagComponent, indexes, isRem, rootValue, unit);
+  await addBorderRadius(frame, tagComponent, indexes, isRem, rootValue, unit);
   addEffectsInfo(frame, tagComponent, indexes);
   //! error here
   addStrokeInfo(frame, tagComponent, indexes, isRem, rootValue, unit);

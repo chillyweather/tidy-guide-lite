@@ -68,18 +68,18 @@ const PDSectionData = [
     repeatable: false,
     publish: true,
   },
-  {
-    title: "Tokens (Coming Soon)",
-    content: content,
-    datatype: "tokens",
-    description:
-      "Centralize design decisions effortlessly with a repository, pointing to style values like colors, fonts, and measurements.",
-    data: [],
-    id: "0",
-    docId: "0",
-    repeatable: false,
-    publish: false,
-  },
+  // {
+  //   title: "Tokens (Coming Soon)",
+  //   content: content,
+  //   datatype: "tokens",
+  //   description:
+  //     "Centralize design decisions effortlessly with a repository, pointing to style values like colors, fonts, and measurements.",
+  //   data: [],
+  //   id: "0",
+  //   docId: "0",
+  //   repeatable: false,
+  //   publish: false,
+  // },
   // {
   //   title: "Release Notes",
   //   content: content,
@@ -118,18 +118,18 @@ const sectionData = [
     repeatable: true,
     publish: true,
   },
-  {
-    title: "Do's and Dont's",
-    content: content,
-    datatype: "dos-donts",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    data: [],
-    id: "0",
-    docId: "0",
-    repeatable: true,
-    publish: true,
-  },
+  // {
+  //   title: "Do's and Dont's",
+  //   content: content,
+  //   datatype: "dos-donts",
+  //   description:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  //   data: [],
+  //   id: "0",
+  //   docId: "0",
+  //   repeatable: true,
+  //   publish: true,
+  // },
   {
     title: "List",
     content: content,
@@ -165,18 +165,18 @@ const sectionData = [
     repeatable: true,
     publish: true,
   },
-  {
-    title: "Video",
-    content: content,
-    datatype: "video",
-    description:
-      "Three shall be the number thou shalt count, and the number of the counting shall be three.",
-    data: [],
-    id: "0",
-    docId: "0",
-    repeatable: true,
-    publish: true,
-  },
+  // {
+  //   title: "Video",
+  //   content: content,
+  //   datatype: "video",
+  //   description:
+  //     "Three shall be the number thou shalt count, and the number of the counting shall be three.",
+  //   data: [],
+  //   id: "0",
+  //   docId: "0",
+  //   repeatable: true,
+  //   publish: true,
+  // },
 ];
 
 export { sectionData, PDSectionData };
