@@ -1,24 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { h } from "preact";
+import { IconX } from "@tabler/icons-react";
 
 const TwoColumnCard = ({
   leftTitle,
   setLeftTitle,
-  leftTextContent,
-  setLeftTextContent,
+  leftItems,
+  setLeftItems,
   rightTitle,
   setRightTitle,
-  rightTextContent,
-  setRightTextContent,
+  rightItems,
+  setRightItems,
 }: {
   leftTitle: string;
   setLeftTitle: (title: string) => void;
-  leftTextContent: string;
-  setLeftTextContent: (text: string) => void;
+  leftItems: string[];
+  setLeftItems: (items: any[]) => void;
   rightTitle: string;
   setRightTitle: (title: string) => void;
-  rightTextContent: string;
-  setRightTextContent: (text: string) => void;
+  rightItems: string[];
+  setRightItems: (items: any[]) => void;
 }) => {
+  const deleteInputField = (index: number, items: any[], setItems: any) => {
+    const newInputs = [...items];
+    newInputs.splice(index, 1);
+    setItems(newInputs);
+  };
+
   return (
     <div className="twoColumnCardBodyContent">
       <div className="oneColumn">
@@ -29,20 +37,32 @@ const TwoColumnCard = ({
           value={leftTitle}
           onInput={(e) => setLeftTitle(e.currentTarget.value)}
         />
-        <div className="dialogFlex">
-          <textarea
-            className="columnTextArea listInputStyle"
-            rows={15}
-            maxLength={1000}
-            placeholder="Type text..."
-            value={leftTextContent}
-            onInput={(e) => setLeftTextContent(e.currentTarget.value)}
-          />
-          <div className="textSymbolsCounterRow">
-            <div className="textSymbolsCounter">
-              {leftTextContent.length}/1000
+        <div>
+          {leftItems.map((item, index) => (
+            <div className="dialogFlex">
+              <div className="inputInputRowStyle">
+                <textarea
+                  className="columnTextArea listInputStyle"
+                  rows={3}
+                  placeholder="Type text..."
+                  value={item}
+                  onInput={(e) => {
+                    const newItems = [...leftItems];
+                    newItems[index] = e.currentTarget.value;
+                    setLeftItems(newItems);
+                  }}
+                  style={{ minHeight: "32px" }}
+                />
+                <button
+                  onClick={() =>
+                    deleteInputField(index, leftItems, setLeftItems)
+                  }
+                >
+                  <IconX />
+                </button>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
       <div className="oneColumn">
@@ -53,20 +73,32 @@ const TwoColumnCard = ({
           value={rightTitle}
           onInput={(e) => setRightTitle(e.currentTarget.value)}
         />
-        <div className="dialogFlex">
-          <textarea
-            className="columnTextArea listInputStyle"
-            rows={15}
-            maxLength={1000}
-            placeholder="Type text..."
-            value={rightTextContent}
-            onInput={(e) => setRightTextContent(e.currentTarget.value)}
-          />
-          <div className="textSymbolsCounterRow">
-            <div className="textSymbolsCounter">
-              {rightTextContent.length}/1000
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          {rightItems.map((item, index) => (
+            <div className="dialogFlex">
+              <div className="inputInputRowStyle">
+                <textarea
+                  className="columnTextArea listInputStyle"
+                  rows={3}
+                  placeholder="Type text..."
+                  value={item}
+                  onInput={(e) => {
+                    const newItems = [...rightItems];
+                    newItems[index] = e.currentTarget.value;
+                    setRightItems(newItems);
+                  }}
+                  style={{ minHeight: "32px" }}
+                />
+                <button
+                  onClick={() =>
+                    deleteInputField(index, rightItems, setRightItems)
+                  }
+                >
+                  <IconX />
+                </button>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

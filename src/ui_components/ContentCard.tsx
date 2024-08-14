@@ -33,11 +33,8 @@ import {
   IconPhoto,
   IconCopy,
   IconTrash,
-  IconEye,
-  IconEyeOff,
   IconArtboard,
 } from "@tabler/icons-react";
-import { Toggle, Text } from "@create-figma-plugin/ui";
 import AnatomyIcon from "./../images/anatomy.svg";
 import SpacingIcon from "./../images/spacing.svg";
 import PropertyIcon from "./../images/property.svg";
@@ -99,12 +96,8 @@ export const ContentCard = (card: any, index: number) => {
   //card title
   const [cardTitle, setCardTitle] = useState(card.title);
   // general use
-  const [isHidden, setIsHidden] = useState(
-    isFromSavedData ? card.hidden : false
-  );
-  const [publish, setPublish] = useState<boolean>(
-    isFromSavedData ? card.publish : true
-  );
+  const [isHidden] = useState(isFromSavedData ? card.hidden : false);
+  const [publish] = useState<boolean>(isFromSavedData ? card.publish : true);
   // text card
   const [paragraphTextContent, setParagraphTextContent] = useState(
     isFromSavedData && card.text ? card.text : ""
@@ -116,13 +109,9 @@ export const ContentCard = (card: any, index: number) => {
   const [rightTitle, setRightTitle] = useState(
     isFromSavedData ? card.content.subtitle2 : ""
   );
-  const [leftItems, setLeftItems] = useState(
-    isFromSavedData ? card.content.items1 : []
-  );
+  const [leftItems, setLeftItems] = useState([""]);
 
-  const [rightItems, setRightItems] = useState(
-    isFromSavedData ? card.content.items2 : []
-  );
+  const [rightItems, setRightItems] = useState([""]);
   // const [leftTextContent, setLeftTextContent] = useState(
   //   isFromSavedData ? card.content.text1 : ""
   // );
@@ -302,12 +291,12 @@ export const ContentCard = (card: any, index: number) => {
         <TwoColumnCard
           leftTitle={leftTitle}
           setLeftTitle={setLeftTitle}
-          leftTextContent={leftItems}
-          setLeftTextContent={setLeftItems}
+          leftItems={leftItems}
+          setLeftItems={setLeftItems}
           rightTitle={rightTitle}
           setRightTitle={setRightTitle}
-          rightTextContent={rightItems}
-          setRightTextContent={setRightItems}
+          rightItems={rightItems}
+          setRightItems={setRightItems}
         />
       );
     } else if (cardType === "dos-donts") {
@@ -353,27 +342,6 @@ export const ContentCard = (card: any, index: number) => {
       return null;
     }
   };
-
-  function PublishToggle(
-    publish: boolean,
-    setPublish: (value: boolean) => void,
-    label: string
-  ) {
-    function handleChange(event: any) {
-      const newValue = event.currentTarget.checked;
-      setPublish(newValue);
-    }
-    return (
-      <Toggle
-        onChange={handleChange}
-        value={publish}
-        style={{ border: "none", cursor: "pointer" }}
-        disabled={isHidden}
-      >
-        <Text>{label}</Text>
-      </Toggle>
-    );
-  }
 
   function handleBuildClick() {
     emit("BUILD_ONE_SECTION", {
@@ -504,7 +472,7 @@ export const ContentCard = (card: any, index: number) => {
           {/*//!all card content here */}
           <div className="cardFooter">
             <div className="leftContent hidePredefined">
-              {PublishToggle(publish, setPublish, "Publish to Tidy Viewer")}
+              {/* {PublishToggle(publish, setPublish, "Publish to Tidy Viewer")} */}
             </div>
             <div className="rightContent">
               <button
@@ -513,7 +481,7 @@ export const ContentCard = (card: any, index: number) => {
               >
                 <IconArtboard />
               </button>
-              <button
+              {/* <button
                 className={"cardAuxButton eyeIcon"}
                 onClick={() => {
                   setIsHidden(!isHidden);
@@ -522,7 +490,7 @@ export const ContentCard = (card: any, index: number) => {
               >
                 <IconEye />
                 <IconEyeOff />
-              </button>
+              </button> */}
               <button
                 className={
                   "cardAuxButton noPredefined tooltipButon duplicateButton"
