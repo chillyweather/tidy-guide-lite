@@ -114,6 +114,7 @@ const TwoColumnCard = ({
                   style={{ minHeight: "32px" }}
                 />
                 <button
+                  className="closeButton"
                   onClick={() =>
                     deleteInputField(index, rightItems, setRightItems)
                   }
