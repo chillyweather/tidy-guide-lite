@@ -3869,6 +3869,11 @@ body:has(.addSectionIcon[alt="release-notes"]) .addSectionPopup .addSectionCard:
   pointer-events: all !important;
   visibility: visible !important;
 }
+.twoColumnCardBodyContent .listButtonStyle{
+  margin: 0;
+  transform: translateY(48px);
+  background-color: transparent !important;
+}
 
 /* section card top content */
 
