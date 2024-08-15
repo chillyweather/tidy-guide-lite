@@ -5,7 +5,7 @@ import { useState } from "preact/hooks";
 import {
   IconChevronDown,
   IconColumns,
-  IconExposure,
+  // IconExposure,
   IconInfoCircle,
   IconLink,
   IconListDetails,
@@ -113,7 +113,8 @@ function AddSectionPopupCard(card: any) {
           <IconPilcrow className={"paragraph"} />
           <IconVideo className={"video"} />
           <IconColumns className={"twoColumns"} />
-          <IconExposure className={"dosDonts"} stroke-width="1.5" />
+          {/* <IconExposure className={"twoColumns"} /> */}
+          {/* <IconExposure className={"dosDonts"} stroke-width="1.5" /> */}
           <IconListDetails className={"list"} />
           <IconLink className={"link"} />
           <IconPhoto className={"image"} />

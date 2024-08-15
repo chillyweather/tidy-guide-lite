@@ -226,7 +226,7 @@ export default async function buildTags(
         : setTextContent(
             indexWithLabel,
             "Text",
-            `⭐ Icon - ${elementWidth}${unit}`
+            `⭐ Icon - ${elementWidth.toFixed()}${unit}`
           );
     }
     tag.name = `.tag`;

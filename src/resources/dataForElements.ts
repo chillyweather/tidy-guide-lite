@@ -107,7 +107,7 @@ const sectionData = [
     publish: true,
   },
   {
-    title: "Two Columns",
+    title: "Dos and Don'ts",
     content: content,
     datatype: "two-columns",
     description:

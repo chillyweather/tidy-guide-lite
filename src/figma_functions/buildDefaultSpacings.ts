@@ -208,7 +208,7 @@ function arrangeResultFrame(
   size?: string | undefined
 ) {
   const sizingMarksFrame = buildAutoLayoutFrame(
-    size ? `Size ${size}` : " ",
+    size ? `Size - ${size.toUpperCase()}` : " ",
     "VERTICAL",
     0,
     24
