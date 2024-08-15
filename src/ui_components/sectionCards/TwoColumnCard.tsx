@@ -6,11 +6,11 @@ import { useRef } from "preact/hooks";
 const TwoColumnCard = ({
   leftTitle,
   setLeftTitle,
-  leftItems,
+  leftItems = [""],
   setLeftItems,
   rightTitle,
   setRightTitle,
-  rightItems,
+  rightItems = [""],
   setRightItems,
 }: {
   leftTitle: string;
