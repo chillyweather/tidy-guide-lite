@@ -3878,9 +3878,9 @@ body:has(.addSectionIcon[alt="release-notes"]) .addSectionPopup .addSectionCard:
   margin: 0;
 }
 
-.closeButton{
+.twoColumnCardBodyContent .closeButton {
   position: absolute;
-  right: -24px;
+  right: -32px;
 }
 
 /* section card top content */
@@ -4240,7 +4240,7 @@ body:has(.addSectionIcon[alt="release-notes"]) .addSectionPopup .addSectionCard:
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 48px;
+  gap: 32px;
   width: 100%;
   margin-bottom: 18px;
 }
@@ -4249,6 +4249,7 @@ body:has(.addSectionIcon[alt="release-notes"]) .addSectionPopup .addSectionCard:
   position: relative;
   width: 100%;
   height: 100%;
+  margin-right: 26px;
   display: flex;
   flex-direction: column;
   gap: 12px;
