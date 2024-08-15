@@ -3870,8 +3870,12 @@ body:has(.addSectionIcon[alt="release-notes"]) .addSectionPopup .addSectionCard:
   visibility: visible !important;
 }
 .twoColumnCardBodyContent .listButtonStyle{
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
   margin: 0;
-  transform: translateY(48px);
+  /* transform: translateY(30px); */
   background-color: transparent !important;
 }
 
@@ -4317,6 +4321,7 @@ body:has(.addSectionIcon[alt="release-notes"]) .addSectionPopup .addSectionCard:
 }
 
 .inputInputRowStyle {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
