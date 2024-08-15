@@ -3870,19 +3870,6 @@ body:has(.addSectionIcon[alt="release-notes"]) .addSectionPopup .addSectionCard:
   visibility: visible !important;
 }
 
-.twoColumnCardBodyContent .listButtonStyle {
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  margin: 0;
-}
-
-.twoColumnCardBodyContent .closeButton {
-  position: absolute;
-  right: -32px;
-}
-
 /* section card top content */
 
 .sectionTitle {
@@ -4295,6 +4282,19 @@ body:has(.addSectionIcon[alt="release-notes"]) .addSectionPopup .addSectionCard:
   color: var(--tidy-32);
   padding: 0;
   margin: 0;
+}
+
+.twoColumnCardBodyContent .listButtonStyle {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+}
+
+.twoColumnCardBodyContent .closeButton {
+  position: absolute;
+  right: -32px;
 }
 
 /* list card */
