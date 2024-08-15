@@ -3875,8 +3875,6 @@ body:has(.addSectionIcon[alt="release-notes"]) .addSectionPopup .addSectionCard:
   left: 50%;
   transform: translateX(-50%);
   margin: 0;
-  /* transform: translateY(30px); */
-  background-color: transparent !important;
 }
 
 /* section card top content */
