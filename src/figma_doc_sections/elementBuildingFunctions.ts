@@ -40,28 +40,29 @@ export function buildText(text: string) {
 }
 
 export function buildTwoColumns(element: any, parentFrame: FrameNode) {
-  if (
-    !element.content.subtitle1 ||
-    !element.content.subtitle2 ||
-    !element.content.leftItems ||
-    !element.content.rightItems
-  ) {
-    return;
-  }
+  // if (
+  //   !element.content.subtitle1 ||
+  //   !element.content.subtitle2 ||
+  //   !element.content.leftItems ||
+  //   !element.content.rightItems
+  // ) {
+  //   return;
+  // }
   const columnSpacing = 20;
   const columnWidth =
     (documentationWidth - documentationPadding * 2 - columnSpacing) / 2;
   const { subtitle1, subtitle2, rightItems, leftItems } = element.content;
-  const title1Frame = buildSubtitle(subtitle1);
-  title1Frame.resize(columnWidth, title1Frame.height);
-  const title2Frame = buildSubtitle(subtitle2);
-  title2Frame.resize(columnWidth, title2Frame.height);
+  const title1Frame = subtitle1 ? buildSubtitle(subtitle1) : null;
+  title1Frame?.resize(columnWidth, title1Frame.height);
+  const title2Frame = subtitle2 ? buildSubtitle(subtitle2) : null;
+  title2Frame?.resize(columnWidth, title2Frame.height);
 
   const leftElements: FrameNode[] = [];
   const rightElements: FrameNode[] = [];
 
   if (leftItems.length) {
     leftItems.forEach((item: string) => {
+      if (item === "") return;
       const itemFrame = buildText(item);
       itemFrame.resize(columnWidth, itemFrame.height);
       const leftElementWrapper = buildAutoLayoutFrame(
@@ -82,6 +83,7 @@ export function buildTwoColumns(element: any, parentFrame: FrameNode) {
 
   if (rightItems.length) {
     rightItems.forEach((item: string) => {
+      if (item === "") return;
       const itemFrame = buildText(item);
       itemFrame.resize(columnWidth, itemFrame.height);
       const rightElementWrapper = buildAutoLayoutFrame(
@@ -109,8 +111,12 @@ export function buildTwoColumns(element: any, parentFrame: FrameNode) {
     0,
     20
   );
-  leftWrapper.appendChild(title1Frame);
-  rightWrapper.appendChild(title2Frame);
+  if (title1Frame) {
+    leftWrapper.appendChild(title1Frame);
+  }
+  if (title2Frame) {
+    rightWrapper.appendChild(title2Frame);
+  }
   if (leftElements.length) {
     leftElements.forEach((item: FrameNode) => {
       leftWrapper.appendChild(item);
@@ -121,9 +127,18 @@ export function buildTwoColumns(element: any, parentFrame: FrameNode) {
       rightWrapper.appendChild(item);
     });
   }
-  textWrapper.appendChild(leftWrapper);
-  textWrapper.appendChild(rightWrapper);
+  checkAndAddWrappers(leftWrapper, textWrapper);
+  checkAndAddWrappers(rightWrapper, textWrapper);
+
   parentFrame.appendChild(textWrapper);
+}
+
+function checkAndAddWrappers(wrapper: FrameNode, parent: FrameNode) {
+  if (wrapper.children.length === 0) {
+    wrapper.remove();
+  } else {
+    parent.appendChild(wrapper);
+  }
 }
 
 const removeEmptyLines = (text: string) => {

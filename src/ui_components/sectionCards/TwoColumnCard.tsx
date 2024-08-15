@@ -66,14 +66,16 @@ const TwoColumnCard = ({
                   }}
                   style={{ minHeight: "32px" }}
                 />
-                <button
-                  className="closeButton"
-                  onClick={() =>
-                    deleteInputField(index, leftItems, setLeftItems)
-                  }
-                >
-                  <IconX />
-                </button>
+                {leftItems.length > 1 && (
+                  <button
+                    className="closeButton"
+                    onClick={() =>
+                      deleteInputField(index, leftItems, setLeftItems)
+                    }
+                  >
+                    <IconX />
+                  </button>
+                )}
               </div>
               {index === leftItems.length - 1 && (
                 <button
@@ -114,14 +116,16 @@ const TwoColumnCard = ({
                   }}
                   style={{ minHeight: "32px" }}
                 />
-                <button
-                  className="closeButton"
-                  onClick={() =>
-                    deleteInputField(index, rightItems, setRightItems)
-                  }
-                >
-                  <IconX />
-                </button>
+                {rightItems.length > 1 && (
+                  <button
+                    className="closeButton"
+                    onClick={() =>
+                      deleteInputField(index, rightItems, setRightItems)
+                    }
+                  >
+                    <IconX />
+                  </button>
+                )}
               </div>
               {index === rightItems.length - 1 && (
                 <button
