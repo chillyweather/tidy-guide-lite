@@ -3878,6 +3878,11 @@ body:has(.addSectionIcon[alt="release-notes"]) .addSectionPopup .addSectionCard:
   margin: 0;
 }
 
+.closeButton{
+  position: absolute;
+  right: -24px;
+}
+
 /* section card top content */
 
 .sectionTitle {

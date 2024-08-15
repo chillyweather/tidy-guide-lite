@@ -56,6 +56,7 @@ declare const styles: {
   readonly "cards": string;
   readonly "checkBoxElement": string;
   readonly "chevIcon": string;
+  readonly "closeButton": string;
   readonly "closePopupButton": string;
   readonly "collection-card": string;
   readonly "color-picker-input": string;
