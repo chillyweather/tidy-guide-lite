@@ -3869,7 +3869,8 @@ body:has(.addSectionIcon[alt="release-notes"]) .addSectionPopup .addSectionCard:
   pointer-events: all !important;
   visibility: visible !important;
 }
-.twoColumnCardBodyContent .listButtonStyle{
+
+.twoColumnCardBodyContent .listButtonStyle {
   position: absolute;
   bottom: -30px;
   left: 50%;
