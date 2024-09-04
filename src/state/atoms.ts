@@ -13,6 +13,9 @@ export const currentFigmaFileAtom = atom("");
 
 export const checkExistingDocumentAtom = atom(false);
 
+export const selectedVariantAtom = atom("");
+export const allVariantsAtom = atom([]);
+
 //settings
 export const appSettingsAtom = atom({});
 export const settingsUnitsAtom = atom("px");

@@ -7,7 +7,10 @@ import {
   documentationTitleAtom,
   isCurrentNameValidAtom,
   selectedNodeIdAtom,
+  // selectedVariantAtom,
+  // allVariantsAtom,
 } from "src/state/atoms";
+// import { Dropdown } from "src/ui_components/Dropdown";
 
 const Footer = () => {
   const [, setIsBuilding] = useAtom(isBuildingAtom);
@@ -17,6 +20,8 @@ const Footer = () => {
   const [documentationTitle] = useAtom(documentationTitleAtom);
   const [isCurrentNameValid] = useAtom(isCurrentNameValidAtom);
   const [selectedNodeId] = useAtom(selectedNodeIdAtom);
+  // const [, setSelectedVariant] = useAtom(selectedVariantAtom);
+  // const [allVariants] = useAtom(allVariantsAtom);
 
   const isValid =
     !!documentationTitle?.length && isCurrentNameValid && selectedNodeId;
@@ -33,7 +38,13 @@ const Footer = () => {
 
   return (
     <div className={"footer"}>
-      <div className="leftFooterContent"></div>
+      <div className="leftFooterContent">
+        {/* <Dropdown
+          options={allVariants}
+          onSelect={setSelectedVariant}
+          placeholder="Select a variant"
+        /> */}
+      </div>
       <div className="rightFooterContent">
         <div className={isValid ? "" : "split-disabled"} disabled={!isValid}>
           <button

@@ -103,6 +103,20 @@ export async function getDefaultElement(node: SceneNode) {
   }
 }
 
+export async function getAllSiblings(node: ComponentNode) {
+  const parent = node.parent;
+  if (parent && parent.type === "COMPONENT_SET") {
+    const siblingsNames = [];
+    for (const sibling of parent.children) {
+      if (sibling.type === "COMPONENT") {
+        siblingsNames.push(sibling.name);
+      }
+    }
+    return siblingsNames;
+  }
+  return [];
+}
+
 export async function getDefaultVariant(node: InstanceNode) {
   const mainComponent = await node.getMainComponentAsync();
   if (mainComponent?.parent?.type === "COMPONENT_SET") {

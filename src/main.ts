@@ -5,7 +5,7 @@ import documentationBuilder from "./figma_functions/documentationBuilder";
 import { checkSelection } from "./figma_functions/checkSelection";
 import { settingsDataHandler } from "./figma_functions/settingsDataHandler";
 import { getNode } from "./figma_functions/getNode";
-import imageFromFigma from "./figma_functions/imageFromFigma";
+
 import { buildOneSection } from "./figma_functions/buildOneSection";
 import handleCanvasColors from "./figma_functions/handleCanvasColors";
 
@@ -55,10 +55,6 @@ export default async function () {
 
   on("CLOSE", () => {
     figma.closePlugin();
-  });
-
-  on("PIC_FROM_FIGMA", async ({ type, nodeId, key }) => {
-    imageFromFigma(loadFonts, type, nodeId, key);
   });
 
   on("UPDATE_APP_SETTINGS", async (data) => {

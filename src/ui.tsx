@@ -47,6 +47,8 @@ import {
   documentationDataAtom,
   isFirstTimeAtom,
   checkExistingDocumentAtom,
+  selectedVariantAtom,
+  allVariantsAtom,
 } from "./state/atoms";
 
 //styles
@@ -114,6 +116,8 @@ function Plugin() {
   const [checkExistingDocument, setCheckExistingDocument] = useAtom(
     checkExistingDocumentAtom
   );
+  const [, setSelectedVariant] = useAtom(selectedVariantAtom);
+  const [, setAllVariants] = useAtom(allVariantsAtom);
 
   on("SETTINGS", (settings: any) => {
     if (settings) {
@@ -144,7 +148,10 @@ function Plugin() {
     if (!data) {
       return;
     }
-    const { defaultNode, name, key } = data;
+    const { defaultNode, name, key, siblingsNames, defaultNodeName } = data;
+
+    setAllVariants(siblingsNames);
+    setSelectedVariant(defaultNodeName);
 
     setSelectedElement(defaultNode);
     setSelectedNodeId(defaultNode.id);

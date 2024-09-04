@@ -1,4 +1,4 @@
-import { getDefaultElement } from "./utilityFunctions";
+import { getDefaultElement, getAllSiblings } from "./utilityFunctions";
 
 export async function checkSelection() {
   const selection = figma.currentPage.selection;
@@ -25,6 +25,9 @@ export async function checkSelection() {
       return;
     }
 
+    const siblingsNames = await getAllSiblings(defaultNode);
+    const defaultNodeName = defaultNode.name;
+
     const name =
       defaultNode &&
       defaultNode.parent &&
@@ -39,6 +42,6 @@ export async function checkSelection() {
         ? defaultNode.parent.key
         : defaultNode.key;
 
-    return { defaultNode, name, key };
+    return { defaultNode, name, key, siblingsNames, defaultNodeName };
   }
 }
