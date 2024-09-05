@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 export function getEffects(node: InstanceNode) {
   const effectTypes = {
     DROP_SHADOW: "Drop shadow",

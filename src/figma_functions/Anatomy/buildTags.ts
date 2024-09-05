@@ -13,6 +13,7 @@ import { setTextContent } from "../utilityFunctions";
 import { buildIndexElementForText } from "./buildIndexElementForText";
 import { toTitleCase } from "../utilityFunctions";
 import { addBorderRadius } from "./addBorderRadius";
+import { addBackgroundInfo } from "./addBackgroundInfo";
 
 export default async function buildTags(
   tagComponent: ComponentSetNode | undefined,
@@ -235,6 +236,7 @@ export default async function buildTags(
     tagElements.push(tag);
   });
 
+  await addBackgroundInfo(frame, tagComponent, indexes);
   if (minSizeProperty)
     addMinWidthIndex(
       minSizeProperty,

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { getTextNodeColor } from "../utilityFunctions";
+import { getNodeColor } from "../utilityFunctions";
 
 //^ here we collect all the info on instances
 export const elementsCoordinatesAndDimensions = [];
@@ -46,7 +46,7 @@ export async function addTextNodesToArray(
   node: any,
   array: any[]
 ): Promise<void> {
-  const nodeFillColor = getTextNodeColor({ node });
+  const nodeFillColor = getNodeColor(node);
   const variable = await getFillColorVariable(node);
   const styleName = await findFontStyleName(node);
   const letterSpacing = getLetterSpacing(node);

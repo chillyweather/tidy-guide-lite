@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { buildAutoLayoutFrame } from "../utilityFunctions";
 import { buildElementData } from "./buildElementData";
-import { varBgFills } from "../layoutResources/fills";
+import { checkIsBoundVariables } from "./checkIsBoundVariables";
+import { buildVarElement } from "./buildVarElement";
+import { buildVarContent } from "./buildVarContent";
 
 type Corners = {
   topLeftRadius: string;
@@ -36,7 +38,12 @@ export async function addBorderRadius(
       12
     );
     indexes.appendChild(borderRadiusElement);
-    const isBoundVariables = ifBoundVariables(frame);
+    const isBoundVariables = checkIsBoundVariables(frame, [
+      "bottomLeftRadius",
+      "topleftRadius",
+      "bottomRightRadius",
+      "topRightRadius",
+    ]);
     if (frame.cornerRadius !== figma.mixed) {
       await handleUniformCornerRadius(
         tag,
@@ -96,7 +103,7 @@ async function handleMixedCornerRadius(
     }
   }
   const title = tag.createInstance();
-  const borderVarContent = buildBorderVarContent();
+  const borderVarContent = buildVarContent("border-var-content");
   const { topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius } =
     frame;
 
@@ -110,7 +117,7 @@ async function handleMixedCornerRadius(
     : bottomLeftRadius;
 
   if (title.children[1].type === "TEXT")
-    title.children[1].characters = "Corner radius:";
+    title.children[1].characters = "Corner radius";
 
   if (Object.keys(foundVariables).length) {
     for (const [key, value] of Object.entries(foundVariables)) {
@@ -151,7 +158,7 @@ async function handleUniformCornerRadius(
     (indexInfo.children[1] as TextNode).characters = `Border radius`;
   }
   borderRadiusElement.appendChild(indexInfo);
-  const borderVarContent = buildBorderVarContent();
+  const borderVarContent = buildVarContent("border-var-content");
   if (isBoundVariables) {
     const varKey = frame.boundVariables.topLeftRadius;
     const varValue = await figma.variables.getVariableByIdAsync(varKey.id);
@@ -165,42 +172,4 @@ async function handleUniformCornerRadius(
   buildElementData(sizeData, `border-radius: ${frame.cornerRadius}${unit};`);
   borderVarContent.appendChild(sizeData);
   borderRadiusElement.appendChild(borderVarContent);
-}
-
-function buildBorderVarContent() {
-  const borderVarContent = buildAutoLayoutFrame(
-    "border-var-content",
-    "VERTICAL",
-    0,
-    0,
-    12
-  );
-  borderVarContent.paddingLeft = 50;
-  return borderVarContent;
-}
-
-function buildVarElement() {
-  const borderVariable = buildAutoLayoutFrame(
-    "border-variable",
-    "HORIZONTAL",
-    8,
-    4,
-    4
-  );
-  borderVariable.cornerRadius = 4;
-  borderVariable.fills = varBgFills;
-  return borderVariable;
-}
-
-function ifBoundVariables(frame: any) {
-  const boundVariables = frame.boundVariables;
-  if (!boundVariables || typeof boundVariables !== "object") return false;
-
-  const radiusProperties = [
-    "bottomLeftRadius",
-    "topleftRadius",
-    "bottomRightRadius",
-    "topRightRadius",
-  ];
-  return radiusProperties.some((prop) => prop in boundVariables);
 }

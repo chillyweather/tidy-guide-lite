@@ -3,6 +3,7 @@
 import { buildAutoLayoutFrame, setTextContent } from "../utilityFunctions";
 import { makeCollapsibleComponent } from "../utilityFunctions";
 import { buildElementData } from "./buildElementData";
+import { buildHexSection } from "./buildHexSection";
 // import { toTitleCase } from "../utilityFunctions";
 
 export function buildIndexElementForText(
@@ -72,38 +73,7 @@ text-case: ${element.elementTextCase};`;
 }
 
 function buildTextColorSection(element: any, frame: FrameNode): FrameNode {
-  const colorSample = figma.createRectangle();
-  colorSample.resize(14, 14);
-  colorSample.cornerRadius = 2.8;
-  colorSample.fills = [figma.util.solidPaint(element.elementFill)];
-  colorSample.strokes = [
-    {
-      type: "SOLID",
-      visible: true,
-      opacity: 1,
-      blendMode: "NORMAL",
-      color: {
-        r: 0.7019608020782471,
-        g: 0.7019608020782471,
-        b: 0.7019608020782471,
-      },
-      boundVariables: {},
-    },
-  ];
-
-  const hex = figma.createText();
-  hex.characters = element.elementFill;
-
-  const colorWithHex = buildAutoLayoutFrame(
-    "color-with-hex~",
-    "HORIZONTAL",
-    0,
-    0,
-    4
-  );
-
-  colorWithHex.appendChild(colorSample);
-  colorWithHex.appendChild(hex);
+  const colorWithHex = buildHexSection(element.elementFill);
   frame.appendChild(colorWithHex);
 
   if (element.elementVariable) {

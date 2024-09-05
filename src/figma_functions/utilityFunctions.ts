@@ -373,21 +373,41 @@ export function cloneFrame(frame: FrameNode | InstanceNode) {
 //!--------NEW----------//
 
 /**
- * Retrieves the color of a TextNode.
+ * Retrieves the color of a node with fills.
+ *
  * @param {object} options - The options for retrieving the color.
- * @param {TextNode} options.node - The TextNode to retrieve the color from.
- * @returns {string | null} The color of the TextNode in hexadecimal format, or null if no color is found.
+ * @param {SceneNode} options.node - The node to retrieve the color from.
+ * @returns {string | null} The color of the node in hexadecimal format, or null if no color is found.
  */
-export function getTextNodeColor({ node }: { node: TextNode }): string | null {
-  //@ts-ignore
-  const fills: ReadonlyArray<Paint> | figma.mixed = node.fills;
+export type NodeWithFills =
+  | RectangleNode
+  | EllipseNode
+  | PolygonNode
+  | StarNode
+  | VectorNode
+  | TextNode
+  | FrameNode
+  | ComponentNode
+  | ComponentSetNode
+  | InstanceNode;
 
-  if (fills.length === 0) {
+export function getNodeColor(node: NodeWithFills): string | null {
+  if (!("fills" in node)) return null;
+  const fills = node.fills ?? [];
+
+  if ((fills as readonly Paint[]).length === 0) {
     return null;
+  }
+
+  const firstFill = (fills as readonly Paint[])[0];
+
+  if ("color" in firstFill) {
+    const { r, g, b } = firstFill.color;
+    const hexColor = rgbToHex({ r, g, b });
+    return hexColor;
   } else {
-    const fill = fills[0].color;
-    const hexFill = rgbToHex({ r: fill.r, g: fill.g, b: fill.b });
-    return hexFill;
+    // Handle the case where firstFill is a GradientPaint or ImagePaint
+    return null;
   }
 }
 
