@@ -1,6 +1,7 @@
 import { buildAutoLayoutFrame } from "../utilityFunctions";
 
 export function buildHexSection(hexValue: string) {
+  if (hexValue === "") return;
   const colorSample = figma.createRectangle();
   colorSample.resize(14, 14);
   colorSample.cornerRadius = 2.8;

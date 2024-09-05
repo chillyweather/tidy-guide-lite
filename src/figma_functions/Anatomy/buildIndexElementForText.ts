@@ -74,7 +74,7 @@ text-case: ${element.elementTextCase};`;
 
 function buildTextColorSection(element: any, frame: FrameNode): FrameNode {
   const colorWithHex = buildHexSection(element.elementFill);
-  frame.appendChild(colorWithHex);
+  if (colorWithHex) frame.appendChild(colorWithHex);
 
   if (element.elementVariable) {
     const colorStyleFrame = buildAutoLayoutFrame(

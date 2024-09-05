@@ -4,11 +4,8 @@ import { rgbToHex } from "../utilityFunctions";
 import { checkIsBoundVariables } from "./checkIsBoundVariables";
 import { buildVarElement } from "./buildVarElement";
 import { buildVarContent } from "./buildVarContent";
-import {
-  buildAutoLayoutFrame,
-  setColorStyle,
-  getNodeColor,
-} from "../utilityFunctions";
+import { buildHexSection } from "./buildHexSection";
+import { buildAutoLayoutFrame, setColorStyle } from "../utilityFunctions";
 
 export async function addBackgroundInfo(
   frame: NodeWithFills,
@@ -18,6 +15,7 @@ export async function addBackgroundInfo(
   if (!("fills" in frame)) return;
 
   let hex = "";
+  let hexColorSection: FrameNode | undefined = undefined;
 
   const anatomySecondaryColorStyle = await setColorStyle(
     "anatomy-secondary",
@@ -30,14 +28,6 @@ export async function addBackgroundInfo(
     0,
     0,
     12
-  );
-
-  const hexColorSection = buildAutoLayoutFrame(
-    "hexColorSection",
-    "VERTICAL",
-    0,
-    0,
-    4
   );
 
   const tag = tagComponent.findOne((node) => node.name === "type=text");
@@ -58,26 +48,24 @@ export async function addBackgroundInfo(
   const firstFill = (frame.fills as readonly Paint[])[0];
   if ("color" in firstFill) {
     hex = rgbToHex(firstFill.color);
+    hexColorSection = buildHexSection(hex);
   }
 
-  const rgb = getNodeColor(frame);
-
-  console.log("rgb, hex", rgb, hex);
   const content = buildVarContent("background");
   const isBoundVariables = checkIsBoundVariables(frame, ["fills"]);
   if (isBoundVariables) {
     const varKey = frame.boundVariables?.fills;
-    console.log("varKey", varKey);
     if (varKey) {
       const varValue = await figma.variables.getVariableByIdAsync(varKey[0].id);
       const varData = figma.createText();
       varData.characters = `🔢 ${varValue?.name}`;
-      const borderVariable = buildVarElement();
-      borderVariable.appendChild(varData);
-      content.appendChild(borderVariable);
+      const fillsVariable = buildVarElement();
+      fillsVariable.appendChild(varData);
+      content.appendChild(fillsVariable);
       backgroundColorElement.appendChild(content);
     }
   }
+  if (hexColorSection) content.appendChild(hexColorSection);
   indexes.appendChild(backgroundColorElement);
   console.log("isBoundVariables", isBoundVariables);
 }
