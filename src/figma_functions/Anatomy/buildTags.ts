@@ -237,6 +237,7 @@ export default async function buildTags(
   });
 
   await addBackgroundInfo(frame, tagComponent, indexes);
+
   if (minSizeProperty)
     addMinWidthIndex(
       minSizeProperty,

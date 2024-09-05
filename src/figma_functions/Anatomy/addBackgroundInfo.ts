@@ -5,6 +5,7 @@ import { checkIsBoundVariables } from "./checkIsBoundVariables";
 import { buildVarElement } from "./buildVarElement";
 import { buildVarContent } from "./buildVarContent";
 import { buildHexSection } from "./buildHexSection";
+import { buildElementData } from "./buildElementData";
 import { buildAutoLayoutFrame, setColorStyle } from "../utilityFunctions";
 
 export async function addBackgroundInfo(
@@ -30,6 +31,14 @@ export async function addBackgroundInfo(
     12
   );
 
+  const backgroundDataSection = buildAutoLayoutFrame(
+    "background-data",
+    "VERTICAL",
+    8,
+    12,
+    4
+  );
+
   const tag = tagComponent.findOne((node) => node.name === "type=text");
   if (!(tag?.type === "COMPONENT")) return;
   const tagInstance = tag.createInstance();
@@ -46,12 +55,21 @@ export async function addBackgroundInfo(
   backgroundColorElement.appendChild(tagInstance);
 
   const firstFill = (frame.fills as readonly Paint[])[0];
-  if ("color" in firstFill) {
+  if (firstFill && "color" in firstFill) {
     hex = rgbToHex(firstFill.color);
     hexColorSection = buildHexSection(hex);
   }
 
   const content = buildVarContent("background");
+
+  const cssValue = `background-color: ${hex};`;
+  buildElementData(backgroundDataSection, cssValue);
+  content.appendChild(backgroundDataSection);
+  if (hexColorSection) content.appendChild(hexColorSection);
+  backgroundColorElement.appendChild(content);
+  indexes.appendChild(backgroundColorElement);
+  console.log("🦊");
+
   const isBoundVariables = checkIsBoundVariables(frame, ["fills"]);
   if (isBoundVariables) {
     const varKey = frame.boundVariables?.fills;
@@ -61,11 +79,7 @@ export async function addBackgroundInfo(
       varData.characters = `🔢 ${varValue?.name}`;
       const fillsVariable = buildVarElement();
       fillsVariable.appendChild(varData);
-      content.appendChild(fillsVariable);
-      backgroundColorElement.appendChild(content);
+      content.insertChild(0, fillsVariable);
     }
   }
-  if (hexColorSection) content.appendChild(hexColorSection);
-  indexes.appendChild(backgroundColorElement);
-  console.log("isBoundVariables", isBoundVariables);
 }
