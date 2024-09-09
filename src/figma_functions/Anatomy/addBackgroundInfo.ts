@@ -14,6 +14,7 @@ export async function addBackgroundInfo(
   indexes: FrameNode
 ) {
   if (!("fills" in frame)) return;
+  if ((frame.fills as Paint[]).length === 0) return;
 
   let hex = "";
   let hexColorSection: FrameNode | undefined = undefined;
@@ -68,7 +69,6 @@ export async function addBackgroundInfo(
   if (hexColorSection) content.appendChild(hexColorSection);
   backgroundColorElement.appendChild(content);
   indexes.appendChild(backgroundColorElement);
-  console.log("🦊");
 
   const isBoundVariables = checkIsBoundVariables(frame, ["fills"]);
   if (isBoundVariables) {

@@ -135,6 +135,12 @@ async function buildOneSizeAnatomySpacings(
           spacingMarker
         );
 
+        if (!(spacingMarks && spacingMarks.length > 0)) {
+          dataElement.currentElement.remove();
+          clonedFrame.remove();
+          continue;
+        }
+
         //! why not working?
         spacingMarks?.forEach((mark: any) =>
           changeSizingMarkerCharacters(mark)

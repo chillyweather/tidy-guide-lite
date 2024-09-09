@@ -88,7 +88,7 @@ async function buildOneTag(
   resultFrame.paddingBottom = 40;
   resultFrame.paddingTop = 40;
   resultFrame.counterAxisAlignItems = "CENTER";
-  if (labelComponent) {
+  if (labelComponent && size) {
     const title = setTitlePosition(
       labelComponent.createInstance(),
       resultFrame

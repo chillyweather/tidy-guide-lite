@@ -35,16 +35,6 @@ export default async function () {
     console.log("error", error);
   }
 
-  // const user = figma.currentUser;
-  // const document = figma.root.name;
-  // const page = figma.currentPage.name;
-
-  // const sessionData = {
-  //   user: user,
-  //   document: document,
-  //   page: page,
-  // };
-
   const selectionData = await checkSelection();
   if (selectionData) emit("SELECTION", selectionData);
 

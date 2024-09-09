@@ -310,17 +310,17 @@ export function setTextContent(
 }
 
 /*
- * Finds the master page of a given node.
- * @param node - The node to find the master page of.
- * @returns The master page of the given node, or null if no master page was found.
+ * Finds the current page of a given node.
+ * @param node - The node to find the current page of.
+ * @returns The current page of the given node, or null if no master page was found.
  */
-export function findMasterPage(node: any): PageNode | null {
+export function findCurrentPage(node: any): PageNode | null {
   if (node.type === "PAGE") {
     return node;
   } else {
     if (node.parent) {
       const newNode = node.parent;
-      return findMasterPage(newNode);
+      return findCurrentPage(newNode);
     } else {
       return null;
     }
@@ -335,7 +335,7 @@ export function findMasterPage(node: any): PageNode | null {
 export async function findDocFrame(node: InstanceNode) {
   const master = await node.getMainComponentAsync();
   if (master) {
-    const masterPage = findMasterPage(master);
+    const masterPage = findCurrentPage(master);
     if (masterPage) {
       const docFrame = masterPage.children.find((node) =>
         /(\.)?documentation/i.test(node.name)
