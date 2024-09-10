@@ -12,7 +12,7 @@ import { buildReleaseNotes } from "src/figma_doc_sections/buildReleaseNotes";
 import { buildSpacingSection } from "src/figma_doc_sections/buildSpacingSection";
 import { buildPropSection } from "src/figma_doc_sections/buildPropSection";
 import { buildVarSection } from "src/figma_doc_sections/buildVarSection";
-import { buildAnatomySpacings } from "./buildAnatomySpacings";
+import { buildAnatomySpacings } from "./AnatomySpacing/buildAnatomySpacings";
 
 async function buildSection(
   element: any,

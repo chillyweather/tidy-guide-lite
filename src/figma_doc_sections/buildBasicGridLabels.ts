@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const BACKGROUND_PADDING = 10;
+// const BACKGROUND_PADDING = 10;
 const DEFAULT_FONT = { family: "Inter", style: "Regular" };
 const DEFAULT_FONT_SIZE = 12;
 
 export function buildBasicGridLabels(frame: FrameNode, variantProps: any) {
+  console.log("frame.name", frame.name);
+  console.log("frame.children", frame.children);
   const defaultElement = frame.findOne((node) => node.type === "INSTANCE");
   if (!defaultElement) return;
 
@@ -12,6 +14,7 @@ export function buildBasicGridLabels(frame: FrameNode, variantProps: any) {
   const leftLabels: InstanceNode[] = [];
 
   const isOnlyFrames = frame.children.every((node) => node.type === "FRAME");
+
   if (isOnlyFrames) {
     buildSecondLevelLabels(
       frame,
@@ -89,7 +92,7 @@ function buildFirstLevelLabels(
           label.width / 2;
         // -
         // BACKGROUND_PADDING;
-        label.y = label.y =
+        label.y =
           //@ts-ignore
           firstLevelFrame.children[index].absoluteBoundingBox.y - 60;
         topLabels.push(label);
@@ -115,27 +118,45 @@ function buildSecondLevelLabels(
     figma.currentPage.appendChild(label);
     label.characters = variant;
     if (secondLevelLayoutMode === "HORIZONTAL") {
-      label.x =
-        //@ts-ignore
-        frame.children[index].absoluteBoundingBox.x +
-        frame.children[index].width / 2 -
-        label.width / 2;
-      //@ts-ignore
-      label.y = frame.children[index].absoluteBoundingBox.y - 60;
-      // label.y = frame.children[index].absoluteBoundingBox.y - 60;
-      topLabels.push(label);
+      placeHorizontalLabel(frame, label, index, 60, topLabels);
     }
     if (secondLevelLayoutMode === "VERTICAL") {
-      label.x =
-        //@ts-ignore
-        frame.children[index].absoluteBoundingBox.x - (label.width + 60);
-      label.y =
-        //@ts-ignore
-        frame.children[index].absoluteBoundingBox.y +
-        defaultElement?.height / 2 -
-        label.height / 2 +
-        BACKGROUND_PADDING;
-      leftLabels.push(label);
+      placeVerticalLabel(frame, label, index, 60, leftLabels);
     }
   });
+}
+function xPosition(index: number, frame: FrameNode) {
+  return frame.children[index].absoluteTransform[0][2];
+}
+
+function yPosition(index: number, frame: FrameNode) {
+  return frame.children[index].absoluteTransform[1][2];
+}
+
+function placeVerticalLabel(
+  frame: FrameNode,
+  label: TextNode,
+  index: number,
+  shift: number,
+  labelsArray: any[] = []
+) {
+  label.x = xPosition(index, frame) - (label.width + shift);
+  label.y =
+    yPosition(index, frame) +
+    frame.children[index].height / 2 -
+    label.height / 2;
+  labelsArray.push(label);
+}
+
+function placeHorizontalLabel(
+  frame: FrameNode,
+  label: TextNode,
+  index: number,
+  shift: number,
+  labelsArray: any[] = []
+) {
+  label.x =
+    xPosition(index, frame) + frame.children[index].width / 2 - label.width / 2;
+  label.y = yPosition(index, frame) - shift;
+  labelsArray.push(label);
 }

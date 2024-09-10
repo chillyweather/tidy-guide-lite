@@ -7,7 +7,7 @@ import { buildAutoLayoutFrame, getDefaultElement } from "./utilityFunctions";
 import { buildTitle } from "src/figma_doc_sections/elementBuildingFunctions";
 import { getNode } from "./getNode";
 import { computeMaximumBounds } from "@create-figma-plugin/utilities";
-import { buildAnatomySpacings } from "./buildAnatomySpacings";
+import { buildAnatomySpacings } from "./AnatomySpacing/buildAnatomySpacings";
 
 export async function buildOneSection(
   loadFonts: () => Promise<void>,
