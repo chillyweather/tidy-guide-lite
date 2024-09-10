@@ -1,4 +1,5 @@
 import { getVariantsArray } from "./getVariantsArray";
+import { deleteInvalidProps } from "./deleteInvalidProps";
 import {
   buildAutoLayoutFrame,
   findAllVariantProps,
@@ -15,6 +16,8 @@ export async function buildVarSection(
   parentFrame: FrameNode
 ) {
   const variantProps = await findAllVariantProps(node);
+  deleteInvalidProps(variantProps);
+
   if (Object.keys(variantProps).length === 0) return;
   const variantKeys = Object.keys(variantProps).filter(
     (key) => key.toLocaleLowerCase() !== "size"

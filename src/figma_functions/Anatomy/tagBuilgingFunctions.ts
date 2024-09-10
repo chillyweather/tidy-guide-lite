@@ -42,6 +42,17 @@ async function addInstancesToArray(node: any, array: any[]) {
   });
 }
 
+// async function addVectorToArray(node: any, array: any[]) {
+//   array.push({
+//     elementX: node.absoluteBoundingBox.x,
+//     elementY: node.absoluteBoundingBox.y,
+//     elementWidth: node.absoluteRenderBounds.width,
+//     elementHeight: node.absoluteRenderBounds.height,
+//     elementName: node.name,
+//     elementMain: null,
+//   });
+// }
+
 export async function addTextNodesToArray(
   node: any,
   array: any[]
