@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type Combination = Record<string, string>;
 
 export interface VariantObject {
@@ -12,16 +13,18 @@ export function getVariantsArray(
 ) {
   //! we need this for later splitting
   const secondProp = variantKeys[variantKeys.length - 2];
-  //@ts-ignore
+
   if (secondProp && variantKeys.length > 2) {
     const secondPropOptions = variantProperties[secondProp].variantOptions;
     const workingArrays = splitArray(
       buildAllPropsArray(variantProperties, variantKeys),
       secondPropOptions.length
     );
+    console.log("%c workingArrays", "color: OrangeRed", workingArrays);
     return workingArrays;
   } else {
     const workingArrays = buildAllPropsArray(variantProperties, variantKeys);
+    console.log("%c workingArrays", "color: Lime", workingArrays);
     return workingArrays;
   }
 }

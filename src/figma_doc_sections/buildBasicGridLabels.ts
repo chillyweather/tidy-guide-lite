@@ -72,29 +72,19 @@ function buildFirstLevelLabels(
       label.fontName = DEFAULT_FONT;
 
       if (firstLevelLayoutMode === "VERTICAL") {
-        label.x =
-          //@ts-ignore
-          firstLevelFrame.children[index].absoluteBoundingBox.x -
-          (label.width + 60);
-        // allLeftSideLabels.push(label);
+        label.x = xPosition(index, firstLevelFrame) - (label.width + 60);
         label.y =
-          //@ts-ignore
-          firstLevelFrame.children[index].absoluteBoundingBox.y +
+          yPosition(index, firstLevelFrame) +
           defaultElement?.height / 2 -
           label.height / 2;
         leftLabels.push(label);
       }
       if (firstLevelLayoutMode === "HORIZONTAL") {
         label.x =
-          //@ts-ignore
-          firstLevelFrame.children[index].absoluteBoundingBox.x +
+          xPosition(index, firstLevelFrame) +
           firstLevelFrame.children[index].width / 2 -
           label.width / 2;
-        // -
-        // BACKGROUND_PADDING;
-        label.y =
-          //@ts-ignore
-          firstLevelFrame.children[index].absoluteBoundingBox.y - 60;
+        label.y = yPosition(index, firstLevelFrame) - 60;
         topLabels.push(label);
       }
     });
