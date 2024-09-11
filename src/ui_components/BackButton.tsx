@@ -1,6 +1,6 @@
 import { h } from "preact";
 import { useAtom } from "jotai";
-import { useEffect } from "preact/hooks";
+// import { useEffect } from "preact/hooks";
 import {
   currentPageAtom,
   documentationTitleAtom,
@@ -53,9 +53,9 @@ export default function BackButton() {
   const [, setSelectedSections] = useAtom(selectedSectionsAtom);
   const [, setDocumentationTitle] = useAtom(documentationTitleAtom);
 
-  useEffect(() => {
-    console.log("currentPage", currentPage);
-  }, [currentPage]);
+  // useEffect(() => {
+  //   console.log("currentPage", currentPage);
+  // }, [currentPage]);
 
   function backToIndex() {
     setIsContenFromServerOpen(false);

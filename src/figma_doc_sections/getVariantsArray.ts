@@ -22,7 +22,6 @@ export function getVariantsArray(
     return workingArrays;
   } else {
     const workingArrays = buildAllPropsArray(variantProperties, variantKeys);
-    console.log("%c workingArrays", "color: Lime", workingArrays);
     return workingArrays;
   }
 }
