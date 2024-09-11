@@ -274,13 +274,6 @@ export default async function buildTags(
   indexes.y = yLimit + 52;
 
   tagElements.push(indexes);
-
-  // indexes.children.forEach((child) => {
-  //   if (child.type === "INSTANCE") {
-  //     makeLabelTextFlow(child);
-  //   }
-  // });
-
   return { tagElements, indexes };
 }
 

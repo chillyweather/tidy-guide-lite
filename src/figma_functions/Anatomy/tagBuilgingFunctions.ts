@@ -3,9 +3,7 @@
 
 import { getNodeColor } from "../utilityFunctions";
 
-//^ here we collect all the info on instances
 export const elementsCoordinatesAndDimensions = [];
-//^ find style applied to text element
 async function findFontStyleName(textNode: TextNode) {
   if (textNode.textStyleId === "") {
     return "Style not determined";
@@ -14,11 +12,6 @@ async function findFontStyleName(textNode: TextNode) {
       textNode.textStyleId as string
     );
     if (foundStyle) return foundStyle.name;
-    // if (foundStyle?.remote === false) {
-    //   return foundStyle.name;
-    // } else {
-    //   return "no style";
-    // }
   }
 }
 
@@ -42,16 +35,16 @@ async function addInstancesToArray(node: any, array: any[]) {
   });
 }
 
-// async function addVectorToArray(node: any, array: any[]) {
-//   array.push({
-//     elementX: node.absoluteBoundingBox.x,
-//     elementY: node.absoluteBoundingBox.y,
-//     elementWidth: node.absoluteRenderBounds.width,
-//     elementHeight: node.absoluteRenderBounds.height,
-//     elementName: node.name,
-//     elementMain: null,
-//   });
-// }
+async function addVectorToArray(node: any, array: any[]) {
+  array.push({
+    elementX: node.absoluteBoundingBox.x,
+    elementY: node.absoluteBoundingBox.y,
+    elementWidth: node.absoluteRenderBounds.width,
+    elementHeight: node.absoluteRenderBounds.height,
+    elementName: node.name,
+    elementMain: null,
+  });
+}
 
 export async function addTextNodesToArray(
   node: any,
@@ -134,14 +127,19 @@ async function getFillColorVariable(node: TextNode) {
 
 export async function findAllNodes(
   frame: FrameNode | GroupNode,
-  instances: any,
-  textElements: any
+  instances: boolean,
+  textElements: boolean
 ): Promise<void> {
   figma.skipInvisibleInstanceChildren = true;
   for (const node of frame.children) {
     if (node.absoluteBoundingBox && node.width > 0.01) {
+      console.log("node.type", node.type);
+      console.log("node.name", node.name);
       if (node.type === "INSTANCE" && instances && !node.name.startsWith("_")) {
         await addInstancesToArray(node, elementsCoordinatesAndDimensions);
+      }
+      if (node.type === "VECTOR" && !node.name.startsWith("_")) {
+        await addVectorToArray(node, elementsCoordinatesAndDimensions);
       }
       if (node.type === "TEXT" && textElements && !node.name.startsWith("_")) {
         await addTextNodesToArray(node, elementsCoordinatesAndDimensions);
