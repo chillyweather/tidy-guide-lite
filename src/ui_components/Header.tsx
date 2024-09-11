@@ -1,28 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { IconArrowLeft, IconPlus } from "@tabler/icons-react";
+import { IconArrowLeft, IconPlus, IconPalette } from "@tabler/icons-react";
 import { useAtom } from "jotai";
-// import { useState, useEffect } from "preact/hooks";
 import {
-  isToBuildComponentPicAtom,
   currentPageAtom,
-  selectedElementAtom,
-  // isDocJustOpenedAtom,
-  // documentationDataAtom,
-  // selectedSectionsAtom,
-  isFromSavedDataAtom,
-} from "src/state/atoms";
-import {
-  showSettingsContentAtom,
   isFirstTimeAtom,
-  showLoginPageAtom,
-  showSettingsPageAtom,
-  showIndexPageAtom,
-  showMainContentAtom,
+  isFromSavedDataAtom,
+  isToBuildComponentPicAtom,
+  selectedElementAtom,
   showContentFromServerAtom,
+  showIndexPageAtom,
+  showLoginPageAtom,
+  showMainContentAtom,
+  showSettingsContentAtom,
+  showSettingsPageAtom,
+  showManageCanvasAppearanceAtom,
 } from "src/state/atoms";
 import BackButton from "./BackButton";
-import { IconSettings } from "@tabler/icons-react";
 
 import { h } from "preact";
 import HeaderActions from "./HeaderActions";
@@ -38,19 +32,15 @@ const Header = () => {
     useAtom(showMainContentAtom);
   const [isContenFromServerOpen] = useAtom(showContentFromServerAtom);
   const [isSettingsPageOpen] = useAtom(showSettingsPageAtom);
-  // const [isDocJustOpened, setIsDocJustOpened] = useAtom(isDocJustOpenedAtom);
-  // const [documentationData]: any = useAtom(documentationDataAtom);
-  // const [selectedSections] = useAtom(selectedSectionsAtom);
   const [, setIsFromSavedData] = useAtom(isFromSavedDataAtom);
-
-  // const [, setInitialSelectedSections] = useState(null);
-  // const [, setInitialDocumentationData] = useState(null);
-  // const [, setInitialSelectedSectionsLength] = useState(0);
 
   const [, setIsContenFromServerOpen] = useAtom(showContentFromServerAtom);
   const [, setIsSettingsPageOpen] = useAtom(showSettingsPageAtom);
   const [, setIsFirstTime] = useAtom(isFirstTimeAtom);
   const [, setShowSettingsContent] = useAtom(showSettingsContentAtom);
+  const [, setShowManageCanvasAppearance] = useAtom(
+    showManageCanvasAppearanceAtom
+  );
 
   return (
     <div className="header">
@@ -99,11 +89,13 @@ const Header = () => {
               setIsMainContentOpen(false);
               setIsContenFromServerOpen(false);
               setIsSettingsPageOpen(true);
-              setShowSettingsContent(true);
+              setShowSettingsContent(false);
               setIsFirstTime(false);
+              setShowManageCanvasAppearance(true);
+              setCurrentPage("canvas-appearance");
             }}
           >
-            <IconSettings />
+            <IconPalette />
           </button>
         </div>
       </div>

@@ -17,7 +17,6 @@ import manageCanvasAppearance from "./manageCanvasAppearance";
 import { useEffect } from "react";
 
 const Settings = () => {
-  // const [, setShowDeleteAccountPopup] = useAtom(showDeleteAccountPopupAtom);
   const [showSettingsContent, setShowSettingsContent] = useAtom(
     showSettingsContentAtom
   );
@@ -58,24 +57,6 @@ const Settings = () => {
           },
         }}
       />
-      {/* users */}
-
-      {/* <div className="delete-flex">
-        <div className="delete-content">
-          <div className="title-flex">
-            <IconAlertCircleFilled className={"red-icon icon-16"} />
-            <h4>Delete Account</h4>
-          </div>
-          <p>Permanently delete the account and remove access to all users.</p>
-        </div>
-        <button
-          id={"delete-button"}
-          className={"button primary"}
-          onClick={() => setShowDeleteAccountPopup(true)}
-        >
-          Delete this account
-        </button>
-      </div> */}
     </div>
   );
 
