@@ -5,10 +5,8 @@ import {
   currentPageAtom,
   showSettingsContentAtom,
   showManageCanvasAppearanceAtom,
-  // showDeleteAccountPopupAtom,
 } from "src/state/atoms";
 import {
-  // IconAlertCircleFilled,
   IconArrowRight,
   IconUser,
   IconChevronRight,
@@ -46,7 +44,6 @@ const Settings = () => {
 
   const SettingsContent = (
     <div className={"settings-wrapper"}>
-      {/* appearance on canavas */}
       <SettingsSection
         props={{
           icon: IconUser,

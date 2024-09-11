@@ -97,7 +97,7 @@ export default function manageCanvasAppearance() {
 
   return (
     <div className="manage-canvas">
-      <h2>Appearance</h2>
+      <h2>Documentation Appearance</h2>
       <div className="anatomy-tags-settings-with-preview">
         <div className="anatomy-tags-settings">
           <div className="tags-settings-element">

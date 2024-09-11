@@ -83,7 +83,6 @@ const Header = () => {
         <div className={"side-flex"}>
           <button
             onClick={() => {
-              // closeMenu();
               setIsLoginPageOpen(false);
               setIsIndexOpen(false);
               setIsMainContentOpen(false);
