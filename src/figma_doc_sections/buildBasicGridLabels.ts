@@ -5,8 +5,6 @@ const DEFAULT_FONT = { family: "Inter", style: "Regular" };
 const DEFAULT_FONT_SIZE = 12;
 
 export function buildBasicGridLabels(frame: FrameNode, variantProps: any) {
-  console.log("frame.name", frame.name);
-  console.log("frame.children", frame.children);
   const defaultElement = frame.findOne((node) => node.type === "INSTANCE");
   if (!defaultElement) return;
 

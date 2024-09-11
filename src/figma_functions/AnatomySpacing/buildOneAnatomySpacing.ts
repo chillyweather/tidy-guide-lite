@@ -35,10 +35,8 @@ export async function buildOneSizeAnatomySpacings(
   let tempX = 0;
 
   elements.forEach((subElement, index) => {
-    console.log("subElement", subElement);
     try {
       const currentElement = element.clone();
-      console.log("currentElement", currentElement);
       if (subElement && subElement.visible === true) {
         workingElements.push({ currentElement, subElement, index });
       }
@@ -68,7 +66,6 @@ export async function buildOneSizeAnatomySpacings(
       clonedFrame.x = absX;
       clonedFrame.y = absY;
       if (found.type === "FRAME" || found.type === "INSTANCE") {
-        console.log("dataElement", dataElement);
         const background = createElementBackground(
           found,
           dataElement.currentElement
@@ -87,7 +84,6 @@ export async function buildOneSizeAnatomySpacings(
         );
 
         if (!(spacingMarks && spacingMarks.length > 0)) {
-          console.log("dataElement.currentElement", dataElement.currentElement);
           dataElement.currentElement.remove();
           background.remove();
           clonedFrame.remove();

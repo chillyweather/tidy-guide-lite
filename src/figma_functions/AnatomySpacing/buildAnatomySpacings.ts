@@ -25,25 +25,27 @@ export async function buildAnatomySpacings(
 
   const elementSizes = (await getElementSizes(element)) ?? [];
 
-  const anatomyGroups: (FrameNode[] | null)[] = [];
+  let anatomyGroups: (FrameNode[] | null)[] = [];
 
   if (elementSizes.length) {
-    for (const size of elementSizes) {
-      const propNames = Object.keys(variantProperties);
-      const sizeProp = propNames.find(
-        (propName) => propName.toLowerCase() === "size"
-      );
-      if (sizeProp) {
-        setVariantProps(element, sizeProp, size);
-      }
-      const spacings = await buildOneSizeAnatomySpacings(
-        element,
-        elements,
-        frame,
-        booleanProperties
-      );
-      anatomyGroups.push(spacings);
-    }
+    anatomyGroups = await Promise.all(
+      elementSizes.map(async (size) => {
+        const propNames = Object.keys(variantProperties);
+        const sizeProp = propNames.find(
+          (propName) => propName.toLowerCase() === "size"
+        );
+        if (sizeProp) {
+          console.log("sizeProp", sizeProp);
+          setVariantProps(element, sizeProp, size);
+        }
+        return buildOneSizeAnatomySpacings(
+          element,
+          elements,
+          frame,
+          booleanProperties
+        );
+      })
+    );
   } else {
     const spacings = await buildOneSizeAnatomySpacings(
       element,
@@ -51,7 +53,7 @@ export async function buildAnatomySpacings(
       frame,
       booleanProperties
     );
-    anatomyGroups.push(spacings);
+    anatomyGroups = [spacings];
   }
   return anatomyGroups;
 }

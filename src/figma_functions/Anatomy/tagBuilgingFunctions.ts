@@ -133,8 +133,6 @@ export async function findAllNodes(
   figma.skipInvisibleInstanceChildren = true;
   for (const node of frame.children) {
     if (node.absoluteBoundingBox && node.width > 0.01) {
-      console.log("node.type", node.type);
-      console.log("node.name", node.name);
       if (node.type === "INSTANCE" && instances && !node.name.startsWith("_")) {
         await addInstancesToArray(node, elementsCoordinatesAndDimensions);
       }
