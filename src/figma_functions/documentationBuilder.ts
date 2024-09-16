@@ -13,10 +13,10 @@ const documentationCornerRadius = 12;
 
 export default async function documentationBuilder(
   data: any,
-  loadFonts: () => Promise<void>,
+  loadFonts: (font?: any) => Promise<void>,
   appSettings: any
 ) {
-  await loadFonts();
+  await loadFonts(appSettings.documentationFont);
 
   const children = figma.currentPage.children;
   const bounds = computeMaximumBounds(Array.from(children));
@@ -32,7 +32,7 @@ export default async function documentationBuilder(
   documentationFrame.appendChild(headerSectionFrame);
   headerSectionFrame.layoutSizingHorizontal = "FILL";
 
-  const title = buildTitle(data.title);
+  const title = buildTitle(data.title, appSettings.documentationFont);
   const divider = buildDivider();
 
   const defaultElement = await getNodeAndDefaultElement(data);

@@ -6,12 +6,14 @@ import {
 } from "../figma_functions/documentationBuilder";
 import { doNetwork, dontNetwork } from "src/resources/vectors/vectorElements";
 
-export function buildTitle(title: string) {
+export function buildTitle(title: string, fontname?: FontName) {
   const titleFrame = buildAutoLayoutFrame("title", "HORIZONTAL", 0, 0, 0);
   const titleText = figma.createText();
   titleText.characters = title;
   titleText.fontSize = 40;
-  titleText.fontName = { family: "Inter", style: "Semi Bold" };
+  titleText.fontName = fontname
+    ? fontname
+    : { family: "Inter", style: "Semi Bold" };
   titleFrame.appendChild(titleText);
   return titleFrame;
 }

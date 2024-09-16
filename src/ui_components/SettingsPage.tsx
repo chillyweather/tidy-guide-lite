@@ -11,7 +11,7 @@ import {
   IconUser,
   IconChevronRight,
 } from "@tabler/icons-react";
-import manageCanvasAppearance from "./manageCanvasAppearance";
+import CanvasAppearance from "./appearance_settings/manageCanvasAppearance";
 import { useEffect } from "react";
 
 const Settings = () => {
@@ -59,9 +59,9 @@ const Settings = () => {
 
   return (
     <div style={{ width: "100%" }}>
-      {showSettingsContent && SettingsContent}
+      {/* {showSettingsContent && SettingsContent} */}
 
-      {showManageCanvasAppearance && manageCanvasAppearance()}
+      {showManageCanvasAppearance && CanvasAppearance()}
     </div>
   );
 };

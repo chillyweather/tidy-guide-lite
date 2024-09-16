@@ -5,6 +5,7 @@ import { makeCollapsibleComponent } from "../utilityFunctions";
 import { buildElementData } from "./buildElementData";
 import { buildHexSection } from "./buildHexSection";
 // import { toTitleCase } from "../utilityFunctions";
+import { varDataFills } from "../constants";
 
 export function buildIndexElementForText(
   parent: FrameNode,
@@ -21,7 +22,7 @@ export function buildIndexElementForText(
     "VERTICAL",
     0,
     0,
-    4
+    12
   );
 
   const textStyleSection = buildAutoLayoutFrame(
@@ -85,23 +86,10 @@ function buildTextColorSection(element: any, frame: FrameNode): FrameNode {
       4
     );
     const colorStyle = figma.createText();
-    colorStyle.characters = `🎨 ${element.elementVariable}`;
+    colorStyle.characters = `🔢 ${element.elementVariable}`;
     colorStyleFrame.appendChild(colorStyle);
     colorStyleFrame.cornerRadius = 4;
-    colorStyleFrame.fills = [
-      {
-        type: "SOLID",
-        visible: true,
-        opacity: 1,
-        blendMode: "NORMAL",
-        color: {
-          r: 0.9098039269447327,
-          g: 0.929411768913269,
-          b: 0.9882352948188782,
-        },
-        boundVariables: {},
-      },
-    ];
+    colorStyleFrame.fills = varDataFills;
     frame.appendChild(colorStyleFrame);
   }
 
@@ -115,20 +103,7 @@ function buildTextStyleData(element: any, frame: FrameNode): FrameNode {
   frame.appendChild(text);
 
   frame.cornerRadius = 4;
-  frame.fills = [
-    {
-      type: "SOLID",
-      visible: true,
-      opacity: 1,
-      blendMode: "NORMAL",
-      color: {
-        r: 0.9330241084098816,
-        g: 0.9330241084098816,
-        b: 0.9330241084098816,
-      },
-      boundVariables: {},
-    },
-  ];
+  frame.fills = varDataFills;
 
   return frame;
 }

@@ -33,12 +33,12 @@ export async function buildPropSection(
   parentFrame: FrameNode
 ) {
   const booleanProps = await findAllBooleanProps(node);
-  if (!booleanProps) return null;
+  const sizes = await getElementSizes(node);
+  if (!booleanProps && !sizes) return null;
 
   // turnAllBooleansOff(node, booleanProps);
 
   //! build size property (if size)
-  const sizes = await getElementSizes(node);
   if (sizes) {
     const propertyFrame = buildContentFrame("frameForSizes", "VERTICAL");
     const subtitle = buildSubtitle("Size property");
@@ -137,9 +137,10 @@ export async function buildPropSection(
     propertyFrame.appendChild(allElementsFrame);
     allElementsFrame.layoutSizingHorizontal = "FILL";
   } else {
-    // node.remove();
-    parentFrame?.remove();
-    return null;
+    if (!sizes) {
+      parentFrame?.remove();
+      return null;
+    }
   }
   parentFrame.name = parentFrame.name + "- Properties";
   return parentFrame;

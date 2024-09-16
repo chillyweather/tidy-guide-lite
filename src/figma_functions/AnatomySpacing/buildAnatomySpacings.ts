@@ -8,6 +8,8 @@ import {
   getElementSizes,
 } from "../utilityFunctions";
 import { getAnatomyElements } from "./getAnatomyElements";
+import buildSizeMarkerComponentSet from "src/figma_layout_components/buildSizeMarker";
+import buildSpacingMarkerComponentSet from "src/figma_layout_components/buildSpacingMarker";
 import { buildOneSizeAnatomySpacings } from "./buildOneAnatomySpacing";
 
 export async function buildAnatomySpacings(
@@ -16,6 +18,10 @@ export async function buildAnatomySpacings(
 ) {
   const elements = getAnatomyElements(element);
   if (!(elements && elements.length)) return;
+
+  const sizeMarker = await buildSizeMarkerComponentSet();
+  const spacingMarker = await buildSpacingMarkerComponentSet();
+  if (!sizeMarker || !spacingMarker) return;
 
   const subtitle = createSubtitle();
   frame.appendChild(subtitle);
@@ -30,19 +36,21 @@ export async function buildAnatomySpacings(
   if (elementSizes.length) {
     anatomyGroups = await Promise.all(
       elementSizes.map(async (size) => {
+        const sizeElement = element.clone();
         const propNames = Object.keys(variantProperties);
         const sizeProp = propNames.find(
           (propName) => propName.toLowerCase() === "size"
         );
         if (sizeProp) {
-          console.log("sizeProp", sizeProp);
-          setVariantProps(element, sizeProp, size);
+          setVariantProps(sizeElement, sizeProp, size);
         }
         return buildOneSizeAnatomySpacings(
-          element,
+          sizeElement,
           elements,
           frame,
-          booleanProperties
+          booleanProperties,
+          sizeMarker,
+          spacingMarker
         );
       })
     );
@@ -51,10 +59,14 @@ export async function buildAnatomySpacings(
       element,
       elements,
       frame,
-      booleanProperties
+      booleanProperties,
+      sizeMarker,
+      spacingMarker
     );
     anatomyGroups = [spacings];
   }
+  sizeMarker?.remove();
+  spacingMarker.remove();
   return anatomyGroups;
 }
 function createSubtitle() {

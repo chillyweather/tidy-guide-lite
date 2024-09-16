@@ -10,16 +10,16 @@ import { computeMaximumBounds } from "@create-figma-plugin/utilities";
 import { buildAnatomySpacings } from "./AnatomySpacing/buildAnatomySpacings";
 
 export async function buildOneSection(
-  loadFonts: () => Promise<void>,
+  loadFonts: (font?: any) => Promise<void>,
   nodeId: any,
   nodeKey: any,
   type: string,
   indexPosition?: string,
   indexSpacing?: string,
-  pluginSettings?: any,
+  appSettings?: any,
   isInternalSpacing?: boolean
 ) {
-  await loadFonts();
+  await loadFonts(appSettings.documentationFont);
   const foundNode = await getNodeAndDefaultElement(nodeId, nodeKey);
   const instance = foundNode.createInstance();
 
@@ -30,7 +30,7 @@ export async function buildOneSection(
     instance,
     indexPosition,
     indexSpacing,
-    pluginSettings,
+    appSettings,
     isInternalSpacing
   );
 
@@ -38,34 +38,41 @@ export async function buildOneSection(
   return result;
 }
 
+// const sectionBuilders = {
+//   anatomy: buildAnatomySection,
+//   variants: buildVarSection,
+//   spacing: buildSpacingSection,
+//   property: buildPropSection,
+// };
+
 async function buildSectionContent(
   type: string,
   node: InstanceNode,
   indexPosition?: string,
   indexSpacing?: string,
-  pluginSettings?: any,
+  appSettings?: any,
   isInternalSpacing?: boolean
 ) {
   const frame = buildResultFrame();
 
   if (type === "anatomy") {
-    const title = buildTitle("Anatomy");
+    const title = buildTitle("Anatomy", appSettings.documentationFont);
     frame.appendChild(title);
     await buildAnatomySection(
       node,
       frame,
       indexPosition,
       indexSpacing,
-      pluginSettings
+      appSettings
     );
   } else if (type === "variants") {
     const title = buildTitle("Variants");
     frame.appendChild(title);
     await buildVarSection(node, frame);
   } else if (type === "spacing") {
-    const title = buildTitle("Spacing");
+    const title = buildTitle("Size & spacing");
     frame.appendChild(title);
-    await buildSpacingSection(node, frame, pluginSettings);
+    await buildSpacingSection(node, frame, appSettings);
     adjustSpacingFrame(frame);
     //! here be anatomy spacing
     if (isInternalSpacing) await buildAnatomySpacings(node, frame);
@@ -74,7 +81,6 @@ async function buildSectionContent(
     frame.appendChild(title);
     const propSection = await buildPropSection(node, frame);
     if (propSection) adjustPropFrame(propSection);
-    //? how to indicate that there are no properties???
   } else {
     frame.remove();
     return;

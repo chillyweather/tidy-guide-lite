@@ -9,7 +9,10 @@ import { getNode } from "./figma_functions/getNode";
 import { buildOneSection } from "./figma_functions/buildOneSection";
 import handleCanvasColors from "./figma_functions/handleCanvasColors";
 
-const loadFonts = async () => {
+const loadFonts = async (font?: any) => {
+  await figma.loadFontAsync(
+    font ? font : { family: "Inter", style: "Regular" }
+  );
   await figma.loadFontAsync({ family: "Inter", style: "Regular" });
   await figma.loadFontAsync({ family: "Inter", style: "Bold" });
   await figma.loadFontAsync({ family: "Inter", style: "Semi Bold" });
@@ -37,6 +40,11 @@ export default async function () {
 
   const selectionData = await checkSelection();
   if (selectionData) emit("SELECTION", selectionData);
+
+  on("GET_FONTS", async () => {
+    const fonts = await figma.listAvailableFontsAsync();
+    emit("FONTS", fonts);
+  });
 
   on("GET_SELECTION", async () => {
     const selectionData = await checkSelection();
@@ -69,6 +77,7 @@ export default async function () {
   });
 
   on("BUILD", async (data, appSettings) => {
+    console.log("appSettings", appSettings);
     try {
       const id = data.nodeId;
       savedData[id] = data;

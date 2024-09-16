@@ -1,6 +1,7 @@
 import { atom } from "jotai";
 import { Screens } from "./navigationTypes";
 import { CurrenPage } from "./atomTypes";
+import { DropdownOption } from "src/ui_components/appearance_settings/Dropdown";
 
 //navigation
 export const historyAtom = atom<Screens[]>([Screens.HOME]);
@@ -20,6 +21,9 @@ export const allVariantsAtom = atom([]);
 export const appSettingsAtom = atom({});
 export const settingsUnitsAtom = atom("px");
 export const settingsRemRootAtom = atom(16);
+export const appFontsAtom = atom([]);
+export const documentationFontAtom = atom<DropdownOption | null>(null);
+
 // export const settingsStrokeStyleAtom = atom("solid");
 
 //page states

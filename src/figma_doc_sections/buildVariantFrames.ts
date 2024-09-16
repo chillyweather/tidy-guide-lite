@@ -45,8 +45,6 @@ export function buildVariantFrames(
       workingArrays.forEach((arr) => {
         const secondLevelFrame = buildSecondLevelFrame(variantKeys);
 
-        console.log("secondLevelFrame", secondLevelFrame);
-        console.log("secondLevelFrame.name", secondLevelFrame.name);
         arr.forEach((subArr: any) => {
           const thirdLevelFrame = buildThirdLevelFrame(
             variantKeys,

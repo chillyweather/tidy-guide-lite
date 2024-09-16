@@ -159,12 +159,10 @@ export function setVariantProps(
   for (const property in propList) {
     if (property.includes(`${name}`) && propList[property].type === "VARIANT") {
       try {
-        const newProps = {};
-        //@ts-ignore
+        const newProps: { [key: string]: string } = {};
         newProps[property] = value;
         node.setProperties(newProps);
       } catch (error) {
-        // node.opacity = 0;
         console.log(
           `error :>> node with property ${property} and value ${value} doesn't exist on node ${node}`
         );
@@ -172,7 +170,6 @@ export function setVariantProps(
     }
   }
 }
-
 /**
  * Sets a boolean property on an instance node.
  * @param element - The instance node to set the property on.
@@ -524,4 +521,17 @@ export function toTitleCase(str: string) {
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");
+}
+
+export function tempPropCheck(
+  node: InstanceNode,
+  color: string,
+  note?: string
+) {
+  console.log(
+    "%c tempPropCheck",
+    `color: ${color}`,
+    note,
+    node.componentProperties.size
+  );
 }

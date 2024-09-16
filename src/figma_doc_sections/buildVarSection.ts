@@ -36,7 +36,6 @@ export async function buildVarSection(
   if (variantFrames.type !== "FRAME") return;
   const labels = buildBasicGridLabels(variantFrames, variantProps);
   if (!labels) return;
-  // buildTopLevelLabels(variantFrames, labels, node);
   const varsWithLabels = figma.group(
     [variantFrames, ...(labels as GroupNode[])],
     parentFrame

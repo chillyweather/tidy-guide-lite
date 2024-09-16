@@ -13,7 +13,8 @@ import ContentFromServer from "./ui_components/ContentFromServer";
 import Footer from "./ui_components/Footer";
 import Header from "./ui_components/Header";
 import IndexPage from "./ui_components/IndexPage";
-import Settings from "./ui_components/SettingsPage";
+// import Settings from "./ui_components/SettingsPage";
+import CanvasAppearance from "./ui_components/appearance_settings/manageCanvasAppearance";
 import MainContent from "./ui_components/MainContent";
 
 import { useAtom } from "jotai";
@@ -34,6 +35,7 @@ import {
   showContentFromServerAtom,
   showDeletePopupAtom,
   showDeleteSectionPopupAtom,
+  showManageCanvasAppearanceAtom,
   showIndexPageAtom,
   showMainContentAtom,
   showSettingsPageAtom,
@@ -49,6 +51,7 @@ import {
   checkExistingDocumentAtom,
   selectedVariantAtom,
   allVariantsAtom,
+  appFontsAtom,
 } from "./state/atoms";
 
 //styles
@@ -69,6 +72,7 @@ function Plugin() {
 
   const [showDeleteSectionPopup] = useAtom(showDeleteSectionPopupAtom);
   const [showDeletePopup, setShowDeletePopup] = useAtom(showDeletePopupAtom);
+  const [, setAppFonts] = useAtom(appFontsAtom);
 
   //data from server
   const [dataForUpdate, setDataForUpdate]: any = useAtom(dataForUpdateAtom);
@@ -118,11 +122,22 @@ function Plugin() {
   );
   const [, setSelectedVariant] = useAtom(selectedVariantAtom);
   const [, setAllVariants] = useAtom(allVariantsAtom);
+  const [showManageCanvasAppearance] = useAtom(showManageCanvasAppearanceAtom);
 
   on("SETTINGS", (settings: any) => {
     if (settings) {
       console.log("settings", settings);
       setAppSettings(settings);
+    }
+  });
+
+  useEffect(() => {
+    emit("GET_FONTS");
+  }, []);
+
+  on("FONTS", (fontsArray) => {
+    if (fontsArray && fontsArray.length) {
+      setAppFonts(fontsArray);
     }
   });
 
@@ -358,23 +373,16 @@ function Plugin() {
       }}
     >
       {showDeletePopup && <DeletePopup />}
-
       {showDeleteSectionPopup && <DeleteSectionPopup />}
-
       {isToastOpen && toastMessage && <Toast onClose={closeToast} />}
-
       <Header />
-
       {showIndexPage && <IndexPage />}
-
       {showMainContent && <MainContent />}
-
       {selectedMasterId && showContentFromServer && !showMainContent && (
         <ContentFromServer />
       )}
-
-      {showSettingsPage && <Settings />}
-
+      {/* {showSettingsPage && <Settings />} */}
+      {showManageCanvasAppearance && <CanvasAppearance />}
       {(showContentFromServer || showMainContent) && <Footer />}
     </div>
   );

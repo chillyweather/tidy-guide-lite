@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// const BACKGROUND_PADDING = 10;
+// let BACKGROUND_PADDING = 10;
 const DEFAULT_FONT = { family: "Inter", style: "Regular" };
 const DEFAULT_FONT_SIZE = 12;
-
+const BOOLEAN_VARIANT_NAMES = ["on", "off", "true", "false"];
 export function buildBasicGridLabels(frame: FrameNode, variantProps: any) {
+  console.log("%c frame", "color: lime", frame.name);
   const defaultElement = frame.findOne((node) => node.type === "INSTANCE");
   if (!defaultElement) return;
 
@@ -14,13 +15,7 @@ export function buildBasicGridLabels(frame: FrameNode, variantProps: any) {
   const isOnlyFrames = frame.children.every((node) => node.type === "FRAME");
 
   if (isOnlyFrames) {
-    buildSecondLevelLabels(
-      frame,
-      variantProps,
-      topLabels,
-      defaultElement,
-      leftLabels
-    );
+    buildSecondLevelLabels(frame, variantProps, topLabels, leftLabels);
   }
 
   buildFirstLevelLabels(
@@ -63,11 +58,7 @@ function buildFirstLevelLabels(
     const firstProp = firstLevelFrame.name.split("-")[0];
     const firstPropVariants = variantProps[firstProp].variantOptions;
     firstPropVariants.forEach((prop: string, index: number) => {
-      const label = figma.createText();
-      figma.currentPage.appendChild(label);
-      label.characters = prop;
-      label.fontSize = DEFAULT_FONT_SIZE;
-      label.fontName = DEFAULT_FONT;
+      const label = createLabel(prop, firstProp);
 
       if (firstLevelLayoutMode === "VERTICAL") {
         label.x = xPosition(index, firstLevelFrame) - (label.width + 60);
@@ -93,32 +84,38 @@ function buildSecondLevelLabels(
   frame: FrameNode,
   variantProps: any,
   topLabels: any[],
-  defaultElement: SceneNode,
   leftLabels: any[]
 ) {
   const secondLevelLayoutMode = frame.layoutMode;
   const secondProp = frame.name.split("-")[0];
   const secondPropVariants = variantProps[secondProp].variantOptions;
   secondPropVariants.forEach((variant: string, index: number) => {
-    const label = figma.createText();
-    label.fontSize = DEFAULT_FONT_SIZE;
-    label.fontName = DEFAULT_FONT;
-    figma.currentPage.appendChild(label);
-    label.characters = variant;
-    if (secondLevelLayoutMode === "HORIZONTAL") {
-      placeHorizontalLabel(frame, label, index, 60, topLabels);
-    }
-    if (secondLevelLayoutMode === "VERTICAL") {
-      placeVerticalLabel(frame, label, index, 60, leftLabels);
+    const label = createLabel(variant, secondProp);
+    try {
+      if (secondLevelLayoutMode === "HORIZONTAL") {
+        placeHorizontalLabel(frame, label, index, 60, topLabels);
+      }
+      if (secondLevelLayoutMode === "VERTICAL") {
+        placeVerticalLabel(frame, label, index, 60, leftLabels);
+      }
+    } catch (e) {
+      console.log(e);
     }
   });
 }
-function xPosition(index: number, frame: FrameNode) {
-  return frame.children[index].absoluteTransform[0][2];
+
+function createLabel(prop: string, firstProp: string) {
+  const label = figma.createText();
+  figma.currentPage.appendChild(label);
+  label.characters = fixBooleanLabelText(prop, firstProp);
+  label.fontSize = DEFAULT_FONT_SIZE;
+  label.fontName = DEFAULT_FONT;
+  return label;
 }
 
-function yPosition(index: number, frame: FrameNode) {
-  return frame.children[index].absoluteTransform[1][2];
+function fixBooleanLabelText(text: string, propName: string) {
+  if (!BOOLEAN_VARIANT_NAMES.includes(text)) return text;
+  return `${propName}  /  ${text}`;
 }
 
 function placeVerticalLabel(
@@ -134,6 +131,14 @@ function placeVerticalLabel(
     frame.children[index].height / 2 -
     label.height / 2;
   labelsArray.push(label);
+}
+
+function xPosition(index: number, frame: FrameNode) {
+  return frame.children[index].absoluteTransform[0][2];
+}
+
+function yPosition(index: number, frame: FrameNode) {
+  return frame.children[index].absoluteTransform[1][2];
 }
 
 function placeHorizontalLabel(

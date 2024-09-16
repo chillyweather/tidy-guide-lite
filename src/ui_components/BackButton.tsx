@@ -27,7 +27,7 @@ import {
 import { IconArrowLeft } from "@tabler/icons-react";
 
 export default function BackButton() {
-  const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
+  const [currentPage] = useAtom(currentPageAtom);
   const [, setIsDetailsPageOpen] = useAtom(isDetailsPageOpenAtom);
   const [, setIsToBuildComponentPic] = useAtom(isToBuildComponentPicAtom);
   const [, setSelectedNodeKey] = useAtom(selectedNodeKeyAtom);
@@ -81,37 +81,37 @@ export default function BackButton() {
     setDocumentationTitle("");
   }
 
-  function backToSettings() {
-    setShowManageCanvasAppearance(false);
-    setShowManageCollectionsPage(false);
-    setShowManageUsersPage(false);
-    setShowSettingsContent(true);
-  }
+  // function backToSettings() {
+  //   setShowManageCanvasAppearance(false);
+  //   setShowManageCollectionsPage(false);
+  //   setShowManageUsersPage(false);
+  //   setShowSettingsContent(true);
+  // }
 
   return (
     <button
       onClick={() => {
         switch (currentPage) {
-          case "details":
-            backToIndex();
-            break;
-          case "new-documnent":
-            backToIndex();
-            break;
-          case "settings":
-            backToIndex();
-            break;
-          case "settings-section":
-            backToIndex();
-            setCurrentPage("index");
-            break;
-          case "canvas-appearance":
-            backToSettings();
-            setCurrentPage("settings");
-            break;
-          case "logout":
-            backToIndex();
-            break;
+          // case "details":
+          //   backToIndex();
+          //   break;
+          // case "new-documnent":
+          //   backToIndex();
+          //   break;
+          // case "settings":
+          //   backToIndex();
+          //   break;
+          // case "settings-section":
+          //   backToIndex();
+          //   setCurrentPage("index");
+          //   break;
+          // case "canvas-appearance":
+          //   backToSettings();
+          //   setCurrentPage("settings");
+          //   break;
+          // case "logout":
+          //   backToIndex();
+          //   break;
           default:
             backToIndex();
             break;

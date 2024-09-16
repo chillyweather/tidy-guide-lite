@@ -5,10 +5,12 @@ import {
   appSettingsAtom,
   settingsUnitsAtom,
   settingsRemRootAtom,
-} from "../state/atoms";
+  appFontsAtom,
+  documentationFontAtom,
+} from "../../state/atoms";
 import { useEffect, useState } from "preact/hooks";
-import ColorPickerInput from "./ColorPickerInput";
-import { TagLabel, TagLine } from "./tagPreviewElements";
+import ColorPickerInput from "../ColorPickerInput";
+import { TagLabel, TagLine } from "../tagPreviewElements";
 import {
   IconCircleFilled,
   IconSquareFilled,
@@ -16,20 +18,42 @@ import {
   IconSquareRotatedFilled,
 } from "@tabler/icons-react";
 import { emit } from "@create-figma-plugin/utilities";
-import RadioButton from "./RadioButton";
-// import { NumericInput } from "tidy-ds";
+import RadioButton from "../RadioButton";
+import { Button } from "./Button";
+import { DropdownOption } from "tidy-ds";
+import Dropdown from "./Dropdown";
+import { VerticalSpace } from "@create-figma-plugin/ui";
 
-export default function manageCanvasAppearance() {
+export type LabelType =
+  | "round"
+  | "square"
+  | "square-rounded"
+  | "square-rounded-rotated";
+
+const defaultFont = {
+  family: "Inter",
+  style: "Regular",
+};
+
+export default function CanvasAppearance() {
   const [appSettings, setAppSettings]: any = useAtom(appSettingsAtom);
   const [tagLabelText] = useState("42");
 
-  const [labelType, setLabelType] = useState<
-    "round" | "square" | "square-rounded" | "square-rounded-rotated"
-  >(appSettings.labelType || "round");
+  const [labelType, setLabelType] = useState<LabelType>(
+    appSettings.labelType || "round"
+  );
   const [tagColor, setTagColor] = useState(appSettings.tagColor || "#F1592A");
   const [lineType, setLineType] = useState(appSettings.lineType || "Solid");
   const [units, setUnits] = useAtom(settingsUnitsAtom);
   const [rootValue, setRootValue] = useAtom(settingsRemRootAtom);
+  const [appFonts] = useAtom(appFontsAtom);
+  const [fontList, setFontList] = useState<DropdownOption[]>([]);
+  const [documentationFontName, setDocumentationFontName] = useAtom(
+    documentationFontAtom
+  );
+  const [documentationFont, setDocumentationFont] = useState<any>(
+    appSettings.documentationFont || defaultFont
+  );
 
   useEffect(() => {
     setAppSettings({
@@ -38,8 +62,20 @@ export default function manageCanvasAppearance() {
       tagColor,
       units,
       rootValue,
+      documentationFont,
     });
-  }, [labelType, lineType, tagColor, units, rootValue]);
+  }, [labelType, lineType, tagColor, units, rootValue, documentationFont]);
+
+  useEffect(() => {
+    if (documentationFontName) {
+      const family = documentationFontName.name.split(" - ")[0];
+      const style = documentationFontName.name.split(" - ")[1];
+      setDocumentationFont({
+        family,
+        style,
+      });
+    }
+  }, [documentationFontName]);
 
   useEffect(() => {
     if (appSettings.rootValue) {
@@ -55,6 +91,28 @@ export default function manageCanvasAppearance() {
       emit("UPDATE_APP_SETTINGS", appSettings);
     }
   }, [appSettings]);
+
+  useEffect(() => {
+    if (appSettings.documentationFont) {
+      setDocumentationFontName({
+        id: "xxx",
+        name: `${appSettings.documentationFont.family} - ${appSettings.documentationFont.style}`,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (appFonts && appFonts.length) {
+      const fonts = appFonts.map((font: any, index: number) => {
+        return {
+          id: index,
+          name: `${font.fontName.family} - ${font.fontName.style}`,
+        };
+      });
+      console.log("fonts", fonts);
+      setFontList(fonts);
+    }
+  }, [appFonts]);
 
   const icons = {
     round: (
@@ -98,6 +156,15 @@ export default function manageCanvasAppearance() {
   return (
     <div className="manage-canvas">
       <h2>Documentation Appearance</h2>
+      <h4>Font</h4>
+      <Dropdown
+        options={fontList}
+        selectedOption={documentationFontName}
+        onSelect={(value) => setDocumentationFontName(value)}
+        placeholder="Select a font"
+      />
+      <VerticalSpace space="small" />
+      <h4>Tags</h4>
       <div className="anatomy-tags-settings-with-preview">
         <div className="anatomy-tags-settings">
           <div className="tags-settings-element">
@@ -151,17 +218,6 @@ export default function manageCanvasAppearance() {
               />
             </div>
           </div>
-          {/* <div className="tags-settings-element">
-            <p style={{ margin: 0 }}>Units:</p>
-            <div className="appearance-button-wrapper">
-              <RadioButton
-                selectedOption={units}
-                setSelectedOption={setUnits}
-                options={["px", "rem"]}
-              />
-            </div>
-          </div>
-          <NumericInput value={rootValue} onChange={setRootValue} /> */}
         </div>
         <div className="tag-preview-frame">
           <div className="tag-preview">
@@ -173,40 +229,3 @@ export default function manageCanvasAppearance() {
     </div>
   );
 }
-
-const Button = ({
-  label,
-  type,
-  labelType,
-  setType,
-}: {
-  label: JSX.Element | string;
-  type: string;
-  labelType: string;
-  setType: (type: any) => void;
-}) => {
-  function handleClick(type: string) {
-    setType(type);
-  }
-
-  const selectedStyle = {
-    border: "1px solid #5C6CFF",
-    height: "26px",
-    width: "26px",
-    backgroundColor: "#E5E8FF",
-  };
-  const idleStyle = {
-    height: "26px",
-    width: "26px",
-  };
-
-  return (
-    <button
-      className="appearance-button"
-      onClick={() => handleClick(type)}
-      style={type === labelType ? selectedStyle : idleStyle}
-    >
-      {label}
-    </button>
-  );
-};

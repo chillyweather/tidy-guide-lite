@@ -12,7 +12,7 @@ import {
   showIndexPageAtom,
   showLoginPageAtom,
   showMainContentAtom,
-  showSettingsContentAtom,
+  // showSettingsContentAtom,
   showSettingsPageAtom,
   showManageCanvasAppearanceAtom,
 } from "src/state/atoms";
@@ -37,7 +37,7 @@ const Header = () => {
   const [, setIsContenFromServerOpen] = useAtom(showContentFromServerAtom);
   const [, setIsSettingsPageOpen] = useAtom(showSettingsPageAtom);
   const [, setIsFirstTime] = useAtom(isFirstTimeAtom);
-  const [, setShowSettingsContent] = useAtom(showSettingsContentAtom);
+  // const [, setShowSettingsContent] = useAtom(showSettingsContentAtom);
   const [, setShowManageCanvasAppearance] = useAtom(
     showManageCanvasAppearanceAtom
   );
@@ -88,7 +88,7 @@ const Header = () => {
               setIsMainContentOpen(false);
               setIsContenFromServerOpen(false);
               setIsSettingsPageOpen(true);
-              setShowSettingsContent(false);
+              // setShowSettingsContent(false);
               setIsFirstTime(false);
               setShowManageCanvasAppearance(true);
               setCurrentPage("canvas-appearance");

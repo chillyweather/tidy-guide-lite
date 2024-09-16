@@ -1,6 +1,6 @@
+/* eslint-disable no-empty */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import buildSizeMarkerComponentSet from "src/figma_layout_components/buildSizeMarker";
-import buildSpacingMarkerComponentSet from "src/figma_layout_components/buildSpacingMarker";
+
 import {
   setColorStyle,
   turnAllBooleansOn,
@@ -15,10 +15,10 @@ export async function buildOneSizeAnatomySpacings(
   element: InstanceNode,
   elements: (InstanceNode | FrameNode)[],
   frame: FrameNode,
-  booleanProperties: any
+  booleanProperties: any,
+  sizeMarker: ComponentSetNode | undefined,
+  spacingMarker: ComponentSetNode
 ) {
-  const sizeMarker = await buildSizeMarkerComponentSet();
-  const spacingMarker = await buildSpacingMarkerComponentSet();
   const dsGray100 = await setColorStyle(
     ".TG-admin/spacing-block-background",
     "F5F5F5"
@@ -44,9 +44,7 @@ export async function buildOneSizeAnatomySpacings(
       frame.appendChild(currentElement);
       currentElement.x = tempX;
       tempX += 300;
-    } catch (error) {
-      //
-    }
+    } catch {}
   });
 
   const anatomyFrames: FrameNode[] = [];
@@ -139,7 +137,7 @@ export async function buildOneSizeAnatomySpacings(
       element.layoutSizingHorizontal = "FILL";
     }
   });
-  sizeMarker?.remove();
-  spacingMarker.remove();
+
+  element.remove();
   return anatomyFrames;
 }
