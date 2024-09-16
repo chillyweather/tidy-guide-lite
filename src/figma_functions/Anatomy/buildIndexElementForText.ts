@@ -86,12 +86,24 @@ function buildTextColorSection(element: any, frame: FrameNode): FrameNode {
       4
     );
     const colorStyle = figma.createText();
-    colorStyle.characters = `🔢 ${element.elementVariable}`;
+    colorStyle.characters = `🎨 ${element.elementVariable}`;
     colorStyleFrame.appendChild(colorStyle);
     colorStyleFrame.cornerRadius = 4;
     colorStyleFrame.fills = varDataFills;
     frame.appendChild(colorStyleFrame);
   }
+
+  const textColorDataSection = buildAutoLayoutFrame(
+    "text-color-data",
+    "VERTICAL",
+    8,
+    12,
+    4
+  );
+
+  const cssValue = `color: ${element.elementFill};`;
+  buildElementData(textColorDataSection, cssValue);
+  frame.appendChild(textColorDataSection);
 
   return frame;
 }

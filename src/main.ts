@@ -43,7 +43,10 @@ export default async function () {
 
   on("GET_FONTS", async () => {
     const fonts = await figma.listAvailableFontsAsync();
-    emit("FONTS", fonts);
+    const validFonts = fonts.filter(
+      (font) => !font.fontName.family.startsWith(".")
+    );
+    emit("FONTS", validFonts);
   });
 
   on("GET_SELECTION", async () => {
