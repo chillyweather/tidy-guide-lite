@@ -51,6 +51,8 @@ export default function CanvasAppearance() {
   const [documentationFontName, setDocumentationFontName] = useAtom(
     documentationFontAtom
   );
+
+  const [fontStyles, setFontStyles] = useState<any>([]);
   const [documentationFont, setDocumentationFont] = useState<any>(
     appSettings.documentationFont || defaultFont
   );
@@ -68,14 +70,21 @@ export default function CanvasAppearance() {
 
   useEffect(() => {
     if (documentationFontName) {
-      const family = documentationFontName.name.split(" - ")[0];
-      const style = documentationFontName.name.split(" - ")[1];
+      const { family } = documentationFontName;
       setDocumentationFont({
         family,
-        style,
       });
     }
   }, [documentationFontName]);
+
+  useEffect(() => {
+    // const foundStyles = appFonts.filter(
+    //   (font: any) => font.family === documentationFont.family
+    // );
+    // if (foundStyles.length) {
+    //   console.log("foundStyles", foundStyles);
+    // }
+  }, [documentationFont]);
 
   useEffect(() => {
     if (appSettings.rootValue) {
@@ -96,7 +105,7 @@ export default function CanvasAppearance() {
     if (appSettings.documentationFont) {
       setDocumentationFontName({
         id: "xxx",
-        name: `${appSettings.documentationFont.family} - ${appSettings.documentationFont.style}`,
+        name: `${appSettings.documentationFont.family}`,
       });
     }
   }, []);
@@ -106,13 +115,30 @@ export default function CanvasAppearance() {
       const fonts = appFonts.map((font: any, index: number) => {
         return {
           id: index,
-          name: `${font.fontName.family} - ${font.fontName.style}`,
+          name: `${font.fontName.family}`,
         };
       });
-      console.log("fonts", fonts);
-      setFontList(fonts);
+      const uniqueFonts = fonts.filter(
+        (font: any, index: number, self: any) =>
+          index === self.findIndex((t: any) => t.name === font.name)
+      );
+      setFontList(uniqueFonts);
     }
   }, [appFonts]);
+
+  //   useEffect(() => {
+  //     if (appFonts && appFonts.length) {
+  //       const fonts = appFonts.map((font: any, index: number) => {
+  //         return {
+  //           id: index,
+  //           name: `${font.fontName.family} - ${font.fontName.style}`,
+  //           // name: `${font.fontName.family} - ${font.fontName.style}`,
+  //         };
+  //       });
+  //       console.log("fonts", fonts);
+  //       setFontList(fonts);
+  //     }
+  //   }, [appFonts]);
 
   const icons = {
     round: (
