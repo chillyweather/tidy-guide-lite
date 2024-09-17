@@ -125,6 +125,7 @@ declare const styles: {
   readonly "flex-container": string;
   readonly "flex-label": string;
   readonly "flex-link": string;
+  readonly "font-block": string;
   readonly "footer": string;
   readonly "fullscreen": string;
   readonly "green": string;

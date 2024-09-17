@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { h } from "preact";
-import { LabelType } from "./manageCanvasAppearance";
+import { LabelType } from "./settings/manageCanvasAppearance";
 
 export const Button = ({
   label,

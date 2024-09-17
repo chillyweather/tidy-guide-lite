@@ -11,7 +11,7 @@ import {
   IconUser,
   IconChevronRight,
 } from "@tabler/icons-react";
-import CanvasAppearance from "./appearance_settings/manageCanvasAppearance";
+import CanvasAppearance from "./appearance_settings/settings/manageCanvasAppearance";
 import { useEffect } from "react";
 
 const Settings = () => {

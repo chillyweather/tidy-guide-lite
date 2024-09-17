@@ -7,10 +7,10 @@ import {
   settingsRemRootAtom,
   appFontsAtom,
   documentationFontAtom,
-} from "../../state/atoms";
+} from "../../../state/atoms";
 import { useEffect, useState } from "preact/hooks";
-import ColorPickerInput from "../ColorPickerInput";
-import { TagLabel, TagLine } from "../tagPreviewElements";
+import ColorPickerInput from "../../ColorPickerInput";
+import { TagLabel, TagLine } from "../../tagPreviewElements";
 import {
   IconCircleFilled,
   IconSquareFilled,
@@ -18,11 +18,10 @@ import {
   IconSquareRotatedFilled,
 } from "@tabler/icons-react";
 import { emit } from "@create-figma-plugin/utilities";
-import RadioButton from "../RadioButton";
-import { Button } from "./Button";
-import { DropdownOption } from "tidy-ds";
-import Dropdown from "./Dropdown";
-import { VerticalSpace } from "@create-figma-plugin/ui";
+import RadioButton from "../../RadioButton";
+import { Button } from "../Button";
+import { DropdownOption } from "../Dropdown";
+import Dropdown from "../Dropdown";
 
 export type LabelType =
   | "round"
@@ -30,10 +29,9 @@ export type LabelType =
   | "square-rounded"
   | "square-rounded-rotated";
 
-const defaultFont = {
-  family: "Inter",
-  style: "Regular",
-};
+// const defaultFont = {
+//   family: "Inter",
+// };
 
 export default function CanvasAppearance() {
   const [appSettings, setAppSettings]: any = useAtom(appSettingsAtom);
@@ -46,16 +44,18 @@ export default function CanvasAppearance() {
   const [lineType, setLineType] = useState(appSettings.lineType || "Solid");
   const [units, setUnits] = useAtom(settingsUnitsAtom);
   const [rootValue, setRootValue] = useAtom(settingsRemRootAtom);
-  const [appFonts] = useAtom(appFontsAtom);
-  const [fontList, setFontList] = useState<DropdownOption[]>([]);
+  const [appFonts] = useAtom(appFontsAtom); //all the fonts in the app
+  const [fontList, setFontList] = useState<DropdownOption[]>([]); //list of unique fonts in the app (only font names)
   const [documentationFontName, setDocumentationFontName] = useAtom(
     documentationFontAtom
   );
 
-  const [fontStyles, setFontStyles] = useState<any>([]);
-  const [documentationFont, setDocumentationFont] = useState<any>(
-    appSettings.documentationFont || defaultFont
+  const [fontStyles, setFontStyles] = useState<DropdownOption[]>([]);
+  const [documentationTitleFont, setDocumentationTitleFont] = useState<any>(
+    appSettings.documentationFont || fontList[0]
   );
+  const [documentationTitleFontStyle, setDocumentationTitleFontStyle] =
+    useState<any>(appSettings.documentationFontStyle || fontStyles[0]);
 
   useEffect(() => {
     setAppSettings({
@@ -64,27 +64,39 @@ export default function CanvasAppearance() {
       tagColor,
       units,
       rootValue,
-      documentationFont,
+      documentationFont: documentationTitleFont,
     });
-  }, [labelType, lineType, tagColor, units, rootValue, documentationFont]);
+  }, [labelType, lineType, tagColor, units, rootValue, documentationTitleFont]);
 
   useEffect(() => {
     if (documentationFontName) {
       const { family } = documentationFontName;
-      setDocumentationFont({
+      setDocumentationTitleFont({
         family,
       });
     }
   }, [documentationFontName]);
 
   useEffect(() => {
-    // const foundStyles = appFonts.filter(
-    //   (font: any) => font.family === documentationFont.family
-    // );
+    console.log("documentationFont", documentationTitleFont);
+    console.log("appFonts", appFonts);
+    console.log("fontList", fontList);
+    console.log("appSettings.documentationFont", appSettings.documentationFont);
+    console.log("appSettings", appSettings);
+    const foundStyles = appFonts.filter(
+      (font: any) => font.fontName.family === documentationTitleFont.name
+    );
+    const fontStyles = foundStyles.map((font: any, index: number) => {
+      return {
+        id: index,
+        name: `${font.fontName.style}`,
+      };
+    });
+    setFontStyles(fontStyles);
     // if (foundStyles.length) {
     //   console.log("foundStyles", foundStyles);
     // }
-  }, [documentationFont]);
+  }, [documentationTitleFont]);
 
   useEffect(() => {
     if (appSettings.rootValue) {
@@ -183,13 +195,21 @@ export default function CanvasAppearance() {
     <div className="manage-canvas">
       <h2>Documentation Appearance</h2>
       <h4>Font</h4>
-      <Dropdown
-        options={fontList}
-        selectedOption={documentationFontName}
-        onSelect={(value) => setDocumentationFontName(value)}
-        placeholder="Select a font"
-      />
-      <VerticalSpace space="small" />
+      <div className="font-block">
+        <p>Title: </p>
+        <Dropdown
+          options={fontList}
+          selectedOption={documentationTitleFont}
+          onSelect={(value) => setDocumentationTitleFont(value)}
+          placeholder="Font"
+        />
+        <Dropdown
+          options={fontStyles}
+          selectedOption={documentationTitleFontStyle}
+          onSelect={(value) => setDocumentationTitleFontStyle(value)}
+          placeholder="Style"
+        />
+      </div>
       <h4>Tags</h4>
       <div className="anatomy-tags-settings-with-preview">
         <div className="anatomy-tags-settings">

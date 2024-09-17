@@ -1855,6 +1855,8 @@ body:has(.delete-flex) #userMenu {
   gap: 24px;
 }
 
+
+
 .tag-preview-frame {
   width: 240px;
   display: flex;
@@ -5261,6 +5263,14 @@ body:has(.navigation-button.true) .nav-wrapper .nav-container>* {
 
 .web-link:hover {
   text-decoration: none !important;
+}
+
+.font-block {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  justify-content: flex-start;
+  align-items: baseline;
 }
 
 /* -------------------------------------------- */
