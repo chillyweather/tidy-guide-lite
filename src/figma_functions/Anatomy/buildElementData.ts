@@ -1,7 +1,6 @@
-export function buildElementData(
-  frame: FrameNode,
-  textData: string
-): FrameNode {
+import { buildAutoLayoutFrame } from "../utilityFunctions";
+export function buildCssBlock(textData: string): FrameNode {
+  const frame = buildAutoLayoutFrame("text-data", "VERTICAL", 8, 12, 4);
   const text = createText(textData);
   frame.appendChild(text);
 

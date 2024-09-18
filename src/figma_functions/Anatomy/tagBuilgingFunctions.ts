@@ -125,6 +125,20 @@ async function getFillColorVariable(node: TextNode) {
   return found;
 }
 
+export async function getStrokeColorVariable(node: SceneNode) {
+  // @ts-ignore
+  const strokes: ReadonlyArray<Paint> | figma.mixed = node.strokes;
+  if (!strokes || strokes.length === 0) {
+    return null;
+  }
+  const boundVariable = strokes[0].boundVariables.color;
+  if (!boundVariable) {
+    return null;
+  }
+  const found = await figma.variables.getVariableByIdAsync(boundVariable.id);
+  return found;
+}
+
 export async function findAllNodes(
   frame: FrameNode | GroupNode,
   instances: boolean,

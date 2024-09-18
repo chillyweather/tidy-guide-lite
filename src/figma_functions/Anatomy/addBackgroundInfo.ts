@@ -5,7 +5,7 @@ import { checkIsBoundVariables } from "./checkIsBoundVariables";
 import { buildVarElement } from "./buildVarElement";
 import { buildVarContent } from "./buildVarContent";
 import { buildHexSection } from "./buildHexSection";
-import { buildElementData } from "./buildElementData";
+import { buildCssBlock } from "./buildElementData";
 import { buildAutoLayoutFrame, setColorStyle } from "../utilityFunctions";
 
 export async function addBackgroundInfo(
@@ -32,14 +32,6 @@ export async function addBackgroundInfo(
     12
   );
 
-  const backgroundDataSection = buildAutoLayoutFrame(
-    "background-data",
-    "VERTICAL",
-    8,
-    12,
-    4
-  );
-
   const tag = tagComponent.findOne((node) => node.name === "type=text");
   if (!(tag?.type === "COMPONENT")) return;
   const tagInstance = tag.createInstance();
@@ -64,7 +56,7 @@ export async function addBackgroundInfo(
   const content = buildVarContent("background");
 
   const cssValue = `background-color: ${hex};`;
-  buildElementData(backgroundDataSection, cssValue);
+  const backgroundDataSection = buildCssBlock(cssValue);
   content.appendChild(backgroundDataSection);
   if (hexColorSection) content.appendChild(hexColorSection);
   backgroundColorElement.appendChild(content);

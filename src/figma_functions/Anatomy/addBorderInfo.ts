@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { buildAutoLayoutFrame } from "../utilityFunctions";
-import { buildElementData } from "./buildElementData";
+import { buildAutoLayoutFrame, rgbToHex } from "../utilityFunctions";
+import { buildCssBlock } from "./buildElementData";
 import { checkIsBoundVariables } from "./checkIsBoundVariables";
 import { buildVarElement } from "./buildVarElement";
 import { buildVarContent } from "./buildVarContent";
+import { getStrokeInfo } from "./getStrokeInfo";
+import { buildHexSection } from "./buildHexSection";
+import { varDataFills } from "../constants";
+import { getStrokeColorVariable } from "./tagBuilgingFunctions";
 
 type Corners = {
   topLeftRadius: string;
@@ -17,7 +21,7 @@ const corners: Corners = {
   bottomLeftRadius: "⌞",
   bottomRightRadius: "⌟",
 };
-export async function addBorderRadius(
+export async function addBorderInfo(
   frame: any,
   tagComponent: ComponentSetNode,
   indexes: FrameNode,
@@ -30,14 +34,14 @@ export async function addBorderRadius(
       (node) => node.name === "type=cornerRadius"
     );
     if (!(tag?.type === "COMPONENT")) return;
-    const borderRadiusElement = buildAutoLayoutFrame(
-      "borderRadius",
+    const borderElement = buildAutoLayoutFrame(
+      "borderData",
       "VERTICAL",
       0,
       0,
       12
     );
-    indexes.appendChild(borderRadiusElement);
+    indexes.appendChild(borderElement);
     const isBoundVariables = checkIsBoundVariables(frame, [
       "bottomLeftRadius",
       "topleftRadius",
@@ -52,20 +56,50 @@ export async function addBorderRadius(
         rootValue,
         unit,
         isBoundVariables,
-        borderRadiusElement
+        borderElement
       );
-      return;
     } else if (frame.cornerRadius === figma.mixed) {
       await handleMixedCornerRadius(
         tag,
         isRem,
         frame,
         unit,
-        borderRadiusElement,
+        borderElement,
         isBoundVariables
       );
-      return;
     }
+
+    const strokeData = getStrokeInfo(frame);
+    if (!strokeData) return;
+    const colorSection = buildAutoLayoutFrame("color", "VERTICAL", 0, 0, 12);
+    colorSection.paddingLeft = 50;
+    borderElement.appendChild(colorSection);
+    const { strokeWeight, strokeColor, dashed } = strokeData;
+    const hexSection = buildHexSection(rgbToHex(strokeColor));
+    if (hexSection) {
+      colorSection.appendChild(hexSection);
+    }
+    const variable = await getStrokeColorVariable(frame);
+    if (variable) {
+      const colorStyleFrame = buildAutoLayoutFrame(
+        "color-style",
+        "HORIZONTAL",
+        8,
+        4,
+        4
+      );
+      const colorStyle = figma.createText();
+      colorStyle.characters = `🎨 ${variable.name}`;
+      colorStyleFrame.appendChild(colorStyle);
+      colorStyleFrame.cornerRadius = 4;
+      colorStyleFrame.fills = varDataFills;
+      colorSection.appendChild(colorStyleFrame);
+    }
+    const cssValue = `border: ${strokeWeight}${unit} ${
+      dashed ? "dashed" : "solid"
+    } ${rgbToHex(strokeColor)}`;
+    const cssBlock = buildCssBlock(cssValue);
+    colorSection.appendChild(cssBlock);
   }
 }
 
@@ -136,8 +170,7 @@ border-top-right-radius: ${rightTopRadius}${unit};
 border-bottom-right-radius: ${rightBottomRadius}${unit};
 border-bottom-left-radius: ${leftBottomRadius}${unit};`;
 
-  const sizeData = buildAutoLayoutFrame("text-data", "VERTICAL", 8, 12, 4);
-  buildElementData(sizeData, radiusData);
+  const sizeData = buildCssBlock(radiusData);
   borderRadiusElement.appendChild(title);
   borderVarContent.appendChild(sizeData);
   borderRadiusElement.appendChild(borderVarContent);
@@ -155,7 +188,7 @@ async function handleUniformCornerRadius(
   const indexInfo = tag.createInstance();
   indexInfo.name = ".corner-radius";
   if (indexInfo.children[1].type === "TEXT") {
-    (indexInfo.children[1] as TextNode).characters = `Border radius`;
+    (indexInfo.children[1] as TextNode).characters = `Border`;
   }
   borderRadiusElement.appendChild(indexInfo);
   const borderVarContent = buildVarContent("border-var-content");
@@ -168,8 +201,10 @@ async function handleUniformCornerRadius(
     borderVariable.appendChild(varData);
     borderVarContent.appendChild(borderVariable);
   }
-  const sizeData = buildAutoLayoutFrame("text-data", "VERTICAL", 8, 12, 4);
-  buildElementData(sizeData, `border-radius: ${frame.cornerRadius}${unit};`);
+
+  const sizeData = buildCssBlock(
+    `border-radius: ${frame.cornerRadius}${unit};`
+  );
   borderVarContent.appendChild(sizeData);
   borderRadiusElement.appendChild(borderVarContent);
 }

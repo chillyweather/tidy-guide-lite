@@ -11,8 +11,7 @@ import { buildAutoLayoutFrame, setVariantProps } from "../utilityFunctions";
 import { getEffects } from "../getEffects";
 import { setTextContent } from "../utilityFunctions";
 import { buildIndexElementForText } from "./buildIndexElementForText";
-import { toTitleCase } from "../utilityFunctions";
-import { addBorderRadius } from "./addBorderRadius";
+import { addBorderInfo } from "./addBorderInfo";
 import { addBackgroundInfo } from "./addBackgroundInfo";
 
 export default async function buildTags(
@@ -236,8 +235,6 @@ export default async function buildTags(
     tagElements.push(tag);
   });
 
-  await addBackgroundInfo(frame, tagComponent, indexes);
-
   if (minSizeProperty)
     addMinWidthIndex(
       minSizeProperty,
@@ -249,20 +246,13 @@ export default async function buildTags(
     );
 
   if (elementMaxWidth && elementMaxWidth > 0) {
-    addMaxWidth(
-      frame,
-      tagComponent,
-      indexes,
-      elementMaxWidth,
-      isRem,
-      rootValue,
-      unit
-    );
+    addMaxWidth(tagComponent, indexes, elementMaxWidth, isRem, rootValue, unit);
   }
-  await addBorderRadius(frame, tagComponent, indexes, isRem, rootValue, unit);
+  await addBackgroundInfo(frame, tagComponent, indexes);
+  await addBorderInfo(frame, tagComponent, indexes, isRem, rootValue, unit);
+
   addEffectsInfo(frame, tagComponent, indexes);
   //! error here
-  addStrokeInfo(frame, tagComponent, indexes, isRem, rootValue, unit);
 
   //! find size of all tags (and frame) together
   const tagBounds = computeMaximumBounds(tagElements);
@@ -340,7 +330,6 @@ function addEffectsInfo(
 }
 
 function addMaxWidth(
-  frame: any,
   tagComponent: ComponentSetNode,
   indexes: FrameNode,
   maxWidth: number,
@@ -365,96 +354,6 @@ function addMaxWidth(
 
     indexes.appendChild(tag);
   }
-}
-
-function addStrokeInfo(
-  frame: any,
-  tagComp: ComponentSetNode,
-  indexes: FrameNode,
-  isRem: boolean = false,
-  rootValue: number = 16,
-  unit: string = "px"
-) {
-  if (frame.strokes && frame.strokes.length > 0) {
-    const strokeAlign = frame.strokeAlign;
-    let strokeWeight = "";
-
-    if (frame.strokeWeight === figma.mixed) {
-      const result: any = {};
-      result["Left stroke"] = frame.strokeLeftWeight;
-      result["Right stroke"] = frame.strokeRightWeight;
-      result["Top stroke"] = frame.strokeTopWeight;
-      result["Bottom stroke"] = frame.strokeBottomWeight;
-
-      for (const res in result) {
-        if (result[res] > 0) {
-          const foundTagComponent = tagComp.findOne(
-            (node) => node.name === "type=info" && node.type === "COMPONENT"
-          );
-          if (!foundTagComponent || foundTagComponent.type !== "COMPONENT")
-            return;
-          const tag = foundTagComponent.createInstance();
-          strokeWeight = result[res];
-          setStrokeProps(
-            tag,
-            strokeWeight,
-            strokeAlign,
-            indexes,
-            res,
-            isRem,
-            rootValue,
-            unit
-          );
-        }
-      }
-    } else {
-      const foundTagComponent = tagComp.findOne(
-        (node) => node.name === "type=info" && node.type === "COMPONENT"
-      );
-      if (!foundTagComponent || foundTagComponent.type !== "COMPONENT") return;
-      const tag = foundTagComponent.createInstance();
-      strokeWeight = frame.strokeWeight;
-      setStrokeProps(
-        tag,
-        strokeWeight,
-        strokeAlign,
-        indexes,
-        "Stroke",
-        isRem,
-        rootValue,
-        unit
-      );
-    }
-  }
-}
-
-function setStrokeProps(
-  tag: any,
-  strokeWeight: string,
-  strokeAlign: any,
-  indexes: FrameNode,
-  strokeKind: string,
-  isRem: boolean = false,
-  rootValue: number = 16,
-  unit: string = "px"
-) {
-  isRem
-    ? setTextContent(
-        tag,
-        "Text",
-        `${strokeKind} - ${(parseFloat(strokeWeight) / rootValue).toFixed(
-          3
-        )}${unit}`
-      )
-    : setTextContent(
-        tag,
-        "Text",
-        `${strokeKind} - ${strokeWeight}px, ${toTitleCase(strokeAlign)}`
-      );
-
-  const indexLink = tag.findOne((element: any) => element.name === "link");
-  if (indexLink) indexLink.visible = false;
-  indexes.appendChild(tag);
 }
 
 export function makeLabelTextFlow(labelInstance: InstanceNode) {
