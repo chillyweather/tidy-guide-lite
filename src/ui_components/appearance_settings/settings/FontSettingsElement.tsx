@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { h } from "preact";
+import { useState, useEffect } from "preact/hooks";
 import Dropdown, { DropdownOption } from "../Dropdown";
 interface FontSettingElementsProps {
   label: string;
   fonts: DropdownOption[];
-  styles: DropdownOption[];
+  appFonts: any[];
   selectedFont: DropdownOption;
   setSelectedFont: (value: DropdownOption) => void;
   selectedStyle: DropdownOption;
@@ -12,12 +14,27 @@ interface FontSettingElementsProps {
 const FontSettingsElement = ({
   label,
   fonts,
-  styles,
+  appFonts,
   selectedFont,
   setSelectedFont,
   selectedStyle,
   setSelectedStyle,
 }: FontSettingElementsProps) => {
+  const [fontStyles, setFontStyles] = useState<DropdownOption[]>([]);
+
+  useEffect(() => {
+    const foundStyles = appFonts.filter(
+      (font: any) => font.fontName.family === selectedFont.name
+    );
+    const fontStyles = foundStyles.map((font: any, index: number) => {
+      return {
+        id: index,
+        name: `${font.fontName.style}`,
+      };
+    });
+    setFontStyles(fontStyles);
+  }, [selectedFont]);
+
   const defaultFont = {
     id: 999999,
     name: "Inter",
@@ -36,7 +53,7 @@ const FontSettingsElement = ({
         placeholder="Font"
       />
       <Dropdown
-        options={styles}
+        options={fontStyles}
         selectedOption={selectedStyle}
         onSelect={(value) => setSelectedStyle(value ?? defaultStyle)}
         placeholder="Style"

@@ -16,7 +16,7 @@ export default async function documentationBuilder(
   loadFonts: (font?: any) => Promise<void>,
   appSettings: any
 ) {
-  await loadFonts(appSettings.documentationFont);
+  await loadFonts(appSettings.documentationFonts.title);
 
   const children = figma.currentPage.children;
   const bounds = computeMaximumBounds(Array.from(children));
@@ -32,7 +32,7 @@ export default async function documentationBuilder(
   documentationFrame.appendChild(headerSectionFrame);
   headerSectionFrame.layoutSizingHorizontal = "FILL";
 
-  const title = buildTitle(data.title, appSettings.documentationFont);
+  const title = buildTitle(data.title, appSettings.documentationFonts.title);
   const divider = buildDivider();
 
   const defaultElement = await getNodeAndDefaultElement(data);

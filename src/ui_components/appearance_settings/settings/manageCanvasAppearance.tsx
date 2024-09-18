@@ -43,13 +43,19 @@ export default function CanvasAppearance() {
   const [appFonts] = useAtom(appFontsAtom); //all the fonts in the app
   const [fontList, setFontList] = useState<DropdownOption[]>([]); //list of unique fonts in the app (only font names)
 
-  const [fontStyles, setFontStyles] = useState<DropdownOption[]>([]);
-
   const [documentationTitleFont, setDocumentationTitleFont] = useState<any>(
-    appSettings.documentationFont || fontList[0]
+    { id: 999999, name: appSettings.documentationFonts.title.family } || {
+      id: 999999,
+      name: "Inter",
+    }
   );
   const [documentationTitleStyleFont, setDocumentationTitleStyleFont] =
-    useState<any>(appSettings.documentationFontStyle || fontStyles[0]);
+    useState<any>(
+      { id: 999999, name: appSettings.documentationFonts.title.style } || {
+        id: 999999,
+        name: "Regular",
+      }
+    );
 
   useEffect(() => {
     setAppSettings({
@@ -58,27 +64,27 @@ export default function CanvasAppearance() {
       tagColor,
       units,
       rootValue,
-      documentationFont: documentationTitleFont,
+      documentationFonts: {
+        title: {
+          family: documentationTitleFont.name,
+          style: documentationTitleStyleFont.name,
+        },
+      },
     });
   }, [labelType, lineType, tagColor, units, rootValue, documentationTitleFont]);
 
-  useEffect(() => {
-    console.log("documentationFont", documentationTitleFont);
-    console.log("appFonts", appFonts);
-    console.log("fontList", fontList);
-    console.log("appSettings.documentationFont", appSettings.documentationFont);
-    console.log("appSettings", appSettings);
-    const foundStyles = appFonts.filter(
-      (font: any) => font.fontName.family === documentationTitleFont.name
-    );
-    const fontStyles = foundStyles.map((font: any, index: number) => {
-      return {
-        id: index,
-        name: `${font.fontName.style}`,
-      };
-    });
-    setFontStyles(fontStyles);
-  }, [documentationTitleFont]);
+  // useEffect(() =>{
+  //   const foundStyles = appFonts.filter(
+  //     (font: any) => font.fontName.family === documentationTitleFont.name
+  //   );
+  //   const fontStyles = foundStyles.map((font: any, index: number) => {
+  //     return {
+  //       id: index,
+  //       name: `${font.fontName.style}`,
+  //     };
+  //   });
+  //   setFontStyles(fontStyles);
+  // }, [documentationTitleFont]);
 
   useEffect(() => {
     if (appSettings.rootValue) {
@@ -166,7 +172,7 @@ export default function CanvasAppearance() {
       <FontSettingsElement
         label="Title"
         fonts={fontList}
-        styles={fontStyles}
+        appFonts={appFonts}
         selectedFont={documentationTitleFont}
         setSelectedFont={setDocumentationTitleFont}
         selectedStyle={documentationTitleStyleFont}

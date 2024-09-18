@@ -19,7 +19,8 @@ export async function buildOneSection(
   appSettings?: any,
   isInternalSpacing?: boolean
 ) {
-  await loadFonts(appSettings.documentationFont);
+  console.log("appSettings", appSettings);
+  await loadFonts(appSettings.documentationFonts.title);
   const foundNode = await getNodeAndDefaultElement(nodeId, nodeKey);
   const instance = foundNode.createInstance();
 
