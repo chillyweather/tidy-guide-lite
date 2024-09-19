@@ -14,7 +14,7 @@ import Footer from "./ui_components/Footer";
 import Header from "./ui_components/Header";
 import IndexPage from "./ui_components/IndexPage";
 // import Settings from "./ui_components/SettingsPage";
-import CanvasAppearance from "./ui_components/appearance_settings/settings/manageCanvasAppearance";
+import CanvasAppearance from "./ui_components/appearance_settings/settings/CanvasAppearance";
 import MainContent from "./ui_components/MainContent";
 
 import { useAtom } from "jotai";
