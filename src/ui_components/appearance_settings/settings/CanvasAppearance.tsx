@@ -43,19 +43,39 @@ export default function CanvasAppearance() {
   const [appFonts] = useAtom(appFontsAtom); //all the fonts in the app
   const [fontList, setFontList] = useState<DropdownOption[]>([]); //list of unique fonts in the app (only font names)
 
-  const [documentationTitleFont, setDocumentationTitleFont] = useState<any>(
-    { id: 999999, name: appSettings.documentationFonts.title.family } || {
-      id: 999999,
-      name: "Inter",
-    }
-  );
-  const [documentationTitleStyleFont, setDocumentationTitleStyleFont] =
-    useState<any>(
-      { id: 999999, name: appSettings.documentationFonts.title.style } || {
-        id: 999999,
-        name: "Bold",
-      }
+  const defaultFont = {
+    id: 999999,
+    name: "Inter",
+  };
+  const defaultStyle = {
+    id: 999999,
+    name: "Regular",
+  };
+  //! font states
+  const [documentationTitleFont, setDocumentationTitleFont] =
+    useState<DropdownOption>(
+      { id: 999999, name: appSettings.documentationFonts.title.family } ||
+        defaultFont
     );
+  const [documentationTitleStyleFont, setDocumentationTitleStyleFont] =
+    useState<DropdownOption>(
+      { id: 999999, name: appSettings.documentationFonts.title.style } ||
+        defaultStyle
+    );
+  const [documentationSectionTitleFont, setDocumentationSectionTitleFont] =
+    useState<DropdownOption>(
+      {
+        id: 999999,
+        name: appSettings.documentationFonts.sectionTitle.family,
+      } || defaultFont
+    );
+  const [
+    documentationSectionTitleFontStyle,
+    setDocumentationSectionTitleFontStyle,
+  ] = useState<DropdownOption>(
+    { id: 999999, name: appSettings.documentationFonts.sectionTitle.style } ||
+      defaultStyle
+  );
 
   useEffect(() => {
     setAppSettings({
@@ -69,6 +89,10 @@ export default function CanvasAppearance() {
           family: documentationTitleFont.name,
           style: documentationTitleStyleFont.name,
         },
+        sectionTitle: {
+          family: documentationSectionTitleFont.name,
+          style: documentationSectionTitleFontStyle.name,
+        },
       },
     });
   }, [
@@ -79,6 +103,8 @@ export default function CanvasAppearance() {
     rootValue,
     documentationTitleFont,
     documentationTitleStyleFont,
+    documentationSectionTitleFont,
+    documentationSectionTitleFontStyle,
   ]);
 
   useEffect(() => {
@@ -182,6 +208,15 @@ export default function CanvasAppearance() {
         setSelectedFont={setDocumentationTitleFont}
         selectedStyle={documentationTitleStyleFont}
         setSelectedStyle={setDocumentationTitleStyleFont}
+      />
+      <FontSettingsElement
+        label="Section Title"
+        fonts={fontList}
+        appFonts={appFonts}
+        selectedFont={documentationSectionTitleFont}
+        setSelectedFont={setDocumentationSectionTitleFont}
+        selectedStyle={documentationSectionTitleFontStyle}
+        setSelectedStyle={setDocumentationSectionTitleFontStyle}
       />
       <h4>Tags</h4>
       <div className="anatomy-tags-settings-with-preview">

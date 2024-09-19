@@ -17,6 +17,7 @@ export default async function documentationBuilder(
   appSettings: any
 ) {
   await loadFonts(appSettings.documentationFonts.title);
+  await loadFonts(appSettings.documentationFonts.sectionTitle);
 
   const children = figma.currentPage.children;
   const bounds = computeMaximumBounds(Array.from(children));
@@ -56,7 +57,7 @@ export default async function documentationBuilder(
 
     const sectionFrame = buildSectionFrame();
 
-    addSectionToDocFrame(sectionFrame, element);
+    addSectionToDocFrame(sectionFrame, element, appSettings);
 
     buildSectionContent(element, sectionFrame, currentNode, appSettings);
 
@@ -66,13 +67,20 @@ export default async function documentationBuilder(
   adjustTitle();
   adjustDividers();
 
-  function addSectionToDocFrame(sectionFrame: FrameNode, element: any) {
+  function addSectionToDocFrame(
+    sectionFrame: FrameNode,
+    element: any,
+    appSettings: any
+  ) {
     documentationFrame.appendChild(sectionFrame);
     sectionFrame.layoutSizingHorizontal = "FILL";
     documentationFrame.appendChild(divider.clone());
     const title = element.title;
     if (title) {
-      const titleFrame = buildTitle(title);
+      const titleFrame = buildTitle(
+        title,
+        appSettings.documentationFonts.sectionTitle
+      );
       sectionFrame.appendChild(titleFrame);
     }
   }
