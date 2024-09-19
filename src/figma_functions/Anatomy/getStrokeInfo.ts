@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+export interface StrokeProps {
+  strokeAlign: string;
+  strokeWeight: number | number[];
+  strokeColor: any;
+  dashed: boolean;
+}
 export function getStrokeInfo(
   frame: any
   // tagComp: ComponentSetNode,
@@ -8,13 +14,6 @@ export function getStrokeInfo(
   // rootValue: number = 16,
   // unit: string = "px"
 ) {
-  interface StrokeProps {
-    strokeAlign: string;
-    strokeWeight: number | number[];
-    strokeColor: any;
-    dashed: boolean;
-  }
-
   if (frame.strokes && frame.strokes.length > 0) {
     const strokeProps: StrokeProps = {
       strokeAlign: frame.strokeAlign,

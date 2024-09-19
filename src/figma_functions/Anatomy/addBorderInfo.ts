@@ -4,7 +4,7 @@ import { buildCssBlock } from "./buildElementData";
 import { checkIsBoundVariables } from "./checkIsBoundVariables";
 import { buildVarElement } from "./buildVarElement";
 import { buildVarContent } from "./buildVarContent";
-import { getStrokeInfo } from "./getStrokeInfo";
+import { getStrokeInfo, StrokeProps } from "./getStrokeInfo";
 import { buildHexSection } from "./buildHexSection";
 import { varDataFills } from "../constants";
 import { getStrokeColorVariable } from "./tagBuilgingFunctions";
@@ -71,36 +71,41 @@ export async function addBorderInfo(
 
     const strokeData = getStrokeInfo(frame);
     if (!strokeData) return;
-    const colorSection = buildAutoLayoutFrame("color", "VERTICAL", 0, 0, 12);
-    colorSection.paddingLeft = 50;
+    const colorSection = await buildColorDataSection(strokeData, frame);
     borderElement.appendChild(colorSection);
-    const { strokeWeight, strokeColor, dashed } = strokeData;
-    const hexSection = buildHexSection(rgbToHex(strokeColor));
-    if (hexSection) {
-      colorSection.appendChild(hexSection);
-    }
-    const variable = await getStrokeColorVariable(frame);
-    if (variable) {
-      const colorStyleFrame = buildAutoLayoutFrame(
-        "color-style",
-        "HORIZONTAL",
-        8,
-        4,
-        4
-      );
-      const colorStyle = figma.createText();
-      colorStyle.characters = `🎨 ${variable.name}`;
-      colorStyleFrame.appendChild(colorStyle);
-      colorStyleFrame.cornerRadius = 4;
-      colorStyleFrame.fills = varDataFills;
-      colorSection.appendChild(colorStyleFrame);
-    }
-    const cssValue = `border: ${strokeWeight}${unit} ${
-      dashed ? "dashed" : "solid"
-    } ${rgbToHex(strokeColor)}`;
-    const cssBlock = buildCssBlock(cssValue);
-    colorSection.appendChild(cssBlock);
   }
+}
+
+async function buildColorDataSection(strokeData: StrokeProps, node: any) {
+  const colorSection = buildAutoLayoutFrame("color", "VERTICAL", 0, 0, 12);
+  colorSection.paddingLeft = 50;
+  const { strokeWeight, strokeColor, dashed } = strokeData;
+  const hexSection = buildHexSection(rgbToHex(strokeColor));
+  if (hexSection) {
+    colorSection.appendChild(hexSection);
+  }
+  const variable = await getStrokeColorVariable(node);
+  if (variable) {
+    const colorStyleFrame = buildAutoLayoutFrame(
+      "color-style",
+      "HORIZONTAL",
+      8,
+      4,
+      4
+    );
+    const colorStyle = figma.createText();
+    colorStyle.characters = `🎨 ${variable.name}`;
+    colorStyleFrame.appendChild(colorStyle);
+    colorStyleFrame.cornerRadius = 4;
+    colorStyleFrame.fills = varDataFills;
+    colorSection.appendChild(colorStyleFrame);
+  }
+  const cssValue = `border: ${strokeWeight}px ${
+    dashed ? "dashed" : "solid"
+  } ${rgbToHex(strokeColor)}`;
+  const cssBlock = buildCssBlock(cssValue);
+  colorSection.appendChild(cssBlock);
+  return colorSection;
 }
 
 async function handleMixedCornerRadius(
