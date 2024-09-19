@@ -53,7 +53,7 @@ export default function CanvasAppearance() {
     useState<any>(
       { id: 999999, name: appSettings.documentationFonts.title.style } || {
         id: 999999,
-        name: "Regular",
+        name: "Bold",
       }
     );
 
@@ -71,20 +71,19 @@ export default function CanvasAppearance() {
         },
       },
     });
-  }, [labelType, lineType, tagColor, units, rootValue, documentationTitleFont]);
+  }, [
+    labelType,
+    lineType,
+    tagColor,
+    units,
+    rootValue,
+    documentationTitleFont,
+    documentationTitleStyleFont,
+  ]);
 
-  // useEffect(() =>{
-  //   const foundStyles = appFonts.filter(
-  //     (font: any) => font.fontName.family === documentationTitleFont.name
-  //   );
-  //   const fontStyles = foundStyles.map((font: any, index: number) => {
-  //     return {
-  //       id: index,
-  //       name: `${font.fontName.style}`,
-  //     };
-  //   });
-  //   setFontStyles(fontStyles);
-  // }, [documentationTitleFont]);
+  useEffect(() => {
+    console.log("appSettings", appSettings);
+  }, [appSettings]);
 
   useEffect(() => {
     if (appSettings.rootValue) {
@@ -109,6 +108,12 @@ export default function CanvasAppearance() {
       });
     }
   }, []);
+
+  // useEffect(() => {
+  //   if (documentationTitleFont) {
+  //     console.log("documentationTitleStyleFont", documentationTitleStyleFont);
+  //   }
+  // }, [documentationTitleFont, documentationTitleStyleFont]);
 
   useEffect(() => {
     if (appFonts && appFonts.length) {

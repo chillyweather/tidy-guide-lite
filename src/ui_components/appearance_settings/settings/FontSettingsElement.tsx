@@ -35,6 +35,19 @@ const FontSettingsElement = ({
     setFontStyles(fontStyles);
   }, [selectedFont]);
 
+  useEffect(() => {
+    if (fontStyles.length) {
+      const regular = fontStyles.find(
+        (style: any) => style.name === selectedStyle.name
+      );
+      if (regular) {
+        setSelectedStyle(regular);
+      } else {
+        setSelectedStyle(defaultStyle);
+      }
+    }
+  }, [fontStyles]);
+
   const defaultFont = {
     id: 999999,
     name: "Inter",
