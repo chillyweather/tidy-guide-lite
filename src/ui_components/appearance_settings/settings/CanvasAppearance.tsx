@@ -134,7 +134,7 @@ export default function CanvasAppearance() {
       const fonts = appFonts.map((font: any, index: number) => {
         return {
           id: index,
-          name: `${font.fontName.family}`,
+          name: font.fontName.family,
         };
       });
       const uniqueFonts = fonts.filter(
