@@ -135,12 +135,6 @@ export default function CanvasAppearance() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (documentationTitleFont) {
-  //     console.log("documentationTitleStyleFont", documentationTitleStyleFont);
-  //   }
-  // }, [documentationTitleFont, documentationTitleStyleFont]);
-
   useEffect(() => {
     if (appFonts && appFonts.length) {
       const fonts = appFonts.map((font: any, index: number) => {
