@@ -6,11 +6,10 @@ import {
   settingsUnitsAtom,
   settingsRemRootAtom,
   appFontsAtom,
-  // documentationFontAtom,
 } from "../../../state/atoms";
 import { useEffect, useState } from "preact/hooks";
 import ColorPickerInput from "../../ColorPickerInput";
-import { TagLabel, TagLine } from "../../tagPreviewElements";
+import TagPreview from "./TagPreview";
 import {
   IconCircleFilled,
   IconSquareFilled,
@@ -22,6 +21,7 @@ import RadioButton from "../../RadioButton";
 import { Button } from "../Button";
 import { DropdownOption } from "../Dropdown";
 import FontSettingsElement from "./FontSettingsElement";
+import { defaultFont, defaultStyle } from "../../../resources/constants";
 
 export type LabelType =
   | "round"
@@ -43,14 +43,6 @@ export default function CanvasAppearance() {
   const [appFonts] = useAtom(appFontsAtom); //all the fonts in the app
   const [fontList, setFontList] = useState<DropdownOption[]>([]); //list of unique fonts in the app (only font names)
 
-  const defaultFont = {
-    id: 999999,
-    name: "Inter",
-  };
-  const defaultStyle = {
-    id: 999999,
-    name: "Regular",
-  };
   //! font states
   const [documentationTitleFont, setDocumentationTitleFont] =
     useState<DropdownOption>(
@@ -267,12 +259,12 @@ export default function CanvasAppearance() {
             </div>
           </div>
         </div>
-        <div className="tag-preview-frame">
-          <div className="tag-preview">
-            <TagLabel label={tagLabelText} color={tagColor} shape={labelType} />
-            <TagLine color={tagColor} type={lineType} />
-          </div>
-        </div>
+        <TagPreview
+          tagColor={tagColor}
+          labelType={labelType}
+          lineType={lineType}
+          tagLabelText={tagLabelText}
+        />
       </div>
     </div>
   );
