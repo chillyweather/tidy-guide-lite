@@ -44,30 +44,38 @@ export default function CanvasAppearance() {
   const [fontList, setFontList] = useState<DropdownOption[]>([]); //list of unique fonts in the app (only font names)
 
   //! font states
-  const [documentationTitleFont, setDocumentationTitleFont] =
-    useState<DropdownOption>(
-      { id: 999999, name: appSettings.documentationFonts.title.family } ||
-        defaultFont
-    );
-  const [documentationTitleStyleFont, setDocumentationTitleStyleFont] =
-    useState<DropdownOption>(
-      { id: 999999, name: appSettings.documentationFonts.title.style } ||
-        defaultStyle
-    );
-  const [documentationSectionTitleFont, setDocumentationSectionTitleFont] =
-    useState<DropdownOption>(
-      {
-        id: 999999,
-        name: appSettings.documentationFonts.sectionTitle.family,
-      } || defaultFont
-    );
-  const [
-    documentationSectionTitleFontStyle,
-    setDocumentationSectionTitleFontStyle,
-  ] = useState<DropdownOption>(
-    { id: 999999, name: appSettings.documentationFonts.sectionTitle.style } ||
-      defaultStyle
-  );
+  const [documentationFonts, setDocumentationFonts] = useState({
+    title: {
+      font:
+        { id: 999999, name: appSettings.documentationFonts.title.family } ||
+        defaultFont,
+      style:
+        { id: 999999, name: appSettings.documentationFonts.title.style } ||
+        defaultStyle,
+    },
+    sectionTitle: {
+      font:
+        {
+          id: 999999,
+          name: appSettings.documentationFonts.sectionTitle.family,
+        } || defaultFont,
+      style:
+        {
+          id: 999999,
+          name: appSettings.documentationFonts.sectionTitle.style,
+        } || defaultStyle,
+    },
+  });
+
+  const updateFontSetting = (hierarchy: string, type: string, value: any) => {
+    setDocumentationFonts((prev) => ({
+      ...prev,
+      [hierarchy as keyof typeof prev]: {
+        ...prev[hierarchy as keyof typeof prev],
+        [type]: value,
+      },
+    }));
+  };
 
   useEffect(() => {
     setAppSettings({
@@ -78,26 +86,16 @@ export default function CanvasAppearance() {
       rootValue,
       documentationFonts: {
         title: {
-          family: documentationTitleFont.name,
-          style: documentationTitleStyleFont.name,
+          family: documentationFonts.title.font.name,
+          style: documentationFonts.title.style.name,
         },
         sectionTitle: {
-          family: documentationSectionTitleFont.name,
-          style: documentationSectionTitleFontStyle.name,
+          family: documentationFonts.sectionTitle.font.name,
+          style: documentationFonts.sectionTitle.style.name,
         },
       },
     });
-  }, [
-    labelType,
-    lineType,
-    tagColor,
-    units,
-    rootValue,
-    documentationTitleFont,
-    documentationTitleStyleFont,
-    documentationSectionTitleFont,
-    documentationSectionTitleFontStyle,
-  ]);
+  }, [labelType, lineType, tagColor, units, rootValue, documentationFonts]);
 
   useEffect(() => {
     console.log("appSettings", appSettings);
@@ -120,10 +118,7 @@ export default function CanvasAppearance() {
 
   useEffect(() => {
     if (appSettings.documentationFont) {
-      setDocumentationTitleFont({
-        id: "xxx",
-        name: `${appSettings.documentationFont.family}`,
-      });
+      updateFontSetting("title", "font", appSettings.documentationFont.title);
     }
   }, []);
 
@@ -190,20 +185,26 @@ export default function CanvasAppearance() {
         label="Title"
         fonts={fontList}
         appFonts={appFonts}
-        selectedFont={documentationTitleFont}
-        setSelectedFont={setDocumentationTitleFont}
-        selectedStyle={documentationTitleStyleFont}
-        setSelectedStyle={setDocumentationTitleStyleFont}
+        selectedFont={documentationFonts.title.font}
+        setSelectedFont={(value) => updateFontSetting("title", "font", value)}
+        selectedStyle={documentationFonts.title.style}
+        setSelectedStyle={(value) => updateFontSetting("title", "style", value)}
       />
+
       <FontSettingsElement
         label="Section Title"
         fonts={fontList}
         appFonts={appFonts}
-        selectedFont={documentationSectionTitleFont}
-        setSelectedFont={setDocumentationSectionTitleFont}
-        selectedStyle={documentationSectionTitleFontStyle}
-        setSelectedStyle={setDocumentationSectionTitleFontStyle}
+        selectedFont={documentationFonts.sectionTitle.font}
+        setSelectedFont={(value) =>
+          updateFontSetting("sectionTitle", "font", value)
+        }
+        selectedStyle={documentationFonts.sectionTitle.style}
+        setSelectedStyle={(value) =>
+          updateFontSetting("sectionTitle", "style", value)
+        }
       />
+
       <h4>Tags</h4>
       <div className="anatomy-tags-settings-with-preview">
         <div className="anatomy-tags-settings">
