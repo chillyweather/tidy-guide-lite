@@ -26,6 +26,7 @@ export const Button = ({
   const idleStyle = {
     height: "26px",
     width: "26px",
+    color: "#797979",
   };
 
   return (

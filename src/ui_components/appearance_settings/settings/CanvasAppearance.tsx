@@ -29,11 +29,46 @@ export type LabelType =
   | "square-rounded"
   | "square-rounded-rotated";
 
+const icons = {
+  round: (
+    <IconCircleFilled
+      style={{
+        height: "13px",
+        width: "13px",
+      }}
+    />
+  ),
+  square: (
+    <IconSquareFilled
+      style={{
+        height: "13px",
+        width: "13px",
+      }}
+    />
+  ),
+  "square-rounded": (
+    <IconSquareRoundedFilled
+      style={{
+        height: "13px",
+        width: "13px",
+      }}
+    />
+  ),
+  "square-rounded-rotated": (
+    <IconSquareRotatedFilled
+      style={{
+        height: "13px",
+        width: "13px",
+      }}
+    />
+  ),
+};
+
 export default function CanvasAppearance() {
   const [appSettings, setAppSettings]: any = useAtom(appSettingsAtom);
   const [tagLabelText] = useState("42");
 
-  const [labelType, setLabelType] = useState<LabelType>(
+  const [currentLabelType, setCurrentLabelType] = useState<LabelType>(
     appSettings.labelType || "round"
   );
   const [tagColor, setTagColor] = useState(appSettings.tagColor || "#F1592A");
@@ -67,7 +102,11 @@ export default function CanvasAppearance() {
     },
   });
 
-  const updateFontSetting = (hierarchy: string, type: string, value: any) => {
+  const updateFontSetting = (
+    hierarchy: string,
+    type: string,
+    value: DropdownOption
+  ) => {
     setDocumentationFonts((prev) => ({
       ...prev,
       [hierarchy as keyof typeof prev]: {
@@ -79,7 +118,7 @@ export default function CanvasAppearance() {
 
   useEffect(() => {
     setAppSettings({
-      labelType,
+      labelType: currentLabelType,
       lineType,
       tagColor,
       units,
@@ -95,7 +134,14 @@ export default function CanvasAppearance() {
         },
       },
     });
-  }, [labelType, lineType, tagColor, units, rootValue, documentationFonts]);
+  }, [
+    currentLabelType,
+    lineType,
+    tagColor,
+    units,
+    rootValue,
+    documentationFonts,
+  ]);
 
   useEffect(() => {
     console.log("appSettings", appSettings);
@@ -138,43 +184,11 @@ export default function CanvasAppearance() {
     }
   }, [appFonts]);
 
-  const icons = {
-    round: (
-      <IconCircleFilled
-        style={{
-          color: labelType === "round" ? "#5C6CFF" : "#9597A2",
-          height: "13px",
-          width: "13px",
-        }}
-      />
-    ),
-    square: (
-      <IconSquareFilled
-        style={{
-          color: labelType === "square" ? "#5C6CFF" : "#9597A2",
-          height: "13px",
-          width: "13px",
-        }}
-      />
-    ),
-    "square-rounded": (
-      <IconSquareRoundedFilled
-        style={{
-          color: labelType === "square-rounded" ? "#5C6CFF" : "#9597A2",
-          height: "13px",
-          width: "13px",
-        }}
-      />
-    ),
-    "square-rounded-rotated": (
-      <IconSquareRotatedFilled
-        style={{
-          color: labelType === "square-rounded-rotated" ? "#5C6CFF" : "#9597A2",
-          height: "13px",
-          width: "13px",
-        }}
-      />
-    ),
+  const tagPreviewProps = {
+    tagColor,
+    labelType: currentLabelType,
+    lineType,
+    tagLabelText,
   };
 
   return (
@@ -226,26 +240,26 @@ export default function CanvasAppearance() {
               <Button
                 label={icons.round}
                 type="round"
-                labelType={labelType}
-                setType={setLabelType}
+                labelType={currentLabelType}
+                setType={setCurrentLabelType}
               />
               <Button
                 label={icons.square}
                 type="square"
-                labelType={labelType}
-                setType={setLabelType}
+                labelType={currentLabelType}
+                setType={setCurrentLabelType}
               />
               <Button
                 label={icons["square-rounded"]}
                 type="square-rounded"
-                labelType={labelType}
-                setType={setLabelType}
+                labelType={currentLabelType}
+                setType={setCurrentLabelType}
               />
               <Button
                 label={icons["square-rounded-rotated"]}
                 type="square-rounded-rotated"
-                labelType={labelType}
-                setType={setLabelType}
+                labelType={currentLabelType}
+                setType={setCurrentLabelType}
               />
             </div>
           </div>
@@ -260,12 +274,7 @@ export default function CanvasAppearance() {
             </div>
           </div>
         </div>
-        <TagPreview
-          tagColor={tagColor}
-          labelType={labelType}
-          lineType={lineType}
-          tagLabelText={tagLabelText}
-        />
+        <TagPreview {...tagPreviewProps} />
       </div>
     </div>
   );
