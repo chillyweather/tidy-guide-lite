@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { h } from "preact";
 import { useState, useEffect } from "preact/hooks";
-import Dropdown, { DropdownOption } from "../Dropdown";
+import Dropdown, { DropdownOption } from "./Dropdown";
 interface FontSettingElementsProps {
   label: string;
   fonts: DropdownOption[];

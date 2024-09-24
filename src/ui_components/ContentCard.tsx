@@ -20,6 +20,7 @@ import {
   currentFigmaPageAtom,
   currentFigmaFileAtom,
   isInternalSpacingAtom,
+  layoutTemplatesAtom,
 } from "../state/atoms";
 import {
   IconGripVertical,
@@ -155,6 +156,7 @@ export const ContentCard = (card: any, index: number) => {
   const [selectedNodeKey] = useAtom(selectedNodeKeyAtom);
   const [currentPage] = useAtom(currentFigmaPageAtom);
   const [currentDocument] = useAtom(currentFigmaFileAtom);
+  const [layoutTemplates] = useAtom(layoutTemplatesAtom);
 
   on("IMAGE_ARRAY_FOR_UPLOAD", async ({ bytes, type }) => {
     if (bytes.length && type === card.datatype) {
@@ -350,6 +352,7 @@ export const ContentCard = (card: any, index: number) => {
       anatomyIndexSpacing,
       appSettings,
       isInternalSpacing,
+      layoutTemplates,
     });
   }
 

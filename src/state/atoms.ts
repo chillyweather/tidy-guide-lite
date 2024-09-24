@@ -1,7 +1,8 @@
 import { atom } from "jotai";
 import { Screens } from "./navigationTypes";
 import { CurrenPage } from "./atomTypes";
-import { DropdownOption } from "src/ui_components/appearance_settings/Dropdown";
+import { DropdownOption } from "src/ui_components/appearance_settings/settings/Dropdown";
+import { templates } from "src/layout_templates";
 
 //navigation
 export const historyAtom = atom<Screens[]>([Screens.HOME]);
@@ -128,3 +129,6 @@ export const elementToDeleteAtom = atom("");
 //small interface elements
 export const isPdSectionOpenAtom = atom(true);
 export const isCurrentNameValidAtom = atom(false);
+
+//layout on canvas
+export const layoutTemplatesAtom = atom(templates);

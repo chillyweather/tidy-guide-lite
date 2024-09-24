@@ -52,6 +52,7 @@ import {
   selectedVariantAtom,
   allVariantsAtom,
   appFontsAtom,
+  layoutTemplatesAtom,
 } from "./state/atoms";
 
 //styles
@@ -123,6 +124,7 @@ function Plugin() {
   const [, setSelectedVariant] = useAtom(selectedVariantAtom);
   const [, setAllVariants] = useAtom(allVariantsAtom);
   const [showManageCanvasAppearance] = useAtom(showManageCanvasAppearanceAtom);
+  const [layoutTemplates] = useAtom(layoutTemplatesAtom);
 
   on("SETTINGS", (settings: any) => {
     if (settings) {
@@ -343,7 +345,8 @@ function Plugin() {
 
   const handleAddDocumentation = useCallback(
     async (data: any) => {
-      if (isBuildingOnCanvas) emit("BUILD", data, appSettings);
+      if (isBuildingOnCanvas)
+        emit("BUILD", data, appSettings, layoutTemplates.default);
       setIsBuildingOnCanvas(false);
     },
     [isBuildingOnCanvas, appSettings]

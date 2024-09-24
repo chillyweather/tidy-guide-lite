@@ -18,8 +18,8 @@ import {
 } from "@tabler/icons-react";
 import { emit } from "@create-figma-plugin/utilities";
 import RadioButton from "../../RadioButton";
-import { Button } from "../Button";
-import { DropdownOption } from "../Dropdown";
+import { Button } from "./Button";
+import { DropdownOption } from "./Dropdown";
 import FontSettingsElement from "./FontSettingsElement";
 import { defaultFont, defaultStyle } from "../../../resources/constants";
 
@@ -142,10 +142,6 @@ export default function CanvasAppearance() {
     rootValue,
     documentationFonts,
   ]);
-
-  useEffect(() => {
-    console.log("appSettings", appSettings);
-  }, [appSettings]);
 
   useEffect(() => {
     if (appSettings.rootValue) {
