@@ -364,6 +364,24 @@ export const ContentCard = (card: any, index: number) => {
     openSection(e, id, selectedCard!, setSelectedCard);
   };
 
+  const handleGetDosDonts = async () => {
+    const response = await getDosAndDonts(
+      selectedElementName,
+      documentationTitle
+    );
+    console.log("response", response);
+    const dos = response.dos;
+    const donts = response.donts;
+    if (dos && dos.length > 0) {
+      setLeftItems(dos);
+      if (!leftTitle) setLeftTitle("Do");
+    }
+    if (donts && donts.length > 0) {
+      setRightItems(donts);
+      if (!rightTitle) setRightTitle("Don't");
+    }
+  };
+
   const handleDeleteSection = async () => {
     setShowDeleteSectionPopup(true);
     setSectionToDeleteIndex(index);
@@ -461,25 +479,7 @@ export const ContentCard = (card: any, index: number) => {
             <div className="leftContent hidePredefined">
               {/* {PublishToggle(publish, setPublish, "Publish to Tidy Viewer")} */}
               {card.datatype === "two-columns" && (
-                <button
-                  className="cardAuxButton"
-                  onClick={async () => {
-                    const response = await getDosAndDonts(
-                      selectedElementName,
-                      documentationTitle
-                    );
-                    const dos = response.dos;
-                    const donts = response.donts;
-                    if (dos.length > 0) {
-                      setLeftItems(dos);
-                      setLeftTitle("Do");
-                    }
-                    if (donts.length > 0) {
-                      setRightItems(donts);
-                      setRightTitle("Don't");
-                    }
-                  }}
-                >
+                <button className="cardAuxButton" onClick={handleGetDosDonts}>
                   <IconSparkles />
                 </button>
               )}
@@ -491,16 +491,6 @@ export const ContentCard = (card: any, index: number) => {
               >
                 <IconArtboard />
               </button>
-              {/* <button
-                className={"cardAuxButton eyeIcon"}
-                onClick={() => {
-                  setIsHidden(!isHidden);
-                  setPublish(false);
-                }}
-              >
-                <IconEye />
-                <IconEyeOff />
-              </button> */}
               <button
                 className={
                   "cardAuxButton noPredefined tooltipButon duplicateButton"

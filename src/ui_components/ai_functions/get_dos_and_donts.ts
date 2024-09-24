@@ -20,14 +20,20 @@ async function getData(
   designSystemComponentName: string,
   documentationTitle: string
 ) {
+  // const prompt = `
+  // You are an assistant that helps users to create a documentation for their design system.
+  // You will be given a name of a design system component which is ${designSystemComponentName} and a title of the documentation which is ${documentationTitle}. Use info from Material UI and Carbon design system as a reference.
+  // Try to understand the component and provide a list of dos and donts for the component.
+  // Return the list as json that contains 5 do properties and 5 dont properties. Don't be verbose, no additional text,don't put it inside of markdown code block, just return stringified JSON`;
   const prompt = `
-  You are a helpful assistant that helps users to create a documentation for their design system.
+  You are an assistant that helps users to create a documentation for their design system.
   You will be given a name of a design system component which is ${designSystemComponentName} and a title of the documentation which is ${documentationTitle}. Use info from Material UI and Carbon design system as a reference.
   Try to understand the component and provide a list of dos and donts for the component.
-  Return the list as json that contains 5 do properties and 5 dont properties. Don't be verbose, no additional text,don't put it inside of markdown code block, just return stringified JSON`;
+  Return the list as json that contains 5 do properties and 5 dont properties. 
+  Don't be verbose, no additional text,don't put it inside of markdown code block, just return stringified JSON`;
 
   const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
+    model: "gpt-4o",
     messages: [
       { role: "system", content: "You are a helpful assistant." },
       {
