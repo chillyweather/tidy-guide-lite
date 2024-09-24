@@ -456,9 +456,7 @@ export const ContentCard = (card: any, index: number) => {
       </div>
       {isSelected && (
         <div className="cardBody">
-          {/*//!all card content here */}
           {currentCardContent(cardType)}
-          {/*//!all card content here */}
           <div className="cardFooter">
             <div className="leftContent hidePredefined">
               {/* {PublishToggle(publish, setPublish, "Publish to Tidy Viewer")} */}
