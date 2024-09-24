@@ -5,22 +5,23 @@ import { useState } from "preact/hooks";
 import { useAtom } from "jotai";
 import {
   appSettingsAtom,
+  currentFigmaFileAtom,
+  currentFigmaPageAtom,
   documentationDataAtom,
   documentationTitleAtom,
+  isBuildingAtom,
   isFromSavedDataAtom,
+  isInternalSpacingAtom,
+  layoutTemplatesAtom,
   loggedInUserAtom,
   sectionToDeleteAtom,
   sectionToDeleteIndexAtom,
+  selectedCardAtom,
   selectedNodeIdAtom,
   selectedNodeKeyAtom,
-  showDeleteSectionPopupAtom,
-  isBuildingAtom,
-  selectedCardAtom,
   selectedSectionsAtom,
-  currentFigmaPageAtom,
-  currentFigmaFileAtom,
-  isInternalSpacingAtom,
-  layoutTemplatesAtom,
+  showDeleteSectionPopupAtom,
+  selectedElementNameAtom,
 } from "../state/atoms";
 import {
   IconGripVertical,
@@ -35,6 +36,7 @@ import {
   IconCopy,
   IconTrash,
   IconArtboard,
+  IconSparkles,
 } from "@tabler/icons-react";
 import AnatomyIcon from "./../images/anatomy.svg";
 import SpacingIcon from "./../images/spacing.svg";
@@ -67,6 +69,7 @@ import SpacingsCard from "./sectionCards/SpacingsCard";
 import { useEffect } from "preact/hooks";
 import { sendRaster } from "./ui_functions/sendRaster";
 // import DosDontsCard from "./sectionCards/DosDonts";
+import { getDosAndDonts } from "./ai_functions/get_dos_and_donts";
 
 function makeDraggable(event: any) {
   event.target.parentElement.parentElement.parentElement.parentElement.setAttribute(
@@ -89,6 +92,7 @@ export const ContentCard = (card: any, index: number) => {
   const [documentationTitle] = useAtom(documentationTitleAtom);
   const [isBuilding, setIsBuilding] = useAtom(isBuildingAtom);
   const [selectedCard, setSelectedCard] = useAtom(selectedCardAtom);
+  const [selectedElementName] = useAtom(selectedElementNameAtom);
   const [, setSelectedSections]: any = useAtom(selectedSectionsAtom);
   const [isInternalSpacing, setIsInternalSpacing] = useAtom(
     isInternalSpacingAtom
@@ -364,13 +368,6 @@ export const ContentCard = (card: any, index: number) => {
     setShowDeleteSectionPopup(true);
     setSectionToDeleteIndex(index);
     setSectionToDelete(card);
-    //     deleteSection(e, index, setSelectedSections);
-    //     if (!remoteImageLink) return;
-    //
-    //     const deletion = await deleteFileFromServer(remoteImageLink);
-    //     if (deletion) {
-    //       console.log(deletion);
-    //     }
   };
 
   const handleDuplicateSection = (e: MouseEvent) => {
@@ -384,20 +381,11 @@ export const ContentCard = (card: any, index: number) => {
         const newDocs = newDocumentation.docs;
         newDocs["title"] = documentationTitle;
         newDocs[index] = currentCardData;
-        // if (elementIsEmpty(currentCardData)) {
-        //   newDocs[index].hidden = true;
-        //   setIsHidden(true);
-        // }
         setIsBuilding(false);
         return newDocumentation;
       });
     }
   }, [isBuilding]);
-
-  // useEffect(() => {
-  //   if (Object.keys(documentationData).length > 0)
-  //     setPreviewData(JSON.parse(JSON.stringify(documentationData)));
-  // }, [documentationData]);
 
   return cardType === "header" ? (
     <div className={isHidden ? "sectionCard draft" : "sectionCard"}>
@@ -409,10 +397,10 @@ export const ContentCard = (card: any, index: number) => {
         <div className="leftContent">
           <IconGripVertical
             className={"dragIcon"}
-            onMouseOver={(event) => {
+            onMouseOver={(event: any) => {
               makeDraggable(event);
             }}
-            onMouseOut={(event) => {
+            onMouseOut={(event: any) => {
               removeDraggable(event);
             }}
           />
@@ -474,6 +462,29 @@ export const ContentCard = (card: any, index: number) => {
           <div className="cardFooter">
             <div className="leftContent hidePredefined">
               {/* {PublishToggle(publish, setPublish, "Publish to Tidy Viewer")} */}
+              {card.datatype === "two-columns" && (
+                <button
+                  className="cardAuxButton"
+                  onClick={async () => {
+                    const response = await getDosAndDonts(
+                      selectedElementName,
+                      documentationTitle
+                    );
+                    const dos = response.dos;
+                    const donts = response.donts;
+                    if (dos.length > 0) {
+                      setLeftItems(dos);
+                      setLeftTitle("Do");
+                    }
+                    if (donts.length > 0) {
+                      setRightItems(donts);
+                      setRightTitle("Don't");
+                    }
+                  }}
+                >
+                  <IconSparkles />
+                </button>
+              )}
             </div>
             <div className="rightContent">
               <button
