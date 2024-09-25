@@ -387,6 +387,13 @@ export const ContentCard = (card: any, index: number) => {
     );
   };
 
+  useEffect(() => {
+    console.log("rightItems", rightItems);
+    console.log("leftItems", leftItems);
+    console.log("rightTitle", rightTitle);
+    console.log("leftTitle", leftTitle);
+  }, [rightItems, leftItems, rightTitle, leftTitle]);
+
   const handleDeleteSection = async () => {
     setShowDeleteSectionPopup(true);
     setSectionToDeleteIndex(index);
