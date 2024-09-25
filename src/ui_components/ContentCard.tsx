@@ -369,17 +369,22 @@ export const ContentCard = (card: any, index: number) => {
       selectedElementName,
       documentationTitle
     );
-    console.log("response", response);
-    const dos = response.dos;
-    const donts = response.donts;
-    if (dos && dos.length > 0) {
-      setLeftItems(dos);
-      if (!leftTitle) setLeftTitle("Do");
-    }
-    if (donts && donts.length > 0) {
-      setRightItems(donts);
-      if (!rightTitle) setRightTitle("Don't");
-    }
+    const dos = response[0];
+    const donts = response[1];
+    fillDosAndDontsInputs(
+      dos,
+      leftItems,
+      setLeftItems,
+      leftTitle,
+      setLeftTitle
+    );
+    fillDosAndDontsInputs(
+      donts,
+      rightItems,
+      setRightItems,
+      rightTitle,
+      setRightTitle
+    );
   };
 
   const handleDeleteSection = async () => {
@@ -517,3 +522,20 @@ export const ContentCard = (card: any, index: number) => {
     );
   }
 };
+function fillDosAndDontsInputs(
+  responseArray: string[],
+  items: string[],
+  setItems: (arr: string[]) => void,
+  title: string,
+  setTitle: (title: string) => void
+) {
+  console.log("responseArray", responseArray);
+  if (responseArray && responseArray.length > 0) {
+    if (!items || !items.length) {
+      setItems(responseArray);
+    } else {
+      setItems([...items, ...responseArray]);
+    }
+    if (!title) setTitle("Don't");
+  }
+}
