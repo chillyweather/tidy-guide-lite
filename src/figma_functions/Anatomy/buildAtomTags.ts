@@ -17,7 +17,8 @@ export async function buildAtomTags(
   tagComponentSet: ComponentSetNode | undefined,
   indexPosition = "left",
   indexSpacing = "32",
-  pluginSettings?: any
+  pluginSettings: any,
+  tagFrameData: any
 ) {
   const tagGroups: FrameNode[] = [];
 
@@ -38,7 +39,8 @@ export async function buildAtomTags(
         indexSpacing,
         labelComponent,
         size,
-        pluginSettings
+        pluginSettings,
+        tagFrameData
       );
 
       tagGroups.push(tagGroup);
@@ -67,14 +69,20 @@ async function buildOneTag(
   indexSpacing = "32",
   labelComponent?: ComponentNode,
   size?: string,
-  pluginSettings?: any
+  pluginSettings?: any,
+  tagFrameData?: any
 ) {
   const TGGray600 = await setColorStyle(
     ".TG-admin/anatomy-secondary",
     "707070"
   );
 
-  const resultFrame = buildAutoLayoutFrame("tagFrame", "HORIZONTAL", 20, 0);
+  const resultFrame = buildAutoLayoutFrame(
+    tagFrameData.name,
+    tagFrameData.direction,
+    20,
+    0
+  );
   const group = await buildElementTags(
     element,
     booleanProperties,

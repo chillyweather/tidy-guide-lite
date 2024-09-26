@@ -142,7 +142,7 @@ export async function buildPropSection(
       return null;
     }
   }
-  parentFrame.name = parentFrame.name + "- Properties";
+  // parentFrame.name = parentFrame.name + "- Properties";
   return parentFrame;
 }
 

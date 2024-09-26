@@ -12,8 +12,13 @@ export async function buildAnatomySection(
   parentFrame: FrameNode,
   indexPosition: string = "left",
   indexSpacing: string = "32",
-  pluginSettings?: any
+  pluginSettings: any,
+  sectionData: any
 ) {
+  const {
+    // title,
+    tagFrame,
+  } = sectionData.elements;
   const booleanProperties = await findAllBooleanProps(node);
   const variantProperties = await findAllVariantProps(node);
   const elementSizes = await getElementSizes(node);
@@ -32,7 +37,8 @@ export async function buildAnatomySection(
     tagComponent,
     indexPosition,
     indexSpacing,
-    pluginSettings
+    pluginSettings,
+    tagFrame
   );
 
   tags.forEach((tag) => {
@@ -41,8 +47,6 @@ export async function buildAnatomySection(
 
   labelComponent.remove();
   tagComponent!.remove();
-
-  // parentFrame.name = parentFrame.name + "- Anatomy";
 
   return parentFrame;
 }

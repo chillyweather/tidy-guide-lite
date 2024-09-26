@@ -66,6 +66,6 @@ export async function buildVarSection(
   parentFrame.appendChild(resultFrame);
   resultFrame.layoutSizingHorizontal = "HUG";
   resultFrame.counterAxisAlignItems = "CENTER";
-  parentFrame.name = parentFrame.name + "- Variants";
+  // parentFrame.name = parentFrame.name + "- Variants";
   return parentFrame;
 }

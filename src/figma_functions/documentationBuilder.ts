@@ -60,7 +60,6 @@ export default async function documentationBuilder(
   const allSectonsData = template.elements;
   for (const element of data.docs) {
     const sectionData = allSectonsData[element.datatype];
-    console.log("sectionData", sectionData);
     if (element.hidden) continue;
 
     const isPredefined = predefinedSections.includes(element.datatype);
@@ -73,7 +72,13 @@ export default async function documentationBuilder(
 
     addSectionToDocFrame(sectionFrame, element, appSettings);
 
-    buildSectionContent(element, sectionFrame, currentNode, appSettings);
+    buildSectionContent(
+      element,
+      sectionFrame,
+      currentNode,
+      appSettings,
+      sectionData
+    );
 
     documentationFrame.layoutSizingHorizontal = "HUG";
   }

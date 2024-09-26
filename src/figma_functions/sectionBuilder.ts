@@ -18,7 +18,8 @@ async function buildSection(
   element: any,
   sectionFrame: any,
   currentNode: any = null,
-  appSettings: any
+  appSettings: any,
+  sectionData: any
 ) {
   const content = element.content;
   switch (element.datatype) {
@@ -28,7 +29,8 @@ async function buildSection(
         sectionFrame,
         element.content.anatomyIndexPosition,
         element.content.anatomyIndexSpacing,
-        appSettings
+        appSettings,
+        sectionData
       );
       break;
 
