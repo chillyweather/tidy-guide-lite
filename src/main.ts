@@ -80,8 +80,7 @@ export default async function () {
     }
   });
 
-  on("BUILD", async (data, appSettings) => {
-    console.log("appSettings", appSettings);
+  on("BUILD", async (data, appSettings, template) => {
     try {
       const id = data.nodeId;
       savedData[id] = data;
@@ -93,9 +92,9 @@ export default async function () {
         "saved_data",
         savedDataString
       );
-      await documentationBuilder(data, loadFonts, appSettings);
+      await documentationBuilder(data, loadFonts, appSettings, template);
     } catch (error) {
-      console.log("error on documentation build in Figma :>> ", error);
+      console.log("error in documentation build in Figma :>> ", error);
     }
   });
 

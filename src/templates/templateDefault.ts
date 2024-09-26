@@ -1,38 +1,13 @@
-type Alignment = "FILL" | "HUG" | "FIXED" | null;
-type Direction = "VERTICAL" | "HORIZONTAL" | null;
-
-interface BaseElement {
-  direction?: Direction;
-  alignHorizontal?: Alignment;
-  alignVertical?: Alignment;
-  elements?: Record<string, DocumentationElement>;
-}
-
-interface DocumentationElement extends BaseElement {
-  [key: string]: unknown;
-}
-
-interface Documentation extends BaseElement {
-  elements: {
-    header: DocumentationElement;
-    anatomy: DocumentationElement;
-    spacing: DocumentationElement;
-    properties: DocumentationElement;
-    variants: DocumentationElement;
-    paragraph: DocumentationElement;
-    dosAndDonts: DocumentationElement;
-    list: DocumentationElement;
-    links: DocumentationElement;
-    image: DocumentationElement;
-  };
-}
+import { Documentation } from "./Documentation";
 
 export const templateDefault: Documentation = {
+  name: "Documentation",
   direction: "VERTICAL",
   alignHorizontal: null,
   alignVertical: null,
   elements: {
     header: {
+      name: "🛑 rename me",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -45,6 +20,7 @@ export const templateDefault: Documentation = {
       },
     },
     anatomy: {
+      name: "🛑 rename me",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -54,16 +30,19 @@ export const templateDefault: Documentation = {
           alignVertical: null,
         },
         tagFrame: {
+          name: "🛑 rename me",
           direction: "HORIZONTAL",
           alignHorizontal: null,
           alignVertical: null,
           elements: {
             tagAutoLayoutFrame: {
+              name: "🛑 rename me",
               direction: "HORIZONTAL",
               alignHorizontal: null,
               alignVertical: null,
               elements: {
                 indexes: {
+                  name: "🛑 rename me",
                   direction: "VERTICAL",
                   alignHorizontal: null,
                   alignVertical: null,
@@ -79,6 +58,7 @@ export const templateDefault: Documentation = {
       },
     },
     spacing: {
+      name: "🛑 rename me",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -88,6 +68,7 @@ export const templateDefault: Documentation = {
           alignVertical: null,
         },
         spacingElement: {
+          name: "🛑 rename me",
           direction: "VERTICAL",
           alignHorizontal: null,
           alignVertical: null,
@@ -105,6 +86,7 @@ export const templateDefault: Documentation = {
       },
     },
     properties: {
+      name: "🛑 rename me",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -114,6 +96,7 @@ export const templateDefault: Documentation = {
           alignVertical: null,
         },
         frameForSizes: {
+          name: "🛑 rename me",
           direction: "VERTICAL",
           alignHorizontal: null,
           alignVertical: null,
@@ -123,11 +106,13 @@ export const templateDefault: Documentation = {
               alignVertical: null,
             },
             allElementsFrame: {
+              name: "🛑 rename me",
               direction: "HORIZONTAL",
               alignHorizontal: null,
               alignVertical: null,
               elements: {
                 sizeElementFrame: {
+                  name: "🛑 rename me",
                   direction: "VERTICAL",
                   alignHorizontal: null,
                   alignVertical: null,
@@ -137,6 +122,7 @@ export const templateDefault: Documentation = {
           },
         },
         frameForBooleanProps: {
+          name: "🛑 rename me",
           direction: "VERTICAL",
           alignHorizontal: null,
           alignVertical: null,
@@ -146,6 +132,7 @@ export const templateDefault: Documentation = {
               alignVertical: null,
             },
             booleanPropFrame: {
+              name: "🛑 rename me",
               direction: "VERTICAL",
               alignHorizontal: null,
               alignVertical: null,
@@ -155,6 +142,7 @@ export const templateDefault: Documentation = {
       },
     },
     variants: {
+      name: "🛑 rename me",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -164,6 +152,7 @@ export const templateDefault: Documentation = {
           alignVertical: null,
         },
         variantsFrame: {
+          name: "🛑 rename me",
           direction: "VERTICAL",
           alignHorizontal: null,
           alignVertical: null,
@@ -171,6 +160,7 @@ export const templateDefault: Documentation = {
       },
     },
     paragraph: {
+      name: "🛑 rename me",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -186,6 +176,7 @@ export const templateDefault: Documentation = {
       },
     },
     dosAndDonts: {
+      name: "🛑 rename me",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -195,11 +186,13 @@ export const templateDefault: Documentation = {
           alignVertical: null,
         },
         textWrapper: {
+          name: "🛑 rename me",
           direction: "VERTICAL",
           alignHorizontal: null,
           alignVertical: null,
           elements: {
             topWrapper: {
+              name: "🛑 rename me",
               direction: "VERTICAL",
               alignHorizontal: null,
               alignVertical: null,
@@ -209,6 +202,7 @@ export const templateDefault: Documentation = {
                   alignVertical: null,
                 },
                 dndWrapper: {
+                  name: "🛑 rename me",
                   direction: "HORIZONTAL",
                   alignHorizontal: null,
                   alignVertical: null,
@@ -216,6 +210,7 @@ export const templateDefault: Documentation = {
               },
             },
             bottomWrapper: {
+              name: "🛑 rename me",
               direction: "VERTICAL",
               alignHorizontal: null,
               alignVertical: null,
@@ -225,6 +220,7 @@ export const templateDefault: Documentation = {
                   alignVertical: null,
                 },
                 dndWrapper: {
+                  name: "🛑 rename me",
                   direction: "HORIZONTAL",
                   alignHorizontal: null,
                   alignVertical: null,
@@ -236,6 +232,7 @@ export const templateDefault: Documentation = {
       },
     },
     list: {
+      name: "🛑 rename me",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -245,6 +242,7 @@ export const templateDefault: Documentation = {
           alignVertical: null,
         },
         listFrame: {
+          name: "🛑 rename me",
           direction: "VERTICAL",
           alignHorizontal: null,
           alignVertical: null,
@@ -252,6 +250,7 @@ export const templateDefault: Documentation = {
       },
     },
     links: {
+      name: "🛑 rename me",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -263,6 +262,7 @@ export const templateDefault: Documentation = {
       },
     },
     image: {
+      name: "🛑 rename me",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
