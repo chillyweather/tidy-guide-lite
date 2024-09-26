@@ -7,7 +7,7 @@ export const templateDefault: Documentation = {
   alignVertical: null,
   elements: {
     header: {
-      name: "🛑 rename me",
+      name: "section-header",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -20,7 +20,7 @@ export const templateDefault: Documentation = {
       },
     },
     anatomy: {
-      name: "🛑 rename me",
+      name: "section-anatomy",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -58,7 +58,7 @@ export const templateDefault: Documentation = {
       },
     },
     spacing: {
-      name: "🛑 rename me",
+      name: "section-spacing",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -85,8 +85,8 @@ export const templateDefault: Documentation = {
         },
       },
     },
-    properties: {
-      name: "🛑 rename me",
+    property: {
+      name: "section-property",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -142,7 +142,7 @@ export const templateDefault: Documentation = {
       },
     },
     variants: {
-      name: "🛑 rename me",
+      name: "section-variants",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -159,8 +159,8 @@ export const templateDefault: Documentation = {
         },
       },
     },
-    paragraph: {
-      name: "🛑 rename me",
+    text: {
+      name: "section-paragraph",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -175,8 +175,8 @@ export const templateDefault: Documentation = {
         },
       },
     },
-    dosAndDonts: {
-      name: "🛑 rename me",
+    "two-columns": {
+      name: "section-dos-and-donts",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -232,7 +232,7 @@ export const templateDefault: Documentation = {
       },
     },
     list: {
-      name: "🛑 rename me",
+      name: "section-list",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -249,8 +249,8 @@ export const templateDefault: Documentation = {
         },
       },
     },
-    links: {
-      name: "🛑 rename me",
+    link: {
+      name: "section-links",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,
@@ -262,7 +262,7 @@ export const templateDefault: Documentation = {
       },
     },
     image: {
-      name: "🛑 rename me",
+      name: "section-image",
       direction: "VERTICAL",
       alignHorizontal: null,
       alignVertical: null,

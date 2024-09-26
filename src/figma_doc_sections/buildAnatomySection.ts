@@ -42,7 +42,7 @@ export async function buildAnatomySection(
   labelComponent.remove();
   tagComponent!.remove();
 
-  parentFrame.name = parentFrame.name + "- Anatomy";
+  // parentFrame.name = parentFrame.name + "- Anatomy";
 
   return parentFrame;
 }

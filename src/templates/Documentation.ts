@@ -15,12 +15,12 @@ export interface Documentation extends BaseElement {
     header: DocumentationElement;
     anatomy: DocumentationElement;
     spacing: DocumentationElement;
-    properties: DocumentationElement;
+    property: DocumentationElement;
     variants: DocumentationElement;
-    paragraph: DocumentationElement;
-    dosAndDonts: DocumentationElement;
+    text: DocumentationElement;
+    "two-columns": DocumentationElement;
     list: DocumentationElement;
-    links: DocumentationElement;
+    link: DocumentationElement;
     image: DocumentationElement;
   };
 }

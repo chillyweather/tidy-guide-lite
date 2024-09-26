@@ -33,7 +33,11 @@ export default async function documentationBuilder(
     documentationFrame.y = bounds[0].y;
   }
 
-  const headerSectionFrame = buildSectionFrame();
+  const headerData = template.elements.header;
+  const headerSectionFrame = buildSectionFrame(
+    headerData.name,
+    headerData.direction
+  );
   documentationFrame.appendChild(headerSectionFrame);
   headerSectionFrame.layoutSizingHorizontal = "FILL";
 
@@ -53,13 +57,19 @@ export default async function documentationBuilder(
 
   const predefinedSections = ["anatomy", "spacing", "property", "variants"];
 
+  const allSectonsData = template.elements;
   for (const element of data.docs) {
+    const sectionData = allSectonsData[element.datatype];
+    console.log("sectionData", sectionData);
     if (element.hidden) continue;
 
     const isPredefined = predefinedSections.includes(element.datatype);
     if (isPredefined && !currentNode) continue;
 
-    const sectionFrame = buildSectionFrame();
+    const sectionFrame = buildSectionFrame(
+      sectionData.name,
+      sectionData.direction
+    );
 
     addSectionToDocFrame(sectionFrame, element, appSettings);
 
@@ -100,7 +110,7 @@ export default async function documentationBuilder(
 
   function buildDocumentationFrame(
     name: string,
-    direction: "NONE" | "HORIZONTAL" | "VERTICAL"
+    direction: "NONE" | "HORIZONTAL" | "VERTICAL" = "VERTICAL"
   ): FrameNode {
     const documentationFrame = buildAutoLayoutFrame(
       name,
@@ -132,14 +142,11 @@ export default async function documentationBuilder(
     return documentationFrame;
   }
 
-  function buildSectionFrame() {
-    const sectionFrame = buildAutoLayoutFrame(
-      "sectionFrame",
-      "VERTICAL",
-      20,
-      20,
-      24
-    );
+  function buildSectionFrame(
+    name: string,
+    direction: "NONE" | "HORIZONTAL" | "VERTICAL" = "VERTICAL"
+  ): FrameNode {
+    const sectionFrame = buildAutoLayoutFrame(name, direction, 20, 20, 24);
 
     sectionFrame.topLeftRadius = sectionCornerRadius;
     sectionFrame.topRightRadius = sectionCornerRadius;
