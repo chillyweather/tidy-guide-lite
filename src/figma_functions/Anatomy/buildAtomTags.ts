@@ -54,7 +54,8 @@ export async function buildAtomTags(
       indexSpacing,
       labelComponent,
       "",
-      pluginSettings
+      pluginSettings,
+      tagFrameData
     );
     tagGroups.push(tagGroup);
   }
@@ -80,10 +81,11 @@ async function buildOneTag(
   const resultFrame = buildAutoLayoutFrame(
     tagFrameData.name,
     tagFrameData.direction,
-    20,
+    0,
     0
   );
-  const group = await buildElementTags(
+
+  const oneSizeFrame = await buildElementTags(
     element,
     booleanProperties,
     tagComponentSet,
@@ -92,10 +94,10 @@ async function buildOneTag(
     pluginSettings
   );
 
-  resultFrame.appendChild(group);
-  resultFrame.paddingBottom = 40;
-  resultFrame.paddingTop = 40;
-  resultFrame.counterAxisAlignItems = "CENTER";
+  resultFrame.appendChild(oneSizeFrame);
+  // resultFrame.paddingBottom = 40;
+  // resultFrame.paddingTop = 40;
+  // resultFrame.counterAxisAlignItems = "CENTER";
   if (labelComponent && size) {
     const title = setTitlePosition(
       labelComponent.createInstance(),

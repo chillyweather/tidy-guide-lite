@@ -17,9 +17,10 @@ export async function buildOneSection(
   indexPosition?: string,
   indexSpacing?: string,
   appSettings?: any,
-  isInternalSpacing?: boolean
+  isInternalSpacing?: boolean,
+  template?: any
 ) {
-  console.log("appSettings", appSettings);
+  console.log("template", template);
   await loadFonts(appSettings.documentationFonts.title);
   const foundNode = await getNodeAndDefaultElement(nodeId, nodeKey);
   const instance = foundNode.createInstance();
@@ -32,7 +33,8 @@ export async function buildOneSection(
     indexPosition,
     indexSpacing,
     appSettings,
-    isInternalSpacing
+    isInternalSpacing,
+    template
   );
 
   instance.remove();
@@ -52,7 +54,8 @@ async function buildSectionContent(
   indexPosition?: string,
   indexSpacing?: string,
   appSettings?: any,
-  isInternalSpacing?: boolean
+  isInternalSpacing?: boolean,
+  template?: any
 ) {
   const frame = buildResultFrame();
 
@@ -64,7 +67,8 @@ async function buildSectionContent(
       frame,
       indexPosition,
       indexSpacing,
-      appSettings
+      appSettings,
+      template
     );
   } else if (type === "variants") {
     const title = buildTitle("Variants");

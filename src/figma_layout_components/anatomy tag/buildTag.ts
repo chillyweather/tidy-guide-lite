@@ -1,56 +1,41 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { setColorStyle } from "../figma_functions/utilityFunctions";
+import { setColorStyle } from "../../figma_functions/utilityFunctions";
 import { createTagLabel } from "./createTagLabel";
 import { createLineBox } from "./createTagLine";
 import {
   addNewTextProperty,
   addNewBooleanProperty,
-} from "../figma_functions/addNewProperty";
+} from "../../figma_functions/addNewProperty";
+import { anatomyProps } from "../properties";
 
 export function addText(letterText: string) {
+  const {
+    color,
+    fontSize,
+    fontName,
+    textCase,
+    horizontalAlign,
+    verticalAlign,
+    lineHeight,
+  } = anatomyProps.index;
   const letter = figma.createText();
-  letter.fills = [
-    {
-      type: "SOLID",
-      visible: true,
-      opacity: 1,
-      blendMode: "NORMAL",
-      color: {
-        r: 1,
-        g: 1,
-        b: 1,
-      },
-    },
-  ];
-  letter.fontSize = 14;
-  letter.fontName = {
-    family: "Inter",
-    style: "Semi Bold",
-  };
-  letter.textCase = "UPPER";
   letter.characters = letterText;
-  letter.textAlignHorizontal = "CENTER";
-  letter.textAlignVertical = "CENTER";
-  letter.lineHeight = {
-    unit: "PERCENT",
-    value: 2.9999999329447746,
-  };
+  letter.fills = color;
+  letter.fontSize = fontSize;
+  letter.fontName = fontName;
+  letter.textCase = textCase;
+  letter.textAlignHorizontal = horizontalAlign;
+  letter.textAlignVertical = verticalAlign;
+  letter.lineHeight = lineHeight;
   return letter;
 }
 
 export async function buildLabelText(label: string) {
-  const anatomyLabelsColor = await setColorStyle(
-    ".TG-admin/anatomy-labels",
-    "292929"
-  );
   const labelText = figma.createText();
-  await labelText.setFillStyleIdAsync(anatomyLabelsColor.id);
-  labelText.fontSize = 14;
-  labelText.fontName = {
-    family: "Inter",
-    style: "Medium",
-  };
   labelText.characters = label;
+  await labelText.setFillStyleIdAsync(anatomyProps.labelText.colorStyle.id);
+  labelText.fontSize = anatomyProps.labelText.fontSize;
+  labelText.fontName = anatomyProps.labelText.fontName;
   return labelText;
 }
 

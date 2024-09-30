@@ -8,6 +8,7 @@ import { getNode } from "./figma_functions/getNode";
 
 import { buildOneSection } from "./figma_functions/buildOneSection";
 import handleCanvasColors from "./figma_functions/handleCanvasColors";
+import { getNodeData } from "./figma_functions/nodeAnalisys";
 
 const loadFonts = async (font?: any) => {
   await figma.loadFontAsync(
@@ -52,6 +53,11 @@ export default async function () {
 
   on("GET_SELECTION", async () => {
     const selectionData = await checkSelection();
+    const defaultNode = selectionData?.defaultNode;
+    if (defaultNode) {
+      const nodeData = getNodeData(defaultNode);
+      console.log("nodeData", nodeData);
+    }
     if (selectionData) emit("SELECTION", selectionData);
   });
 
@@ -108,7 +114,19 @@ export default async function () {
       anatomyIndexSpacing,
       appSettings,
       isInternalSpacing,
+      template,
     }) => {
+      console.log(
+        "received>>>>>",
+        selectedNodeId,
+        selectedNodeKey,
+        cardType,
+        anatomyIndexPosition,
+        anatomyIndexSpacing,
+        appSettings,
+        isInternalSpacing,
+        template
+      );
       buildOneSection(
         loadFonts,
         selectedNodeId,
@@ -117,7 +135,8 @@ export default async function () {
         anatomyIndexPosition,
         anatomyIndexSpacing,
         appSettings,
-        isInternalSpacing
+        isInternalSpacing,
+        template
       );
     }
   );

@@ -69,7 +69,8 @@ import SpacingsCard from "./sectionCards/SpacingsCard";
 import { useEffect } from "preact/hooks";
 import { sendRaster } from "./ui_functions/sendRaster";
 // import DosDontsCard from "./sectionCards/DosDonts";
-import { getDosAndDonts } from "./ai_functions/get_dos_and_donts";
+import { getDosAndDonts } from "./ai_functions/getDosAndDonts";
+import { getTextSectionRequest } from "./ai_functions/getTextSectionRequest";
 
 function makeDraggable(event: any) {
   event.target.parentElement.parentElement.parentElement.parentElement.setAttribute(
@@ -387,12 +388,23 @@ export const ContentCard = (card: any, index: number) => {
     );
   };
 
-  useEffect(() => {
-    console.log("rightItems", rightItems);
-    console.log("leftItems", leftItems);
-    console.log("rightTitle", rightTitle);
-    console.log("leftTitle", leftTitle);
-  }, [rightItems, leftItems, rightTitle, leftTitle]);
+  const handleTextRequest = async () => {
+    const response = await getTextSectionRequest(
+      selectedElementName,
+      documentationTitle,
+      paragraphTextContent,
+      cardTitle
+    );
+
+    if (response) setParagraphTextContent(response);
+  };
+
+  // useEffect(() => {
+  //   console.log("rightItems", rightItems);
+  //   console.log("leftItems", leftItems);
+  //   console.log("rightTitle", rightTitle);
+  //   console.log("leftTitle", leftTitle);
+  // }, [rightItems, leftItems, rightTitle, leftTitle]);
 
   const handleDeleteSection = async () => {
     setShowDeleteSectionPopup(true);
@@ -492,6 +504,11 @@ export const ContentCard = (card: any, index: number) => {
               {/* {PublishToggle(publish, setPublish, "Publish to Tidy Viewer")} */}
               {card.datatype === "two-columns" && (
                 <button className="cardAuxButton" onClick={handleGetDosDonts}>
+                  <IconSparkles />
+                </button>
+              )}
+              {card.datatype === "text" && (
+                <button className="cardAuxButton" onClick={handleTextRequest}>
                   <IconSparkles />
                 </button>
               )}

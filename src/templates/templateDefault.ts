@@ -30,7 +30,7 @@ export const templateDefault: Documentation = {
           alignVertical: null,
         },
         tagFrame: {
-          name: "🛑 rename me",
+          name: "anatomy-sizes-wrapper",
           direction: "HORIZONTAL",
           alignHorizontal: null,
           alignVertical: null,

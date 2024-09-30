@@ -4,7 +4,7 @@ import { findAllVariantProps } from "../figma_functions/utilityFunctions";
 import { getElementSizes } from "../figma_functions/utilityFunctions";
 import { buildLabelComponent } from "../figma_layout_components/buildLabelComponent";
 import { buildAtomTags } from "../figma_functions/Anatomy/buildAtomTags";
-import buildAllTags from "../figma_layout_components/buildTagComponent";
+import buildTagComponentSet from "../figma_layout_components/anatomy tag/buildTagComponentSet";
 import { deleteInvalidProps } from "./deleteInvalidProps";
 
 export async function buildAnatomySection(
@@ -26,7 +26,7 @@ export async function buildAnatomySection(
   deleteInvalidProps(variantProperties);
 
   const labelComponent = buildLabelComponent();
-  const tagComponent = await buildAllTags(pluginSettings);
+  const tagComponent = await buildTagComponentSet(pluginSettings);
 
   const tags = await buildAtomTags(
     node,

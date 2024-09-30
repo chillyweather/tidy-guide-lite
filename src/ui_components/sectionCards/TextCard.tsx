@@ -5,7 +5,7 @@ const TextCard = ({
   setTextContent,
 }: {
   textContent: string;
-  setTextContent: Function;
+  setTextContent: (e: string) => void;
 }) => {
   return (
     <div className="textCardBodyContent">

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { buildTag } from "./buildTag";
 
-export default async function buildAllTags(settings: any) {
+export default async function buildTagComponentSet(settings: any) {
   const tagBottomLine = await buildTag("A", "bottom", settings);
   tagBottomLine!.name = "type=bottom line";
   const tagTopLine = await buildTag("B", "top", settings);
