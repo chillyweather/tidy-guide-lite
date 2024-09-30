@@ -57,6 +57,7 @@ export async function buildAtomTags(
       pluginSettings,
       tagFrameData
     );
+    console.log("tagGroup", tagGroup);
     tagGroups.push(tagGroup);
   }
   return tagGroups;
@@ -82,7 +83,7 @@ async function buildOneTag(
     tagFrameData.name,
     tagFrameData.direction,
     0,
-    0
+    40
   );
 
   const oneSizeFrame = await buildElementTags(

@@ -43,9 +43,6 @@ export default async function buildTags(
 
   const indexes = buildIndexesFrame(frame);
 
-  //! sort by elementX value
-  //! need to implement better sorting
-
   //data for tag placement
   interface FrameData {
     width: number;
