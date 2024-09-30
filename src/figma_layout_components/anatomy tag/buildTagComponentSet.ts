@@ -12,21 +12,15 @@ export default async function buildTagComponentSet(settings: any) {
   tagRightLine!.name = "type=right line";
   const tagIndex = await buildTag("E", "index", settings);
   tagIndex!.name = "type=index only";
-  const tagText = await buildTag("F", "text", settings, "Text");
+  const tagText = await buildTag("F", "text", settings);
   tagText!.name = "type=text";
-  const tagImportant = await buildTag("!", "important", settings, "Text");
+  const tagImportant = await buildTag("!", "important", settings);
   tagImportant!.name = "type=important";
-  const tagInfo = await buildTag("»", "info", settings, "Text");
+  const tagInfo = await buildTag("»", "info", settings);
   tagInfo!.name = "type=info";
-  const tagSize = await buildTag("", "size", settings, "Text", false);
+  const tagSize = await buildTag("", "size", settings, false);
   tagSize!.name = "type=size";
-  const tagCornerRadius = await buildTag(
-    "",
-    "cornerRadius",
-    settings,
-    "Text",
-    false
-  );
+  const tagCornerRadius = await buildTag("", "cornerRadius", settings, false);
   tagCornerRadius!.name = "type=cornerRadius";
 
   const tags = [
