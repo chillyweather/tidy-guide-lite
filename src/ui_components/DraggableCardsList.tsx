@@ -5,7 +5,7 @@ import { h } from "preact";
 import { useEffect } from "preact/hooks";
 import Sortable from "sortablejs";
 import { DraggableItem } from "./DraggableItem";
-import { ContentCard } from "./ContentCard";
+import { ContentCard } from "./contentCardElements/ContentCard";
 import Elements from "./../images/elements-min.png";
 import { IconPlus } from "@tabler/icons-react";
 

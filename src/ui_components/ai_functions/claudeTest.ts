@@ -3,9 +3,9 @@ import Anthropic from "@anthropic-ai/sdk";
 import envConfig from "src/envConfig";
 export async function askClaude(question: string) {
   try {
-    // Initialize the Anthropic client
     const client = new Anthropic({
       apiKey: envConfig.CLAUDE_API_KEY as string,
+      dangerouslyAllowBrowser: true,
     });
 
     const message = await client.messages.create({

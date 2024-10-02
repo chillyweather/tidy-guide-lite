@@ -22,7 +22,7 @@ import {
   selectedSectionsAtom,
   showDeleteSectionPopupAtom,
   selectedElementNameAtom,
-} from "../state/atoms";
+} from "../../state/atoms";
 import {
   IconGripVertical,
   IconChevronDown,
@@ -49,25 +49,26 @@ import {
   // deleteSection,
   duplicateSection,
   openSection,
-} from "./ui_functions/cardActions";
+} from "../ui_functions/cardActions";
 
 //content cards
-import HeaderCard from "./sectionCards/HeaderCard";
-import ImageCard from "./sectionCards/ImageCard";
-import LinkCard from "./sectionCards/LinkCard";
-import ListCard from "./sectionCards/ListCard";
-import PropertyCard from "./sectionCards/PropertyCard";
-import ReleaseNotesCard from "./sectionCards/ReleaseNotesCard";
-import TextCard from "./sectionCards/TextCard";
-import TwoColumnCard from "./sectionCards/TwoColumnCard";
-import VariantsCard from "./sectionCards/VariantsCard";
-import AnatomyCard from "./sectionCards/AnatomyCard";
-import VideoCard from "./sectionCards/VideoCard";
-import SpacingsCard from "./sectionCards/SpacingsCard";
+import HeaderCard from "../sectionCards/HeaderCard";
+import ImageCard from "../sectionCards/ImageCard";
+import LinkCard from "../sectionCards/LinkCard";
+import ListCard from "../sectionCards/ListCard";
+import PropertyCard from "../sectionCards/PropertyCard";
+import ReleaseNotesCard from "../sectionCards/ReleaseNotesCard";
+import TextCard from "../sectionCards/TextCard";
+import TwoColumnCard from "../sectionCards/TwoColumnCard";
+import VariantsCard from "../sectionCards/VariantsCard";
+import AnatomyCard from "../sectionCards/AnatomyCard";
+import VideoCard from "../sectionCards/VideoCard";
+import SpacingsCard from "../sectionCards/SpacingsCard";
 import { useEffect } from "preact/hooks";
-import { sendRaster } from "./ui_functions/sendRaster";
-import { getDosAndDonts } from "./ai_functions/getDosAndDonts";
-import { getTextSectionRequest } from "./ai_functions/getTextSectionRequest";
+import { sendRaster } from "../ui_functions/sendRaster";
+import { getDosAndDonts } from "../ai_functions/getDosAndDonts";
+import { getTextSectionRequest } from "../ai_functions/getTextSectionRequest";
+import { askClaude } from "../ai_functions/claudeTest";
 
 function makeDraggable(event: any) {
   event.target.parentElement.parentElement.parentElement.parentElement.setAttribute(
@@ -367,20 +368,8 @@ export const ContentCard = (card: any, index: number) => {
     );
     const dos = response[0];
     const donts = response[1];
-    fillDosAndDontsInputs(
-      dos,
-      leftItems,
-      setLeftItems
-      // leftTitle,
-      // setLeftTitle
-    );
-    fillDosAndDontsInputs(
-      donts,
-      rightItems,
-      setRightItems
-      // rightTitle,
-      // setRightTitle
-    );
+    fillDosAndDontsInputs(dos, leftItems, setLeftItems);
+    fillDosAndDontsInputs(donts, rightItems, setRightItems);
   };
 
   const handleTextRequest = async () => {
@@ -390,16 +379,13 @@ export const ContentCard = (card: any, index: number) => {
       paragraphTextContent,
       cardTitle
     );
-
     if (response) setParagraphTextContent(response);
   };
 
-  // useEffect(() => {
-  //   console.log("rightItems", rightItems);
-  //   console.log("leftItems", leftItems);
-  //   console.log("rightTitle", rightTitle);
-  //   console.log("leftTitle", leftTitle);
-  // }, [rightItems, leftItems, rightTitle, leftTitle]);
+  const handleAskCloude = async () => {
+    const response = askClaude("What is your favourite color?");
+    console.log("Claude's response", response);
+  };
 
   const handleDeleteSection = async () => {
     setShowDeleteSectionPopup(true);
@@ -446,7 +432,6 @@ export const ContentCard = (card: any, index: number) => {
             <img src={SpacingIcon} className={"spacing"} />
             <img src={PropertyIcon} className={"property"} />
             <img src={VariantsIcon} className={"variants"} />
-            {/* <img src={TokensIcon} className={"tokens"} /> */}
             <img src={ReleaseNotesIcon} className={"releasenotes"} />
             <IconPilcrow className={"paragraph"} />
             <IconVideo className={"video"} />
@@ -508,10 +493,7 @@ export const ContentCard = (card: any, index: number) => {
                 </button>
               )}
               {card.datatype === "text" && (
-                <button
-                  className="cardAuxButton"
-                  onClick={() => console.log("cloude?")}
-                >
+                <button className="cardAuxButton" onClick={handleAskCloude}>
                   <IconClover />
                 </button>
               )}
@@ -553,8 +535,6 @@ function fillDosAndDontsInputs(
   responseArray: string[],
   items: string[],
   setItems: (arr: string[]) => void
-  // title: string,
-  // setTitle: (title: string) => void
 ) {
   console.log("responseArray", responseArray);
   if (responseArray && responseArray.length > 0) {
@@ -563,7 +543,5 @@ function fillDosAndDontsInputs(
     } else {
       setItems([...items, ...responseArray]);
     }
-    // console.log("title", title);
-    // if (!title) setTitle("Don't");
   }
 }
