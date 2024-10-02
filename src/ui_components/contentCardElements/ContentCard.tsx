@@ -100,7 +100,6 @@ export const ContentCard = (card: any, index: number) => {
   //card title
   const [cardTitle, setCardTitle] = useState(card.title);
   // general use
-  const [isHidden] = useState(isFromSavedData ? card.hidden : false);
   const [publish] = useState<boolean>(isFromSavedData ? card.publish : true);
   // text card
   const [paragraphTextContent, setParagraphTextContent] = useState(
@@ -226,7 +225,7 @@ export const ContentCard = (card: any, index: number) => {
     datatype: cardType,
     publish: publish,
     text: paragraphTextContent,
-    hidden: isHidden || false,
+    hidden: false,
     content: {
       //anatomy content
       anatomyIndexPosition: anatomyIndexPosition || "left",
@@ -411,11 +410,11 @@ export const ContentCard = (card: any, index: number) => {
   }, [isBuilding]);
 
   return cardType === "header" ? (
-    <div className={isHidden ? "sectionCard draft" : "sectionCard"}>
+    <div className={"sectionCard"}>
       <HeaderCard />
     </div>
   ) : (
-    <div className={isHidden ? "sectionCard draft" : "sectionCard"}>
+    <div className={"sectionCard"}>
       <div className="cardHeader">
         <div className="leftContent">
           <IconGripVertical
