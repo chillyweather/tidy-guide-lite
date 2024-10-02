@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { computeMaximumBounds } from "@create-figma-plugin/utilities";
 //!--------BUILD----------//
 /**
  * Creates a new auto-layout frame with the specified properties.
@@ -534,4 +535,17 @@ export function tempPropCheck(
     note,
     node.componentProperties.size
   );
+}
+
+export function positionDocumentationOnCanvas(
+  frame: FrameNode,
+  xShift: number,
+  yShift: number
+) {
+  const children = figma.currentPage.children;
+  const bounds = computeMaximumBounds(Array.from(children));
+  if (children && children.length) {
+    frame.x = bounds[1].x + xShift;
+    frame.y = bounds[0].y + yShift;
+  }
 }

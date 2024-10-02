@@ -3,7 +3,7 @@ import { buildAutoLayoutFrame } from "../figma_functions/utilityFunctions";
 import {
   documentationWidth,
   documentationPadding,
-} from "../figma_functions/documentationBuilder";
+} from "../figma_functions/constants";
 import { doNetwork, dontNetwork } from "src/resources/vectors/vectorElements";
 
 export function buildTitle(title: string, fontname?: FontName) {

@@ -39,7 +39,7 @@ const TwoColumnCard = ({
           className="columnTitle listInputStyle"
           type="text"
           placeholder="Type title..."
-          value={leftTitle}
+          value={leftTitle || "Do"}
           onInput={(e) => setLeftTitle(e.currentTarget.value)}
         />
         <div
@@ -97,7 +97,7 @@ const TwoColumnCard = ({
           className="columnTitle listInputStyle"
           type="text"
           placeholder="Type title..."
-          value={rightTitle}
+          value={rightTitle || "Don't"}
           onInput={(e) => setRightTitle(e.currentTarget.value)}
         />
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>

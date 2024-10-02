@@ -37,21 +37,19 @@ import {
   IconTrash,
   IconArtboard,
   IconSparkles,
+  IconClover,
 } from "@tabler/icons-react";
 import AnatomyIcon from "./../images/anatomy.svg";
 import SpacingIcon from "./../images/spacing.svg";
 import PropertyIcon from "./../images/property.svg";
 import VariantsIcon from "./../images/variants.svg";
 import ReleaseNotesIcon from "./../images/release-notes.svg";
-// import TokensIcon from "./../images/tokens.svg";
 
 import {
   // deleteSection,
   duplicateSection,
   openSection,
 } from "./ui_functions/cardActions";
-
-// import { deleteFileFromServer } from "./ui_functions/fileManagementFunctions";
 
 //content cards
 import HeaderCard from "./sectionCards/HeaderCard";
@@ -68,7 +66,6 @@ import VideoCard from "./sectionCards/VideoCard";
 import SpacingsCard from "./sectionCards/SpacingsCard";
 import { useEffect } from "preact/hooks";
 import { sendRaster } from "./ui_functions/sendRaster";
-// import DosDontsCard from "./sectionCards/DosDonts";
 import { getDosAndDonts } from "./ai_functions/getDosAndDonts";
 import { getTextSectionRequest } from "./ai_functions/getTextSectionRequest";
 
@@ -109,11 +106,9 @@ export const ContentCard = (card: any, index: number) => {
     isFromSavedData && card.text ? card.text : ""
   );
   // two column card
-  const [leftTitle, setLeftTitle] = useState(
-    isFromSavedData ? card.content.subtitle1 : ""
-  );
+  const [leftTitle, setLeftTitle] = useState(card.content.subtitle1 ?? "Do");
   const [rightTitle, setRightTitle] = useState(
-    isFromSavedData ? card.content.subtitle2 : ""
+    card.content.subtitle2 ?? "Don't"
   );
   const [leftItems, setLeftItems] = useState(
     isFromSavedData ? card.content.leftItems : []
@@ -237,8 +232,8 @@ export const ContentCard = (card: any, index: number) => {
       anatomyIndexSpacing: anatomyIndexSpacing || "32",
       isInternalSpacing: isInternalSpacing,
       //two column content
-      subtitle1: leftTitle,
-      subtitle2: rightTitle,
+      subtitle1: leftTitle || "Do",
+      subtitle2: rightTitle || "Don't",
       leftItems,
       rightItems,
       //link content
@@ -375,16 +370,16 @@ export const ContentCard = (card: any, index: number) => {
     fillDosAndDontsInputs(
       dos,
       leftItems,
-      setLeftItems,
-      leftTitle,
-      setLeftTitle
+      setLeftItems
+      // leftTitle,
+      // setLeftTitle
     );
     fillDosAndDontsInputs(
       donts,
       rightItems,
-      setRightItems,
-      rightTitle,
-      setRightTitle
+      setRightItems
+      // rightTitle,
+      // setRightTitle
     );
   };
 
@@ -512,6 +507,14 @@ export const ContentCard = (card: any, index: number) => {
                   <IconSparkles />
                 </button>
               )}
+              {card.datatype === "text" && (
+                <button
+                  className="cardAuxButton"
+                  onClick={() => console.log("cloude?")}
+                >
+                  <IconClover />
+                </button>
+              )}
             </div>
             <div className="rightContent">
               <button
@@ -549,9 +552,9 @@ export const ContentCard = (card: any, index: number) => {
 function fillDosAndDontsInputs(
   responseArray: string[],
   items: string[],
-  setItems: (arr: string[]) => void,
-  title: string,
-  setTitle: (title: string) => void
+  setItems: (arr: string[]) => void
+  // title: string,
+  // setTitle: (title: string) => void
 ) {
   console.log("responseArray", responseArray);
   if (responseArray && responseArray.length > 0) {
@@ -560,6 +563,7 @@ function fillDosAndDontsInputs(
     } else {
       setItems([...items, ...responseArray]);
     }
-    if (!title) setTitle("Don't");
+    // console.log("title", title);
+    // if (!title) setTitle("Don't");
   }
 }
