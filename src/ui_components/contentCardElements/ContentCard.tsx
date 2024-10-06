@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { h } from "preact";
-import { emit, on } from "@create-figma-plugin/utilities";
-import { useState } from "preact/hooks";
+import { emit } from "@create-figma-plugin/utilities";
+// import { useState } from "preact/hooks";
 import { useAtom } from "jotai";
 import {
   appSettingsAtom,
@@ -11,9 +11,8 @@ import {
   documentationTitleAtom,
   isBuildingAtom,
   isFromSavedDataAtom,
-  isInternalSpacingAtom,
+  // isInternalSpacingAtom,
   layoutTemplatesAtom,
-  loggedInUserAtom,
   sectionToDeleteAtom,
   sectionToDeleteIndexAtom,
   selectedCardAtom,
@@ -39,115 +38,121 @@ import {
   IconSparkles,
   IconClover,
 } from "@tabler/icons-react";
-import AnatomyIcon from "./../images/anatomy.svg";
-import SpacingIcon from "./../images/spacing.svg";
-import PropertyIcon from "./../images/property.svg";
-import VariantsIcon from "./../images/variants.svg";
-import ReleaseNotesIcon from "./../images/release-notes.svg";
+import AnatomyIcon from "../../images/anatomy.svg";
+import SpacingIcon from "../../images/spacing.svg";
+import PropertyIcon from "../../images/property.svg";
+import VariantsIcon from "../../images/variants.svg";
+import ReleaseNotesIcon from "../../images/release-notes.svg";
 
-import {
-  // deleteSection,
-  duplicateSection,
-  openSection,
-} from "../ui_functions/cardActions";
+import { duplicateSection, openSection } from "../ui_functions/cardActions";
+import { useCardState } from "../hooks/useCardState";
 
 //content cards
 import HeaderCard from "../sectionCards/HeaderCard";
-import ImageCard from "../sectionCards/ImageCard";
-import LinkCard from "../sectionCards/LinkCard";
-import ListCard from "../sectionCards/ListCard";
+import AnatomyCard from "../sectionCards/AnatomyCard";
+import SpacingsCard from "../sectionCards/SpacingsCard";
 import PropertyCard from "../sectionCards/PropertyCard";
-import ReleaseNotesCard from "../sectionCards/ReleaseNotesCard";
+import VariantsCard from "../sectionCards/VariantsCard";
 import TextCard from "../sectionCards/TextCard";
 import TwoColumnCard from "../sectionCards/TwoColumnCard";
-import VariantsCard from "../sectionCards/VariantsCard";
-import AnatomyCard from "../sectionCards/AnatomyCard";
-import VideoCard from "../sectionCards/VideoCard";
-import SpacingsCard from "../sectionCards/SpacingsCard";
+import LinkCard from "../sectionCards/LinkCard";
+import ListCard from "../sectionCards/ListCard";
+import ImageCard from "../sectionCards/ImageCard";
+import ReleaseNotesCard from "../sectionCards/ReleaseNotesCard";
 import { useEffect } from "preact/hooks";
-import { sendRaster } from "../ui_functions/sendRaster";
 import { getDosAndDonts } from "../ai_functions/getDosAndDonts";
 import { getTextSectionRequest } from "../ai_functions/getTextSectionRequest";
 import { askClaude } from "../ai_functions/claudeTest";
-
-function makeDraggable(event: any) {
-  event.target.parentElement.parentElement.parentElement.parentElement.setAttribute(
-    "draggable",
-    true
-  );
-}
-function removeDraggable(event: any) {
-  event.target.parentElement.parentElement.parentElement.parentElement.setAttribute(
-    "draggable",
-    false
-  );
-}
+import {
+  makeDraggable,
+  removeDraggable,
+  fillDosAndDontsInputs,
+} from "./ContentCardUtils";
 
 export const ContentCard = (card: any, index: number) => {
   const [isFromSavedData] = useAtom(isFromSavedDataAtom);
   const [appSettings] = useAtom(appSettingsAtom);
-  const [loggedInUser] = useAtom(loggedInUserAtom);
   const [, setDocumentationData] = useAtom(documentationDataAtom);
   const [documentationTitle] = useAtom(documentationTitleAtom);
   const [isBuilding, setIsBuilding] = useAtom(isBuildingAtom);
   const [selectedCard, setSelectedCard] = useAtom(selectedCardAtom);
   const [selectedElementName] = useAtom(selectedElementNameAtom);
   const [, setSelectedSections]: any = useAtom(selectedSectionsAtom);
-  const [isInternalSpacing, setIsInternalSpacing] = useAtom(
-    isInternalSpacingAtom
-  );
-
-  //card title
-  const [cardTitle, setCardTitle] = useState(card.title);
-  // general use
-  const [publish] = useState<boolean>(isFromSavedData ? card.publish : true);
-  // text card
-  const [paragraphTextContent, setParagraphTextContent] = useState(
-    isFromSavedData && card.text ? card.text : ""
-  );
-  // two column card
-  const [leftTitle, setLeftTitle] = useState(card.content.subtitle1 ?? "Do");
-  const [rightTitle, setRightTitle] = useState(
-    card.content.subtitle2 ?? "Don't"
-  );
-  const [leftItems, setLeftItems] = useState(
-    isFromSavedData ? card.content.leftItems : []
-  );
-
-  const [rightItems, setRightItems] = useState(
-    isFromSavedData ? card.content.rightItems : []
-  );
-  // list
-  const [listItems, setListItems] = useState<string[]>(
-    isFromSavedData ? card.content.inputs : [""]
-  );
-  // link
-  const [sources, setSources]: any[] = useState(
-    isFromSavedData ? card.content.sources : [{ source: "", link: "" }]
-  );
-  //video card data
-  const [selectedVideo, setSelectedVideo] = useState(-1);
-  const [, setSelectedVideoContent] = useState({});
-  const [videoLink, setVideoLink] = useState("");
-  const [foundVideoData, setFoundVideoData]: any = useState({});
-  const [videoDataElements, setVideoDataElements]: any[] = useState(
-    isFromSavedData ? card.content.videoDataElements : []
-  );
-  //image card data
-  const [remoteImageLink, setRemoteImageLink] = useState(
-    isFromSavedData ? card.content.remoteImageLink : ""
-  );
-  //layout for anatomy card
-  const [anatomyIndexPosition, setAnatomyIndexPosition] = useState(
-    isFromSavedData ? card.content.anatomyIndexPosition : "left"
-  );
-  const [anatomyIndexSpacing, setAnatomyIndexSpacing] = useState(
-    isFromSavedData ? card.content.anatomyIndexSpacing : "32"
-  );
-  //release notes card data
-  const [releaseNotesMessage, setReleaseNotesMessage] = useState("");
-  const [releaseNotesDate, setReleaseNotesDate] = useState("");
-  const [currentImageArray, setCurrentImageArray] = useState<Uint8Array>();
+  const {
+    cardTitle,
+    setCardTitle,
+    paragraphTextContent,
+    setParagraphTextContent,
+    leftTitle,
+    setLeftTitle,
+    rightTitle,
+    setRightTitle,
+    leftItems,
+    setLeftItems,
+    rightItems,
+    setRightItems,
+    listItems,
+    setListItems,
+    sources,
+    setSources,
+    remoteImageLink,
+    setRemoteImageLink,
+    anatomyIndexPosition,
+    setAnatomyIndexPosition,
+    anatomyIndexSpacing,
+    setAnatomyIndexSpacing,
+    releaseNotesMessage,
+    setReleaseNotesMessage,
+    releaseNotesDate,
+    setReleaseNotesDate,
+    isInternalSpacing,
+    setIsInternalSpacing,
+  } = useCardState(card, isFromSavedData);
+  //   const [isInternalSpacing, setIsInternalSpacing] = useAtom(
+  //     isInternalSpacingAtom
+  //   );
+  //
+  //   //card title
+  //   const [cardTitle, setCardTitle] = useState(card.title);
+  //   // text card
+  //   const [paragraphTextContent, setParagraphTextContent] = useState(
+  //     isFromSavedData && card.text ? card.text : ""
+  //   );
+  //   // two column card
+  //   const [leftTitle, setLeftTitle] = useState(card.content.subtitle1 ?? "Do");
+  //   const [rightTitle, setRightTitle] = useState(
+  //     card.content.subtitle2 ?? "Don't"
+  //   );
+  //   const [leftItems, setLeftItems] = useState(
+  //     isFromSavedData ? card.content.leftItems : []
+  //   );
+  //
+  //   const [rightItems, setRightItems] = useState(
+  //     isFromSavedData ? card.content.rightItems : []
+  //   );
+  //   // list
+  //   const [listItems, setListItems] = useState<string[]>(
+  //     isFromSavedData ? card.content.inputs : [""]
+  //   );
+  //   // link
+  //   const [sources, setSources]: any[] = useState(
+  //     isFromSavedData ? card.content.sources : [{ source: "", link: "" }]
+  //   );
+  //
+  //   //image card data
+  //   const [remoteImageLink, setRemoteImageLink] = useState(
+  //     isFromSavedData ? card.content.remoteImageLink : ""
+  //   );
+  //   //layout for anatomy card
+  //   const [anatomyIndexPosition, setAnatomyIndexPosition] = useState(
+  //     isFromSavedData ? card.content.anatomyIndexPosition : "left"
+  //   );
+  //   const [anatomyIndexSpacing, setAnatomyIndexSpacing] = useState(
+  //     isFromSavedData ? card.content.anatomyIndexSpacing : "32"
+  //   );
+  //   //release notes card data
+  //   const [releaseNotesMessage, setReleaseNotesMessage] = useState("");
+  //   const [releaseNotesDate, setReleaseNotesDate] = useState("");
 
   const [, setShowDeleteSectionPopup] = useAtom(showDeleteSectionPopupAtom);
   const [, setSectionToDelete] = useAtom(sectionToDeleteAtom);
@@ -158,49 +163,11 @@ export const ContentCard = (card: any, index: number) => {
   const [currentDocument] = useAtom(currentFigmaFileAtom);
   const [layoutTemplates] = useAtom(layoutTemplatesAtom);
 
-  on("IMAGE_ARRAY_FOR_UPLOAD", async ({ bytes, type }) => {
-    if (bytes.length && type === card.datatype) {
-      setCurrentImageArray(bytes);
-    }
-  });
-
-  async function handleImageFromFigmaUpload(
-    currentImageArray: Uint8Array,
-    loggedInUser: string,
-    currentImageType: string
-  ) {
-    const url = await sendRaster(
-      currentImageArray,
-      loggedInUser,
-      currentImageType
-    );
-    setRemoteImageLink(url);
-  }
-
   useEffect(() => {
     if (isFromSavedData) {
       setIsInternalSpacing(card.content.isInternalSpacing);
     }
   }, [isFromSavedData]);
-
-  useEffect(() => {
-    if (
-      !card.content.remoteImageLink &&
-      currentImageArray &&
-      loggedInUser &&
-      card.datatype
-    ) {
-      handleImageFromFigmaUpload(
-        currentImageArray,
-        loggedInUser,
-        card.datatype
-      );
-    }
-  }, [currentImageArray, loggedInUser, card.content.remoteImageLink]);
-
-  //!-------------------------------------------------------------------------------//
-  //!-------from here content changes depending on isFromSavedData state------------//
-  //!-------------------------------------------------------------------------------//
 
   const id = card.docId;
   const isSelected = selectedCard === id;
@@ -223,7 +190,7 @@ export const ContentCard = (card: any, index: number) => {
     index: index,
     title: cardTitle,
     datatype: cardType,
-    publish: publish,
+    publish: true,
     text: paragraphTextContent,
     hidden: false,
     content: {
@@ -242,8 +209,6 @@ export const ContentCard = (card: any, index: number) => {
       inputs: listItems,
       //image content
       remoteImageLink: remoteImageLink,
-      //video content
-      videoDataElements: videoDataElements,
       //release notes content
       releaseNotesMessage: releaseNotesMessage,
       releaseNotesDate: releaseNotesDate,
@@ -299,20 +264,6 @@ export const ContentCard = (card: any, index: number) => {
           setRightItems={setRightItems}
         />
       );
-    } else if (cardType === "dos-donts") {
-      // return (
-      //   <DosDontsCard
-      //     data={card}
-      //     leftTitle={leftTitle}
-      //     setLeftTitle={setLeftTitle}
-      //     leftTextContent={leftItems}
-      //     setLeftTextContent={setLeftItems}
-      //     rightTitle={rightTitle}
-      //     setRightTitle={setRightTitle}
-      //     rightTextContent={rightItems}
-      //     setRightTextContent={setRightItems}
-      //   />
-      // );
     } else if (cardType === "list") {
       return <ListCard listItems={listItems} setListItems={setListItems} />;
     } else if (cardType === "link") {
@@ -324,20 +275,6 @@ export const ContentCard = (card: any, index: number) => {
           setRemoteImageLink={setRemoteImageLink}
         />
       );
-    } else if (cardType === "video") {
-      {
-        return VideoCard(
-          foundVideoData,
-          selectedVideo,
-          setFoundVideoData,
-          setSelectedVideo,
-          setSelectedVideoContent,
-          setVideoDataElements,
-          setVideoLink,
-          videoDataElements,
-          videoLink
-        );
-      }
     } else {
       return null;
     }
@@ -383,7 +320,7 @@ export const ContentCard = (card: any, index: number) => {
 
   const handleAskCloude = async () => {
     const response = askClaude("What is your favourite color?");
-    console.log("Claude's response", response);
+    console.log("Claude's response ", response);
   };
 
   const handleDeleteSection = async () => {
@@ -530,17 +467,3 @@ export const ContentCard = (card: any, index: number) => {
     );
   }
 };
-function fillDosAndDontsInputs(
-  responseArray: string[],
-  items: string[],
-  setItems: (arr: string[]) => void
-) {
-  console.log("responseArray", responseArray);
-  if (responseArray && responseArray.length > 0) {
-    if (!items || !items.length) {
-      setItems(responseArray);
-    } else {
-      setItems([...items, ...responseArray]);
-    }
-  }
-}
