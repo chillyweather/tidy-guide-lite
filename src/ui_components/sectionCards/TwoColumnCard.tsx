@@ -51,45 +51,27 @@ const TwoColumnCard = ({
             gap: "10px",
           }}
         >
-          {leftItems.map((item, index) => (
-            <div className="dialogFlex">
-              <div className="inputInputRowStyle">
-                <textarea
-                  className="columnTextArea listInputStyle"
-                  rows={3}
-                  placeholder="Type text..."
-                  value={item}
-                  onInput={(e) => {
-                    const newItems = [...leftItems];
-                    newItems[index] = e.currentTarget.value;
-                    setLeftItems(newItems);
-                  }}
-                  style={{ minHeight: "32px" }}
-                />
-                {leftItems.length > 1 && (
-                  <button
-                    className="closeButton"
-                    onClick={() =>
-                      deleteInputField(index, leftItems, setLeftItems)
-                    }
-                  >
-                    <IconX />
-                  </button>
-                )}
-              </div>
-              {index === leftItems.length - 1 && (
-                <button
-                  ref={addButtonRef}
-                  onClick={() => {
-                    addInputField(leftItems, setLeftItems);
-                  }}
-                  className="listButtonStyle"
-                >
-                  <IconPlus className={"no-events"} />
-                </button>
+          {leftItems.length
+            ? leftItems.map((item, index) =>
+                InputRow(
+                  item,
+                  leftItems,
+                  index,
+                  setLeftItems,
+                  deleteInputField,
+                  addButtonRef,
+                  addInputField
+                )
+              )
+            : InputRow(
+                "",
+                leftItems,
+                0,
+                setLeftItems,
+                deleteInputField,
+                addButtonRef,
+                addInputField
               )}
-            </div>
-          ))}
         </div>
       </div>
       <div className="oneColumn">
@@ -101,49 +83,79 @@ const TwoColumnCard = ({
           onInput={(e) => setRightTitle(e.currentTarget.value)}
         />
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          {rightItems.map((item, index) => (
-            <div className="dialogFlex">
-              <div className="inputInputRowStyle">
-                <textarea
-                  className="columnTextArea listInputStyle"
-                  rows={3}
-                  placeholder="Type text..."
-                  value={item}
-                  onInput={(e) => {
-                    const newItems = [...rightItems];
-                    newItems[index] = e.currentTarget.value;
-                    setRightItems(newItems);
-                  }}
-                  style={{ minHeight: "32px" }}
-                />
-                {rightItems.length > 1 && (
-                  <button
-                    className="closeButton"
-                    onClick={() =>
-                      deleteInputField(index, rightItems, setRightItems)
-                    }
-                  >
-                    <IconX />
-                  </button>
-                )}
-              </div>
-              {index === rightItems.length - 1 && (
-                <button
-                  ref={addButtonRef}
-                  onClick={() => {
-                    addInputField(rightItems, setRightItems);
-                  }}
-                  className="listButtonStyle"
-                >
-                  <IconPlus className={"no-events"} />
-                </button>
+          {rightItems.length
+            ? rightItems.map((item, index) =>
+                InputRow(
+                  item,
+                  rightItems,
+                  index,
+                  setRightItems,
+                  deleteInputField,
+                  addButtonRef,
+                  addInputField
+                )
+              )
+            : InputRow(
+                "",
+                rightItems,
+                0,
+                setRightItems,
+                deleteInputField,
+                addButtonRef,
+                addInputField
               )}
-            </div>
-          ))}
         </div>
       </div>
     </div>
   );
 };
+
+function InputRow(
+  value: string,
+  inputItems: string[],
+  index: number,
+  setInputItems: (items: any[]) => void,
+  deleteInputField: (index: number, items: any[], setItems: any) => void,
+  addButtonRef: any,
+  addInputField: (items: any[], setItems: (items: any[]) => void) => void
+) {
+  return (
+    <div className="dialogFlex">
+      <div className="inputInputRowStyle">
+        <textarea
+          className="columnTextArea listInputStyle"
+          rows={3}
+          placeholder="Type text..."
+          value={value}
+          onInput={(e) => {
+            const newItems = [...inputItems];
+            newItems[index] = e.currentTarget.value;
+            setInputItems(newItems);
+          }}
+          style={{ minHeight: "32px" }}
+        />
+        {inputItems.length > 1 && (
+          <button
+            className="closeButton"
+            onClick={() => deleteInputField(index, inputItems, setInputItems)}
+          >
+            <IconX />
+          </button>
+        )}
+      </div>
+      {index === inputItems.length - 1 && (
+        <button
+          ref={addButtonRef}
+          onClick={() => {
+            addInputField(inputItems, setInputItems);
+          }}
+          className="listButtonStyle"
+        >
+          <IconPlus className={"no-events"} />
+        </button>
+      )}
+    </div>
+  );
+}
 
 export default TwoColumnCard;
