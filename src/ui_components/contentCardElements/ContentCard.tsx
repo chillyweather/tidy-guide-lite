@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { h } from "preact";
 import { emit } from "@create-figma-plugin/utilities";
-// import { useState } from "preact/hooks";
 import { useAtom } from "jotai";
 import {
   appSettingsAtom,
@@ -11,7 +10,6 @@ import {
   documentationTitleAtom,
   isBuildingAtom,
   isFromSavedDataAtom,
-  // isInternalSpacingAtom,
   layoutTemplatesAtom,
   sectionToDeleteAtom,
   sectionToDeleteIndexAtom,
@@ -46,19 +44,10 @@ import ReleaseNotesIcon from "../../images/release-notes.svg";
 
 import { duplicateSection, openSection } from "../ui_functions/cardActions";
 import { useCardState } from "../hooks/useCardState";
+import { currentCardContent } from "./CardTypeRendered";
 
 //content cards
 import HeaderCard from "../sectionCards/HeaderCard";
-import AnatomyCard from "../sectionCards/AnatomyCard";
-import SpacingsCard from "../sectionCards/SpacingsCard";
-import PropertyCard from "../sectionCards/PropertyCard";
-import VariantsCard from "../sectionCards/VariantsCard";
-import TextCard from "../sectionCards/TextCard";
-import TwoColumnCard from "../sectionCards/TwoColumnCard";
-import LinkCard from "../sectionCards/LinkCard";
-import ListCard from "../sectionCards/ListCard";
-import ImageCard from "../sectionCards/ImageCard";
-import ReleaseNotesCard from "../sectionCards/ReleaseNotesCard";
 import { useEffect } from "preact/hooks";
 import { getDosAndDonts } from "../ai_functions/getDosAndDonts";
 import { getTextSectionRequest } from "../ai_functions/getTextSectionRequest";
@@ -84,75 +73,21 @@ export const ContentCard = (card: any, index: number) => {
     paragraphTextContent,
     setParagraphTextContent,
     leftTitle,
-    setLeftTitle,
     rightTitle,
-    setRightTitle,
     leftItems,
     setLeftItems,
     rightItems,
     setRightItems,
     listItems,
-    setListItems,
     sources,
-    setSources,
     remoteImageLink,
-    setRemoteImageLink,
     anatomyIndexPosition,
-    setAnatomyIndexPosition,
     anatomyIndexSpacing,
-    setAnatomyIndexSpacing,
     releaseNotesMessage,
-    setReleaseNotesMessage,
     releaseNotesDate,
-    setReleaseNotesDate,
     isInternalSpacing,
     setIsInternalSpacing,
   } = useCardState(card, isFromSavedData);
-  //   const [isInternalSpacing, setIsInternalSpacing] = useAtom(
-  //     isInternalSpacingAtom
-  //   );
-  //
-  //   //card title
-  //   const [cardTitle, setCardTitle] = useState(card.title);
-  //   // text card
-  //   const [paragraphTextContent, setParagraphTextContent] = useState(
-  //     isFromSavedData && card.text ? card.text : ""
-  //   );
-  //   // two column card
-  //   const [leftTitle, setLeftTitle] = useState(card.content.subtitle1 ?? "Do");
-  //   const [rightTitle, setRightTitle] = useState(
-  //     card.content.subtitle2 ?? "Don't"
-  //   );
-  //   const [leftItems, setLeftItems] = useState(
-  //     isFromSavedData ? card.content.leftItems : []
-  //   );
-  //
-  //   const [rightItems, setRightItems] = useState(
-  //     isFromSavedData ? card.content.rightItems : []
-  //   );
-  //   // list
-  //   const [listItems, setListItems] = useState<string[]>(
-  //     isFromSavedData ? card.content.inputs : [""]
-  //   );
-  //   // link
-  //   const [sources, setSources]: any[] = useState(
-  //     isFromSavedData ? card.content.sources : [{ source: "", link: "" }]
-  //   );
-  //
-  //   //image card data
-  //   const [remoteImageLink, setRemoteImageLink] = useState(
-  //     isFromSavedData ? card.content.remoteImageLink : ""
-  //   );
-  //   //layout for anatomy card
-  //   const [anatomyIndexPosition, setAnatomyIndexPosition] = useState(
-  //     isFromSavedData ? card.content.anatomyIndexPosition : "left"
-  //   );
-  //   const [anatomyIndexSpacing, setAnatomyIndexSpacing] = useState(
-  //     isFromSavedData ? card.content.anatomyIndexSpacing : "32"
-  //   );
-  //   //release notes card data
-  //   const [releaseNotesMessage, setReleaseNotesMessage] = useState("");
-  //   const [releaseNotesDate, setReleaseNotesDate] = useState("");
 
   const [, setShowDeleteSectionPopup] = useAtom(showDeleteSectionPopupAtom);
   const [, setSectionToDelete] = useAtom(sectionToDeleteAtom);
@@ -212,74 +147,12 @@ export const ContentCard = (card: any, index: number) => {
       //release notes content
       releaseNotesMessage: releaseNotesMessage,
       releaseNotesDate: releaseNotesDate,
-      // currentAuthor: currentAuthor,
       currentDocument: currentDocument,
       currentPage: currentPage,
     },
   };
 
-  const currentCardContent = (cardType: string) => {
-    if (cardType === "header") {
-      return <HeaderCard />;
-    } else if (cardType === "property") {
-      return <PropertyCard />;
-    } else if (cardType === "variants") {
-      return <VariantsCard />;
-    } else if (cardType === "anatomy") {
-      return (
-        <AnatomyCard
-          anatomyIndexPosition={anatomyIndexPosition}
-          setAnatomyIndexPosition={setAnatomyIndexPosition}
-          anatomyIndexSpacing={anatomyIndexSpacing}
-          setAnatomyIndexSpacing={setAnatomyIndexSpacing}
-        />
-      );
-    } else if (cardType === "spacing") {
-      return <SpacingsCard />;
-    } else if (cardType === "release-notes") {
-      return (
-        <ReleaseNotesCard
-          setReleaseNotesComment={setReleaseNotesMessage}
-          releaseNotesComment={releaseNotesMessage}
-          setReleaseNotesDate={setReleaseNotesDate}
-        />
-      );
-    } else if (cardType === "text") {
-      return (
-        <TextCard
-          textContent={paragraphTextContent}
-          setTextContent={setParagraphTextContent}
-        />
-      );
-    } else if (cardType === "two-columns") {
-      return (
-        <TwoColumnCard
-          leftTitle={leftTitle}
-          setLeftTitle={setLeftTitle}
-          leftItems={leftItems}
-          setLeftItems={setLeftItems}
-          rightTitle={rightTitle}
-          setRightTitle={setRightTitle}
-          rightItems={rightItems}
-          setRightItems={setRightItems}
-        />
-      );
-    } else if (cardType === "list") {
-      return <ListCard listItems={listItems} setListItems={setListItems} />;
-    } else if (cardType === "link") {
-      return <LinkCard sources={sources} setSources={setSources} />;
-    } else if (cardType === "image") {
-      return (
-        <ImageCard
-          remoteImageLink={remoteImageLink}
-          setRemoteImageLink={setRemoteImageLink}
-        />
-      );
-    } else {
-      return null;
-    }
-  };
-
+  useEffect(() => {}, [card]);
   function handleBuildClick() {
     emit("BUILD_ONE_SECTION", {
       selectedNodeId,
@@ -414,12 +287,16 @@ export const ContentCard = (card: any, index: number) => {
       </div>
       {isSelected && (
         <div className="cardBody">
-          {currentCardContent(cardType)}
+          {currentCardContent(cardType, card)}
           <div className="cardFooter">
             <div className="leftContent hidePredefined">
-              {/* {PublishToggle(publish, setPublish, "Publish to Tidy Viewer")} */}
               {card.datatype === "two-columns" && (
-                <button className="cardAuxButton" onClick={handleGetDosDonts}>
+                <button
+                  className="cardAuxButton"
+                  onClick={() => {
+                    handleGetDosDonts();
+                  }}
+                >
                   <IconSparkles />
                 </button>
               )}

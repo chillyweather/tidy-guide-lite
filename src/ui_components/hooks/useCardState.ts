@@ -12,12 +12,8 @@ export function useCardState(card: any, isFromSavedData: boolean) {
   const [rightTitle, setRightTitle] = useState(
     card.content.subtitle2 ?? "Don't"
   );
-  const [leftItems, setLeftItems] = useState(
-    isFromSavedData ? card.content.leftItems : []
-  );
-  const [rightItems, setRightItems] = useState(
-    isFromSavedData ? card.content.rightItems : []
-  );
+  const [leftItems, setLeftItems] = useState(card.content.leftItems ?? [""]);
+  const [rightItems, setRightItems] = useState(card.content.rightItems ?? [""]);
   const [listItems, setListItems] = useState<string[]>(
     isFromSavedData ? card.content.inputs : [""]
   );
@@ -39,6 +35,9 @@ export function useCardState(card: any, isFromSavedData: boolean) {
   const [isInternalSpacing, setIsInternalSpacing] = useAtom(
     isInternalSpacingAtom
   );
+
+  console.log("leftItems", leftItems);
+  console.log("rightItems", rightItems);
 
   useEffect(() => {
     if (isFromSavedData) {

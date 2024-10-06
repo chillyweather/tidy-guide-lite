@@ -53,30 +53,7 @@ const TwoColumnCard = ({
         >
           {leftItems.map((item, index) => (
             <div className="dialogFlex">
-              <div className="inputInputRowStyle">
-                <textarea
-                  className="columnTextArea listInputStyle"
-                  rows={3}
-                  placeholder="Type text..."
-                  value={item}
-                  onInput={(e) => {
-                    const newItems = [...leftItems];
-                    newItems[index] = e.currentTarget.value;
-                    setLeftItems(newItems);
-                  }}
-                  style={{ minHeight: "32px" }}
-                />
-                {leftItems.length > 1 && (
-                  <button
-                    className="closeButton"
-                    onClick={() =>
-                      deleteInputField(index, leftItems, setLeftItems)
-                    }
-                  >
-                    <IconX />
-                  </button>
-                )}
-              </div>
+              {InputRow(item, leftItems, index, setLeftItems, deleteInputField)}
               {index === leftItems.length - 1 && (
                 <button
                   ref={addButtonRef}
@@ -103,30 +80,13 @@ const TwoColumnCard = ({
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
           {rightItems.map((item, index) => (
             <div className="dialogFlex">
-              <div className="inputInputRowStyle">
-                <textarea
-                  className="columnTextArea listInputStyle"
-                  rows={3}
-                  placeholder="Type text..."
-                  value={item}
-                  onInput={(e) => {
-                    const newItems = [...rightItems];
-                    newItems[index] = e.currentTarget.value;
-                    setRightItems(newItems);
-                  }}
-                  style={{ minHeight: "32px" }}
-                />
-                {rightItems.length > 1 && (
-                  <button
-                    className="closeButton"
-                    onClick={() =>
-                      deleteInputField(index, rightItems, setRightItems)
-                    }
-                  >
-                    <IconX />
-                  </button>
-                )}
-              </div>
+              {InputRow(
+                item,
+                rightItems,
+                index,
+                setRightItems,
+                deleteInputField
+              )}
               {index === rightItems.length - 1 && (
                 <button
                   ref={addButtonRef}
@@ -147,3 +107,36 @@ const TwoColumnCard = ({
 };
 
 export default TwoColumnCard;
+
+function InputRow(
+  value: string,
+  inputItems: string[],
+  index: number,
+  setInputItems: (items: any[]) => void,
+  deleteInputField: (index: number, items: any[], setItems: any) => void
+) {
+  return (
+    <div className="inputInputRowStyle">
+      <textarea
+        className="columnTextArea listInputStyle"
+        rows={3}
+        placeholder="Type text..."
+        value={value}
+        onInput={(e) => {
+          const newItems = [...inputItems];
+          newItems[index] = e.currentTarget.value;
+          setInputItems(newItems);
+        }}
+        style={{ minHeight: "32px" }}
+      />
+      {inputItems.length > 1 && (
+        <button
+          className="closeButton"
+          onClick={() => deleteInputField(index, inputItems, setInputItems)}
+        >
+          <IconX />
+        </button>
+      )}
+    </div>
+  );
+}
