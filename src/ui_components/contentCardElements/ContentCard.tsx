@@ -39,11 +39,11 @@ import {
   IconSparkles,
   IconClover,
 } from "@tabler/icons-react";
-import AnatomyIcon from "./../images/anatomy.svg";
-import SpacingIcon from "./../images/spacing.svg";
-import PropertyIcon from "./../images/property.svg";
-import VariantsIcon from "./../images/variants.svg";
-import ReleaseNotesIcon from "./../images/release-notes.svg";
+import AnatomyIcon from "../../images/anatomy.svg";
+import SpacingIcon from "../../images/spacing.svg";
+import PropertyIcon from "../../images/property.svg";
+import VariantsIcon from "../../images/variants.svg";
+import ReleaseNotesIcon from "../../images/release-notes.svg";
 
 import {
   // deleteSection,
