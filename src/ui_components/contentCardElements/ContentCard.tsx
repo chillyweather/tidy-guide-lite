@@ -198,10 +198,6 @@ export const ContentCard = (card: any, index: number) => {
     }
   }, [currentImageArray, loggedInUser, card.content.remoteImageLink]);
 
-  //!-------------------------------------------------------------------------------//
-  //!-------from here content changes depending on isFromSavedData state------------//
-  //!-------------------------------------------------------------------------------//
-
   const id = card.docId;
   const isSelected = selectedCard === id;
   const cardType = card.datatype;
