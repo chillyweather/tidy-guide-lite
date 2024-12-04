@@ -248,7 +248,7 @@ export default async function buildTags(
   await addBackgroundInfo(frame, tagComponent, indexes);
   await addBorderInfo(frame, tagComponent, indexes, isRem, rootValue, unit);
 
-  addEffectsInfo(frame, tagComponent, indexes);
+  await addEffectsInfo(frame, tagComponent, indexes);
   //! error here
 
   //! find size of all tags (and frame) together
@@ -299,12 +299,13 @@ function addMinWidthIndex(
   }
 }
 
-function addEffectsInfo(
+async function addEffectsInfo(
   frame: any,
   tagComponent: ComponentSetNode,
   indexes: FrameNode
 ) {
-  const effects: any = getEffects(frame);
+  const effects: any = await getEffects(frame);
+  console.log("effects", effects);
   if (!effects) return;
 
   const tag = tagComponent.findOne((node) => node.name === "type=info");

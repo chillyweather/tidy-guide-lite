@@ -128,7 +128,6 @@ function Plugin() {
 
   on("SETTINGS", (settings: any) => {
     if (settings) {
-      console.log("settings", settings);
       setAppSettings(settings);
     }
   });

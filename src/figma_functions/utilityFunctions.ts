@@ -549,3 +549,12 @@ export function positionDocumentationOnCanvas(
     frame.y = bounds[0].y + yShift;
   }
 }
+
+export function placeResultTopRight(resultFrame: FrameNode) {
+  const bounds = computeMaximumBounds(Array.from(figma.currentPage.children));
+  figma.currentPage.appendChild(resultFrame);
+  resultFrame.x = bounds[1].x + 100;
+  resultFrame.y = bounds[0].y;
+
+  figma.viewport.scrollAndZoomIntoView([resultFrame]);
+}

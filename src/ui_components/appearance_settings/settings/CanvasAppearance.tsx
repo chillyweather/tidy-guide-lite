@@ -82,23 +82,25 @@ export default function CanvasAppearance() {
   const [documentationFonts, setDocumentationFonts] = useState({
     title: {
       font:
-        { id: 999999, name: appSettings.documentationFonts.title.family } ||
+        // { id: 999999, name: appSettings.documentationFonts.title.family } ||
         defaultFont,
       style:
-        { id: 999999, name: appSettings.documentationFonts.title.style } ||
+        // { id: 999999, name: appSettings.documentationFonts.title.style } ||
         defaultStyle,
     },
     sectionTitle: {
       font:
-        {
-          id: 999999,
-          name: appSettings.documentationFonts.sectionTitle.family,
-        } || defaultFont,
+        // {
+        //   id: 999999,
+        //   name: appSettings.documentationFonts.sectionTitle.family,
+        // } ||
+        defaultFont,
       style:
-        {
-          id: 999999,
-          name: appSettings.documentationFonts.sectionTitle.style,
-        } || defaultStyle,
+        // {
+        //   id: 999999,
+        //   name: appSettings.documentationFonts.sectionTitle.style,
+        // } ||
+        defaultStyle,
     },
   });
 

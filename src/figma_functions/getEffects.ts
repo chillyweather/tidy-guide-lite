@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-export function getEffects(node: InstanceNode) {
+export async function getEffects(node: InstanceNode) {
   const effectTypes = {
     DROP_SHADOW: "Drop shadow",
     INNER_SHADOW: "Inner shadow",
@@ -15,13 +15,13 @@ export function getEffects(node: InstanceNode) {
 
   const result = {};
 
-  const styleName = findStyleName(node);
+  const styleName = await findStyleName(node);
   if (styleName) {
     //@ts-ignore
     result.style = `Effect style: ${styleName}`;
   }
 
-  effects.forEach((effect) => {
+  for (const effect of effects) {
     const effectType = effectTypes[effect.type];
     if (effectType === "Drop shadow") {
       const shadowDescription = buildShadowDescription(effectType, effect);
@@ -44,14 +44,14 @@ export function getEffects(node: InstanceNode) {
       //@ts-ignore
       result.layerBlur = blurDescription;
     }
-  });
+  }
   return result;
 }
 
-function findStyleName(node: InstanceNode) {
+async function findStyleName(node: InstanceNode) {
   const effectStyleId = node.effectStyleId;
   if (effectStyleId && effectStyleId.length > 0) {
-    const styles = figma.getLocalEffectStyles();
+    const styles = await figma.getLocalEffectStylesAsync();
     const foundStyle = styles.find((s) => s.id === effectStyleId);
     if (foundStyle) {
       return foundStyle.name;
