@@ -1,5 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+
+export interface EffectResult {
+  style?: string;
+  dropShadow?: string;
+  innerShadow?: string;
+  backgroundBlur?: string;
+  layerBlur?: string;
+}
+
 export async function getEffects(node: InstanceNode) {
   const effectTypes = {
     DROP_SHADOW: "Drop shadow",
@@ -13,36 +22,27 @@ export async function getEffects(node: InstanceNode) {
     return null;
   }
 
-  const result = {};
+  const result: EffectResult = {};
 
   const styleName = await findStyleName(node);
+  console.log("styleName", styleName);
   if (styleName) {
-    //@ts-ignore
-    result.style = `Effect style: ${styleName}`;
+    result.style = styleName;
   }
 
   for (const effect of effects) {
     const effectType = effectTypes[effect.type];
     if (effectType === "Drop shadow") {
-      const shadowDescription = buildShadowDescription(effectType, effect);
-      //@ts-ignore
-      result.dropShadow = shadowDescription;
+      result.dropShadow = buildShadowDescription(effectType, effect);
     }
     if (effectType === "Inner shadow") {
-      const shadowDescription = buildShadowDescription(effectType, effect);
-      //@ts-ignore
-      result.innerShadow = shadowDescription;
+      result.innerShadow = buildShadowDescription(effectType, effect);
     }
-
     if (effectType === "Background blur") {
-      const blurDescription = buildBlurDescription(effectType, effect);
-      //@ts-ignore
-      result.backgroundBlur = blurDescription;
+      result.backgroundBlur = buildBlurDescription(effectType, effect);
     }
     if (effectType === "Layer blur") {
-      const blurDescription = buildBlurDescription(effectType, effect);
-      //@ts-ignore
-      result.layerBlur = blurDescription;
+      result.layerBlur = buildBlurDescription(effectType, effect);
     }
   }
   return result;
@@ -50,9 +50,9 @@ export async function getEffects(node: InstanceNode) {
 
 async function findStyleName(node: InstanceNode) {
   const effectStyleId = node.effectStyleId;
+
   if (effectStyleId && effectStyleId.length > 0) {
-    const styles = await figma.getLocalEffectStylesAsync();
-    const foundStyle = styles.find((s) => s.id === effectStyleId);
+    const foundStyle = await figma.getStyleByIdAsync(effectStyleId);
     if (foundStyle) {
       return foundStyle.name;
     }

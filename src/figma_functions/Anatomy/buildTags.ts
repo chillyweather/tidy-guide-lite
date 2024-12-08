@@ -8,11 +8,11 @@ import {
 } from "./tagBuilgingFunctions";
 import { buildTagElements } from "./buildTagElements";
 import { buildAutoLayoutFrame, setVariantProps } from "../utilityFunctions";
-import { getEffects } from "../getEffects";
 import { setTextContent } from "../utilityFunctions";
 import { buildIndexElementForText } from "./buildIndexElementForText";
 import { addBorderInfo } from "./addBorderInfo";
 import { addBackgroundInfo } from "./addBackgroundInfo";
+import { addEffectsInfo } from "./anatomyData/addEffectsInfo";
 
 export default async function buildTags(
   tagComponent: ComponentSetNode | undefined,
@@ -245,6 +245,7 @@ export default async function buildTags(
   if (elementMaxWidth && elementMaxWidth > 0) {
     addMaxWidth(tagComponent, indexes, elementMaxWidth, isRem, rootValue, unit);
   }
+
   await addBackgroundInfo(frame, tagComponent, indexes);
   await addBorderInfo(frame, tagComponent, indexes, isRem, rootValue, unit);
 
@@ -297,34 +298,6 @@ function addMinWidthIndex(
   } else {
     setTextContent(indexWithLabel, "Text", `Minimal width - Not determined`);
   }
-}
-
-async function addEffectsInfo(
-  frame: any,
-  tagComponent: ComponentSetNode,
-  indexes: FrameNode
-) {
-  const effects: any = await getEffects(frame);
-  console.log("effects", effects);
-  if (!effects) return;
-
-  const tag = tagComponent.findOne((node) => node.name === "type=info");
-  if (!(tag && tag.type === "COMPONENT")) return;
-  const effectNames = Object.keys(effects);
-  effectNames.forEach((effectName) => {
-    const indexInfo = tag.createInstance();
-    indexInfo.name = `.${effectName}`;
-    setTextContent(indexInfo, "Text", `${effects[effectName]}`);
-    const indexLink = indexInfo.findOne((node) => node.name === "link");
-    if (indexLink) indexLink.visible = false;
-    if (effectName === "innerShadow" || effectName === "dropShadow") {
-      indexInfo.counterAxisAlignItems = "MIN";
-      const indexText = indexInfo.findOne((node) => node.name === "Text");
-      if (!(indexText && indexText.type === "TEXT")) return;
-      indexText.paragraphSpacing = 3;
-    }
-    indexes.appendChild(indexInfo);
-  });
 }
 
 function addMaxWidth(
