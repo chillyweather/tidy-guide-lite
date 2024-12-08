@@ -132,9 +132,9 @@ function Plugin() {
     }
   });
 
-  useEffect(() => {
-    emit("GET_FONTS");
-  }, []);
+  // useEffect(() => {
+  //   emit("GET_FONTS");
+  // }, []);
 
   on("FONTS", (fontsArray) => {
     if (fontsArray && fontsArray.length) {
