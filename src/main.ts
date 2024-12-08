@@ -21,6 +21,7 @@ const loadFonts = async (font?: any) => {
 };
 
 export default async function () {
+  await loadFonts();
   await settingsDataHandler();
   let savedData: any = {};
 
@@ -41,13 +42,13 @@ export default async function () {
   const selectionData = await checkSelection();
   if (selectionData) emit("SELECTION", selectionData);
 
-  on("GET_FONTS", async () => {
-    const fonts = await figma.listAvailableFontsAsync();
-    const validFonts = fonts.filter((font) =>
-      /^[a-zA-Z]/.test(font.fontName.family)
-    );
-    emit("FONTS", validFonts);
-  });
+  // on("GET_FONTS", async () => {
+  //   const fonts = await figma.listAvailableFontsAsync();
+  //   const validFonts = fonts.filter((font) =>
+  //     /^[a-zA-Z]/.test(font.fontName.family)
+  //   );
+  //   emit("FONTS", validFonts);
+  // });
 
   on("GET_SELECTION", async () => {
     const selectionData = await checkSelection();
@@ -138,7 +139,7 @@ export default async function () {
   });
 
   once("CLOSE", () => {
-    figma.closePlugin();
+    figma.closePlugin("☠️ ☠ ️☠️");
   });
 }
 

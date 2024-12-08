@@ -24,8 +24,6 @@ export default async function documentationBuilder(
   template: any
 ) {
   //may be changed depending on our decisions on design
-  await loadFonts(appSettings.documentationFonts.title);
-  await loadFonts(appSettings.documentationFonts.sectionTitle);
 
   const documentationFrame = buildDocumentationFrame(
     template.name,
@@ -40,7 +38,10 @@ export default async function documentationBuilder(
   documentationFrame.appendChild(headerSectionFrame);
   headerSectionFrame.layoutSizingHorizontal = "FILL";
 
-  const title = buildTitle(data.title, appSettings.documentationFonts.title);
+  const title = buildTitle(data.title, {
+    family: "Inter",
+    style: "Semi Bold",
+  });
   const divider = buildDivider();
 
   const defaultElement = await getNodeAndDefaultElement(data);
@@ -67,7 +68,7 @@ export default async function documentationBuilder(
       sectionData.direction
     );
 
-    addSectionToDocFrame(sectionFrame, element, appSettings);
+    addSectionToDocFrame(sectionFrame, element);
 
     buildSectionContent(
       element,
@@ -83,20 +84,16 @@ export default async function documentationBuilder(
   adjustTitle();
   adjustDividers();
 
-  function addSectionToDocFrame(
-    sectionFrame: FrameNode,
-    element: any,
-    appSettings: any
-  ) {
+  function addSectionToDocFrame(sectionFrame: FrameNode, element: any) {
     documentationFrame.appendChild(sectionFrame);
     sectionFrame.layoutSizingHorizontal = "FILL";
     documentationFrame.appendChild(divider.clone());
     const title = element.title;
     if (title) {
-      const titleFrame = buildTitle(
-        title,
-        appSettings.documentationFonts.sectionTitle
-      );
+      const titleFrame = buildTitle(title, {
+        family: "Inter",
+        style: "Semi Bold",
+      });
       sectionFrame.appendChild(titleFrame);
     }
   }

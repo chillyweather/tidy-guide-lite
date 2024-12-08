@@ -5,7 +5,7 @@ import {
   appSettingsAtom,
   settingsUnitsAtom,
   settingsRemRootAtom,
-  appFontsAtom,
+  // appFontsAtom,
 } from "../../../state/atoms";
 import { useEffect, useState } from "preact/hooks";
 import ColorPickerInput from "../../ColorPickerInput";
@@ -20,7 +20,7 @@ import { emit } from "@create-figma-plugin/utilities";
 import RadioButton from "../../RadioButton";
 import { Button } from "./Button";
 import { DropdownOption } from "./Dropdown";
-import FontSettingsElement from "./FontSettingsElement";
+// import FontSettingsElement from "./FontSettingsElement";
 import { defaultFont, defaultStyle } from "../../../resources/constants";
 
 export type LabelType =
@@ -75,8 +75,8 @@ export default function CanvasAppearance() {
   const [lineType, setLineType] = useState(appSettings.lineType || "Solid");
   const [units, setUnits] = useAtom(settingsUnitsAtom);
   const [rootValue, setRootValue] = useAtom(settingsRemRootAtom);
-  const [appFonts] = useAtom(appFontsAtom); //all the fonts in the app
-  const [fontList, setFontList] = useState<DropdownOption[]>([]); //list of unique fonts in the app (only font names)
+  // const [appFonts] = useAtom(appFontsAtom); //all the fonts in the app
+  // const [fontList, setFontList] = useState<DropdownOption[]>([]); //list of unique fonts in the app (only font names)
 
   //! font states
   const [documentationFonts, setDocumentationFonts] = useState({
@@ -166,21 +166,21 @@ export default function CanvasAppearance() {
     }
   }, []);
 
-  useEffect(() => {
-    if (appFonts && appFonts.length) {
-      const fonts = appFonts.map((font: any, index: number) => {
-        return {
-          id: index,
-          name: font.fontName.family,
-        };
-      });
-      const uniqueFonts = fonts.filter(
-        (font: any, index: number, self: any) =>
-          index === self.findIndex((t: any) => t.name === font.name)
-      );
-      setFontList(uniqueFonts);
-    }
-  }, [appFonts]);
+  // useEffect(() => {
+  //   if (appFonts && appFonts.length) {
+  //     const fonts = appFonts.map((font: any, index: number) => {
+  //       return {
+  //         id: index,
+  //         name: font.fontName.family,
+  //       };
+  //     });
+  //     const uniqueFonts = fonts.filter(
+  //       (font: any, index: number, self: any) =>
+  //         index === self.findIndex((t: any) => t.name === font.name)
+  //     );
+  //     setFontList(uniqueFonts);
+  //   }
+  // }, [appFonts]);
 
   const tagPreviewProps = {
     tagColor,
@@ -192,7 +192,7 @@ export default function CanvasAppearance() {
   return (
     <div className="manage-canvas">
       <h2>Documentation Appearance</h2>
-      <h4>Font</h4>
+      {/* <h4>Font</h4>
       <FontSettingsElement
         label="Title"
         fonts={fontList}
@@ -215,7 +215,7 @@ export default function CanvasAppearance() {
         setSelectedStyle={(value) =>
           updateFontSetting("sectionTitle", "style", value)
         }
-      />
+      /> */}
 
       <h4>Tags</h4>
       <div className="anatomy-tags-settings-with-preview">
