@@ -340,6 +340,7 @@ export const ContentCard = (card: any, index: number) => {
   };
 
   function handleBuildClick() {
+    const template = layoutTemplates.default;
     emit("BUILD_ONE_SECTION", {
       selectedNodeId,
       selectedNodeKey,
@@ -348,7 +349,7 @@ export const ContentCard = (card: any, index: number) => {
       anatomyIndexSpacing,
       appSettings,
       isInternalSpacing,
-      layoutTemplates,
+      template,
     });
   }
 

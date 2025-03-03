@@ -42,14 +42,6 @@ export default async function () {
   const selectionData = await checkSelection();
   if (selectionData) emit("SELECTION", selectionData);
 
-  // on("GET_FONTS", async () => {
-  //   const fonts = await figma.listAvailableFontsAsync();
-  //   const validFonts = fonts.filter((font) =>
-  //     /^[a-zA-Z]/.test(font.fontName.family)
-  //   );
-  //   emit("FONTS", validFonts);
-  // });
-
   on("GET_SELECTION", async () => {
     const selectionData = await checkSelection();
     if (selectionData) emit("SELECTION", selectionData);
@@ -79,6 +71,7 @@ export default async function () {
   });
 
   on("BUILD", async (data, appSettings, template) => {
+    console.log("data", data, "appSettings", appSettings, "template", template);
     try {
       const id = data.nodeId;
       savedData[id] = data;
@@ -108,6 +101,7 @@ export default async function () {
       isInternalSpacing,
       template,
     }) => {
+      console.log("template", template);
       buildOneSection(
         loadFonts,
         selectedNodeId,

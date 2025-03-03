@@ -24,6 +24,7 @@ async function buildSection(
   const content = element.content;
   switch (element.datatype) {
     case "anatomy":
+      console.log("sectionData in anatomy", sectionData);
       buildAnatomySection(
         currentNode,
         sectionFrame,

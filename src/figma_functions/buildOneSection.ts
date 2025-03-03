@@ -20,7 +20,6 @@ export async function buildOneSection(
   isInternalSpacing?: boolean,
   template?: any
 ) {
-  console.log("template", template);
   await loadFonts(appSettings.documentationFonts.title);
   const foundNode = await getNodeAndDefaultElement(nodeId, nodeKey);
   const instance = foundNode.createInstance();
@@ -40,13 +39,6 @@ export async function buildOneSection(
   instance.remove();
   return result;
 }
-
-// const sectionBuilders = {
-//   anatomy: buildAnatomySection,
-//   variants: buildVarSection,
-//   spacing: buildSpacingSection,
-//   property: buildPropSection,
-// };
 
 async function buildSectionContent(
   type: string,

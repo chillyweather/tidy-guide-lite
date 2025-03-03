@@ -1,11 +1,15 @@
 import recurciveSearch from "../recurciveSearch";
 
+type AnatomyElement = FrameNode | InstanceNode;
+
 export function getAnatomyElements(element: InstanceNode | FrameNode) {
-  const anatomyElements: FrameNode[] | InstanceNode[] = [];
+  const anatomyElements: AnatomyElement[] = [];
   recurciveSearch(element, anatomyElements);
+  console.log("anatomyElements>>>>>>>>>>>>>>>>>>>>>>>", anatomyElements);
   const result = anatomyElements.filter(
-    (item: any, index: number, self: any) =>
-      self.findIndex((t: any) => t.name === item.name) === index &&
+    (item: AnatomyElement, index: number, self: AnatomyElement[]) =>
+      self.findIndex((t: AnatomyElement) => t.name === item.name) === index &&
+      "layoutMode" in item &&
       (item.layoutMode === "HORIZONTAL" || item.layoutMode === "VERTICAL")
   );
 

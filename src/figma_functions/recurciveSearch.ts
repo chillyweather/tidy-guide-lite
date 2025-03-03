@@ -1,6 +1,6 @@
 export default function recurciveAnatomySearch(
   element: InstanceNode | FrameNode,
-  arr: any
+  arr: SceneNode[] = []
 ) {
   element.children.forEach((node) => {
     if (

@@ -15,10 +15,8 @@ export async function buildAnatomySection(
   pluginSettings: any,
   sectionData: any
 ) {
-  const {
-    // title,
-    tagFrame,
-  } = sectionData.elements;
+  console.log("sectionData", sectionData);
+  const { tagFrame } = sectionData.elements.anatomy.elements;
   const booleanProperties = await findAllBooleanProps(node);
   const variantProperties = await findAllVariantProps(node);
   const elementSizes = await getElementSizes(node);
